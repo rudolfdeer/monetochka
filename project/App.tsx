@@ -1,22 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import Categories from './src/components/Categories';
+import FormComponent from './src/components/Form';
+import Navbar from './src/components/Navbar';
+import Total from './src/components/Total';
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
-    );
-  }
+  return (
+    <SafeAreaView style={styles.container}>
+      <Navbar />
+      <Total value={100} currency={'$'} />
+      <FormComponent />
+      <Categories categories={['first 95$', 'second 5$']} />
+      <StatusBar style="auto" />
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+});
