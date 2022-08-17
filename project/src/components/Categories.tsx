@@ -1,19 +1,21 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { Category } from '../constants/defaultCategories';
 
 type CategoriesProps = {
-  categories?: string[];
+  categories: Category[];
+  currency: string;
 };
 
-export default function Categories({ categories }: CategoriesProps) {
+export default function Categories({ categories, currency }: CategoriesProps) {
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
         <Text style={styles.title}>Expenses</Text>
         {categories?.map((category) => {
           return (
-            <View style={styles.categoryContainer} key={Math.random()}>
+            <View style={styles.categoryContainer} key={category.id}>
               <View style={styles.icon}></View>
-              <Text style={styles.category}>{category}</Text>
+              <Text style={styles.category}>{category.name} - {category.expenses}{currency}</Text>
             </View>
           );
         })}

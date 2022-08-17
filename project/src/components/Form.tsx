@@ -1,8 +1,13 @@
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Category, defaultCategories } from '../constants/defaultCategories';
 
-export default function FormComponent() {
+type FormProps = {
+  categories: Category[]
+}
+
+export default function FormComponent({ categories }: FormProps) {
   const [category, setCategory] = useState();
   return (
     <View style={styles.formContainer}>
@@ -14,8 +19,11 @@ export default function FormComponent() {
           selectedValue={category}
           onValueChange={(value) => setCategory(value)}
         >
-          <Picker.Item label="home" value="category1" />
-          <Picker.Item label="otherother" value="category2" />
+          {categories.map((category) => {
+            return (
+              <Picker.Item label={category.name} value={category.name} key={category.id} />
+            )
+          })}
         </Picker>
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Add</Text>
