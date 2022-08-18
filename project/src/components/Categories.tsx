@@ -15,7 +15,10 @@ export default function Categories({ categories, currency }: CategoriesProps) {
           return (
             <View style={styles.categoryContainer} key={category.id}>
               <View style={styles.icon}></View>
-              <Text style={styles.category}>{category.name} - {category.expenses}{currency}</Text>
+              <Text style={styles.category}>
+                {category.name} {category.expenses}
+                {currency}
+              </Text>
             </View>
           );
         })}

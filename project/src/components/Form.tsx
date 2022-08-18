@@ -1,34 +1,83 @@
 import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
+import { Formik, FormikValues } from 'formik';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { Category, defaultCategories } from '../constants/defaultCategories';
+import * as Yup from 'yup';
+import { Category } from '../constants/defaultCategories';
 
 type FormProps = {
-  categories: Category[]
-}
+  categories: Category[];
+  addExpenses: Function;
+};
 
-export default function FormComponent({ categories }: FormProps) {
-  const [category, setCategory] = useState();
+const initialValues = {
+  sum: '0',
+  category: '',
+};
+
+const ValidationSchema = Yup.object().shape({
+  sum: Yup.string()
+    .matches(/^[0-9]{1,10}$/, 'enter a valid number')
+    .required('required'),
+});
+
+export default function FormComponent({ categories, addExpenses }: FormProps) {
+  const handleFormSubmit = (values: FormikValues) => {
+    const category =
+      categories.find((el) => el.name === values.category) || categories[0];
+    category.expenses = category.expenses + Number(values.sum);
+
+    const newCategories = categories.map((el) => {
+      if (el.id === category.id) {
+        el = category;
+      }
+      return el;
+    });
+
+    addExpenses(newCategories);
+  };
+
   return (
     <View style={styles.formContainer}>
-      <View style={styles.form}>
-        <TextInput style={styles.inputText} />
-        <Picker
-          style={styles.inputSelect}
-          itemStyle={styles.selectElement}
-          selectedValue={category}
-          onValueChange={(value) => setCategory(value)}
-        >
-          {categories.map((category) => {
-            return (
-              <Picker.Item label={category.name} value={category.name} key={category.id} />
-            )
-          })}
-        </Picker>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Add</Text>
-        </Pressable>
-      </View>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={ValidationSchema}
+        onSubmit={(values) => {
+          handleFormSubmit(values);
+        }}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
+          <View style={styles.form}>
+            <TextInput
+              style={styles.inputText}
+              value={values.sum}
+              onChangeText={handleChange('sum')}
+              onBlur={handleBlur('sum')}
+            />
+            <Picker
+              style={styles.inputSelect}
+              itemStyle={styles.selectElement}
+              selectedValue={values.category}
+              onValueChange={handleChange('category')}
+            >
+              {categories.map((category) => {
+                return (
+                  <Picker.Item
+                    label={category.name}
+                    value={category.name}
+                    key={category.id}
+                  />
+                );
+              })}
+            </Picker>
+            <Pressable
+              style={styles.button}
+              onPress={handleSubmit as (values: FormikValues) => void}
+            >
+              <Text style={styles.buttonText}>Add</Text>
+            </Pressable>
+          </View>
+        )}
+      </Formik>
     </View>
   );
 }
