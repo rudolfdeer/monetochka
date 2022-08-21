@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import Categories from './src/components/Categories';
 import FormComponent from './src/components/Form';
 import Navbar from './src/components/Navbar';
@@ -25,12 +25,15 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <Navbar />
       <Total value={calculateTotal()} currency={currency} />
       <FormComponent categories={categories} setCategories={setCategories}/>
       <Categories categories={categories} currency={currency} />
       <StatusBar style="auto" />
+    </ScrollView>  
     </SafeAreaView>
+
   );
 }
 
