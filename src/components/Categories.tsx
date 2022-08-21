@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { Category } from '../constants/defaultCategories';
+import { COLORS } from '../constants/colors';
+import { Category, emptyCategory } from '../constants/defaultCategories';
 
 type CategoriesProps = {
   categories: Category[];
@@ -11,17 +12,25 @@ export default function Categories({ categories, currency }: CategoriesProps) {
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
         <Text style={styles.title}>Expenses</Text>
-        {categories?.map((category) => {
-          return (
-            <View style={styles.categoryContainer} key={category.id}>
+
+        <View style={styles.categoryContainer} key={emptyCategory.id}>
               <View style={styles.icon}></View>
               <Text style={styles.category}>
-                {category.name} {category.expenses}
+                unsorted:  {emptyCategory.expenses}
                 {currency}
               </Text>
             </View>
-          );
-        })}
+
+        {categories?.map((category) => (
+            <View style={styles.categoryContainer} key={category.id}>
+              <View style={styles.icon}></View>
+              <Text style={styles.category}>
+                {category.name}: {category.expenses}
+                {currency}
+              </Text>
+            </View>
+          )
+        )}
       </View>
     </View>
   );
@@ -33,7 +42,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   categories: {
-    backgroundColor: '#F2F2F7',
+    backgroundColor: COLORS.BACKGROUND,
     borderRadius: 13,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -55,7 +64,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
-    backgroundColor: '#D1D1D6',
+    backgroundColor: COLORS.ICON,
     marginRight: 8,
   },
   title: {

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { COLORS } from '../constants/colors';
 
 export default function Navbar() {
   return (
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     height: 42,
     lineHeight: 22,
-    color: '#C7C7CC',
+    color: COLORS.TEXT_SECONDARY,
   },
   textBig: {
     height: 42,

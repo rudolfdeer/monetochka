@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { COLORS } from '../constants/colors';
 
 type TotalProps = {
   value: number;
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   total: {
     marginBottom: 20,
     height: 110,
-    backgroundColor: '#F2F2F7',
+    backgroundColor: COLORS.BACKGROUND,
     borderRadius: 13,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     height: 42,
     lineHeight: 22,
-    color: '#C7C7CC',
+    color: COLORS.TEXT_SECONDARY,
   },
   totalSum: {
     height: 42,

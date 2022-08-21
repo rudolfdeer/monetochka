@@ -2,11 +2,13 @@ import { Picker } from '@react-native-picker/picker';
 import { Formik, FormikValues } from 'formik';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as Yup from 'yup';
-import { Category } from '../constants/defaultCategories';
+import { addExpensesToCategory } from '../api/categoriesApi';
+import { COLORS } from '../constants/colors';
+import { Category, emptyCategory } from '../constants/defaultCategories';
 
 type FormProps = {
   categories: Category[];
-  addExpenses: Function;
+  setCategories: Function;
 };
 
 const initialValues = {
@@ -20,20 +22,13 @@ const ValidationSchema = Yup.object().shape({
     .required('required'),
 });
 
-export default function FormComponent({ categories, addExpenses }: FormProps) {
+export default function FormComponent({
+  categories,
+  setCategories,
+}: FormProps) {
   const handleFormSubmit = (values: FormikValues) => {
-    const category =
-      categories.find((el) => el.name === values.category) || categories[0];
-    category.expenses = category.expenses + Number(values.sum);
-
-    const newCategories = categories.map((el) => {
-      if (el.id === category.id) {
-        el = category;
-      }
-      return el;
-    });
-
-    addExpenses(newCategories);
+    const response = addExpensesToCategory(values);
+    setCategories(response);
   };
 
   return (
@@ -59,6 +54,11 @@ export default function FormComponent({ categories, addExpenses }: FormProps) {
               selectedValue={values.category}
               onValueChange={handleChange('category')}
             >
+              <Picker.Item
+                label={emptyCategory.name}
+                value={emptyCategory.name}
+                key={emptyCategory.id}
+              />
               {categories.map((category) => {
                 return (
                   <Picker.Item
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     height: 110,
-    backgroundColor: '#F2F2F7',
+    backgroundColor: COLORS.BACKGROUND,
     borderRadius: 13,
     justifyContent: 'center',
     alignItems: 'center',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: COLORS.BLACK,
     borderRadius: 13,
     padding: 10,
     width: '20%',
@@ -122,12 +122,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 13,
-    backgroundColor: 'blue',
+    backgroundColor: COLORS.BUTTON,
   },
   buttonText: {
     fontSize: 16,
     lineHeight: 21,
     fontWeight: 'bold',
-    color: 'white',
+    color: COLORS.WHITE,
   },
 });
