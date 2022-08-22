@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
     paddingTop: 16,
+    marginBottom: 20,
   },
   categoryContainer: {
     flexDirection: 'row',

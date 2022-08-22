@@ -1,11 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../constants/colors';
 
-export default function Navbar() {
+type NavbarProps = {
+  title: string,
+  message: string,
+}
+
+export default function Navbar({ title, message }: NavbarProps) {
   return (
     <View style={styles.navbar}>
-      <Text style={styles.textSmall}>Hello!</Text>
-      <Text style={styles.textBig}>Home</Text>
+      <Text style={styles.textSmall}>{message}</Text>
+      <Text style={styles.textBig}>{title}</Text>
     </View>
   );
 }
