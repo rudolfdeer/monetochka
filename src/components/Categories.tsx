@@ -14,23 +14,22 @@ export default function Categories({ categories, currency }: CategoriesProps) {
         <Text style={styles.title}>Expenses</Text>
 
         <View style={styles.categoryContainer} key={emptyCategory.id}>
-              <View style={styles.icon}></View>
-              <Text style={styles.category}>
-                unsorted:  {emptyCategory.expenses}
-                {currency}
-              </Text>
-            </View>
+          <View style={styles.icon}></View>
+          <Text style={styles.category}>
+            unsorted: {emptyCategory.expenses}
+            {currency}
+          </Text>
+        </View>
 
         {categories?.map((category) => (
-            <View style={styles.categoryContainer} key={category.id}>
-              <View style={styles.icon}></View>
-              <Text style={styles.category}>
-                {category.name}: {category.expenses}
-                {currency}
-              </Text>
-            </View>
-          )
-        )}
+          <View style={styles.categoryContainer} key={category.id}>
+            <View style={styles.icon}></View>
+            <Text style={styles.category}>
+              {category.name}: {category.expenses}
+              {currency}
+            </Text>
+          </View>
+        ))}
       </View>
     </View>
   );

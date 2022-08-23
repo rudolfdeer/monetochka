@@ -27,7 +27,8 @@ export default function FormComponent({
   setCategories,
 }: FormProps) {
   const handleFormSubmit = (values: FormikValues) => {
-    const response = addExpensesToCategory(values);
+    console.log(values);
+    const response = addExpensesToCategory(values, categories);
     setCategories(response);
   };
 

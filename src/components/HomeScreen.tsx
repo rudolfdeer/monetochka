@@ -8,25 +8,26 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import { StackNativeScreenProps, StackParamList } from '../../App';
+import { StackParamList } from '../../App';
 import { COLORS } from '../constants/colors';
-import {
-  Category,
-  defaultCategories,
-  emptyCategory,
-} from '../constants/defaultCategories';
+import { Category, emptyCategory } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
 import Categories from './Categories';
 import FormComponent from './Form';
 import Navbar from './Navbar';
 import Total from './Total';
 
-type HomeScreenProps = StackNativeScreenProps<'Home'>;
+type HomeScreenProps = {
+  params: NativeStackScreenProps<StackParamList, 'Home'>;
+  categories: Category[];
+  setCategories: Function;
+};
 
 export default function HomeScreen({
-  navigation,
-}: NativeStackScreenProps<StackParamList, 'Home'>) {
-  const [categories, setCategories] = useState(defaultCategories);
+  params,
+  categories,
+  setCategories,
+}: HomeScreenProps) {
   const [currency, setCurrency] = useState('$');
 
   const calculateTotal = () => {
@@ -49,7 +50,7 @@ export default function HomeScreen({
         <Categories categories={categories} currency={currency} />
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate('Categories')}
+          onPress={() => params.navigation.navigate('Categories')}
         >
           <Text style={styles.buttonText}>Manage categories</Text>
         </Pressable>

@@ -1,28 +1,38 @@
 import { Formik, FormikValues } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
-import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { addNewCategory } from '../api/categoriesApi';
 import { COLORS } from '../constants/colors';
+import { Category } from '../constants/defaultCategories';
 
 type ModalNewCategoryProps = {
   modalVisible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
-  //setCategories: Function;
+  setCategories: Function;
+  categories: Category[];
 };
 
 const initialValues = {
-  title: 'New category',
+  name: 'New category',
 };
 
 export default function ModalNewCategory({
   modalVisible,
   setModalVisible,
+  setCategories,
+  categories,
 }: ModalNewCategoryProps) {
   const handleFormSubmit = (values: FormikValues) => {
-    const response = addNewCategory(values);
-    //setCategories(response);
+    const response = addNewCategory(values, categories);
+    setCategories(response);
   };
-
 
   return (
     <Modal
@@ -35,43 +45,41 @@ export default function ModalNewCategory({
     >
       <View style={styles.centeredView}>
         <View style={styles.modalContainer}>
-        <View style={styles.modalView}>
-          <Formik
-            initialValues={initialValues}
-            //validationSchema={ValidationSchema}
-            onSubmit={(values) => {
-              handleFormSubmit(values);
-            }}
-          >
-            {({ handleChange, handleBlur, handleSubmit, values }) => (
-              <View style={styles.form}>
-                <TextInput
-                  style={styles.inputText}
-                  value={values.title}
-                  onChangeText={handleChange('title')}
-                  onBlur={handleBlur('title')}
-                />
-                <Pressable
-                  style={styles.button}
-                  onPress={() => {
-                    handleSubmit as (values: FormikValues) => void;
-                    setModalVisible(!modalVisible);
-                  }}
-                >
-                  <Text style={styles.buttonText}>Add</Text>
-                </Pressable>
-              </View>
-            )}
-          </Formik>
-
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Text style={styles.buttonText}>Close</Text>
-          </Pressable>
+          <View style={styles.modalView}>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={(values) => {
+                handleFormSubmit(values);
+              }}
+            >
+              {({ handleChange, handleBlur, handleSubmit, values }) => (
+                <View style={styles.form}>
+                  <TextInput
+                    style={styles.inputText}
+                    value={values.name}
+                    onChangeText={handleChange('name')}
+                    onBlur={handleBlur('name')}
+                  />
+                  <Pressable
+                    style={styles.button}
+                    onPress={() => {
+                      handleSubmit();
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    <Text style={styles.buttonText}>Add</Text>
+                  </Pressable>
+                </View>
+              )}
+            </Formik>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.buttonText}>Close</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
       </View>
     </Modal>
   );
@@ -131,7 +139,7 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   inputText: {
     fontSize: 16,

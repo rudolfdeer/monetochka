@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import {
   Modal,
@@ -8,17 +9,23 @@ import {
   Text,
   View,
 } from 'react-native';
+import { StackParamList } from '../../App';
 import { COLORS } from '../constants/colors';
-import { defaultCategories } from '../constants/defaultCategories';
+import { Category, defaultCategories } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
 import ModalNewCategory from './ModalNewCategory';
 import Navbar from './Navbar';
 
 type CategoriesScreenProps = {
+  params: NativeStackScreenProps<StackParamList, 'Categories'>;
+  categories: Category[];
   setCategories: Function;
-}
+};
 
-export default function CategoriesScreen() {
+export default function CategoriesScreen({
+  categories,
+  setCategories,
+}: CategoriesScreenProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -29,11 +36,13 @@ export default function CategoriesScreen() {
           <ModalNewCategory
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
+            setCategories={setCategories}
+            categories={categories}
           />
           <View style={styles.categories}>
-            {defaultCategories.map((category) => (
-              <View style={styles.rowContainer}>
-                <View style={styles.categoryContainer} key={category.id}>
+            {categories.map((category) => (
+              <View style={styles.rowContainer} key={category.id}>
+                <View style={styles.categoryContainer}>
                   <View style={styles.icon}></View>
                   <Text style={styles.category}>{category.name}</Text>
                 </View>
