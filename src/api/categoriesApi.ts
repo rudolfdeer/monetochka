@@ -1,4 +1,5 @@
 import { FormikValues } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
 import {
   defaultCategories,
   emptyCategory,
@@ -20,3 +21,21 @@ export const addExpensesToCategory = (values: FormikValues) => {
 
   return newCategories;
 };
+
+export const addNewCategory = (values: FormikValues) => {
+  const category =
+  defaultCategories.find((el) => el.name === values.category);
+
+  // add span to handle errors
+  if (!category) return;
+
+  const newCategory = {
+    name: values.title,
+    expenses: 0,
+    id: uuidv4(),
+  }
+
+  defaultCategories.push(newCategory);
+
+  return defaultCategories;
+}

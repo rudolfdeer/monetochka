@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import {
+  Modal,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -9,14 +11,25 @@ import {
 import { COLORS } from '../constants/colors';
 import { defaultCategories } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
+import ModalNewCategory from './ModalNewCategory';
 import Navbar from './Navbar';
 
+type CategoriesScreenProps = {
+  setCategories: Function;
+}
+
 export default function CategoriesScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Navbar title={'Categories'} message={MESSAGES.CATEGORIES} />
         <View style={styles.categoriesContainer}>
+          <ModalNewCategory
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
           <View style={styles.categories}>
             {defaultCategories.map((category) => (
               <View style={styles.rowContainer}>
@@ -25,17 +38,14 @@ export default function CategoriesScreen() {
                   <Text style={styles.category}>{category.name}</Text>
                 </View>
                 <Pressable onPress={() => {}}>
-                  <Text style={styles.button}>Edit</Text>
+                  <Text style={styles.buttonEdit}>Edit</Text>
                 </Pressable>
               </View>
             ))}
           </View>
         </View>
-        <Pressable
-          style={styles.buttonAdd}
-          onPress={() => {}}
-        >
-          <Text style={styles.buttonAddText}>Add new category</Text>
+        <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
+          <Text style={styles.buttonText}>Add new category</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaView>
@@ -82,12 +92,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.ICON,
     marginRight: 8,
   },
-  button: {
+  buttonEdit: {
     fontSize: 12,
     lineHeight: 20,
     color: COLORS.BUTTON,
   },
-  buttonAdd: {
+  button: {
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -97,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BUTTON,
     marginHorizontal: 16,
   },
-  buttonAddText: {
+  buttonText: {
     fontSize: 16,
     lineHeight: 21,
     fontWeight: 'bold',

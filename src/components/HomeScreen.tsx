@@ -1,7 +1,3 @@
-import {
-  NavigationContainerProps,
-  NavigationProp,
-} from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
@@ -12,9 +8,10 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import { StackParamList } from '../../App';
+import { StackNativeScreenProps, StackParamList } from '../../App';
 import { COLORS } from '../constants/colors';
 import {
+  Category,
   defaultCategories,
   emptyCategory,
 } from '../constants/defaultCategories';
@@ -23,6 +20,8 @@ import Categories from './Categories';
 import FormComponent from './Form';
 import Navbar from './Navbar';
 import Total from './Total';
+
+type HomeScreenProps = StackNativeScreenProps<'Home'>;
 
 export default function HomeScreen({
   navigation,
