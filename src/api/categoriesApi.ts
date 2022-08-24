@@ -8,8 +8,8 @@ export const addExpensesToCategory = (values: FormikValues) => {
   const category =
     defaultCategories.find((el) => el.name === values.category) ||
     emptyCategory;
+  category.expenses = Number((category.expenses + parseFloat(values.sum)).toFixed(3));
 
-  category.expenses = category.expenses + Number(values.sum);
 
   const newCategories = defaultCategories.map((el) => {
     if (el.id === category.id) {
