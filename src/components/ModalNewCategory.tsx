@@ -13,8 +13,8 @@ import { COLORS } from '../constants/colors';
 import { Category } from '../constants/defaultCategories';
 
 type ModalNewCategoryProps = {
-  modalVisible: boolean;
-  setModalVisible: Dispatch<SetStateAction<boolean>>;
+  modalAddVisible: boolean;
+  setModalAddVisible: Dispatch<SetStateAction<boolean>>;
   setCategories: Function;
   categories: Category[];
 };
@@ -24,8 +24,8 @@ const initialValues = {
 };
 
 export default function ModalNewCategory({
-  modalVisible,
-  setModalVisible,
+  modalAddVisible,
+  setModalAddVisible,
   setCategories,
   categories,
 }: ModalNewCategoryProps) {
@@ -38,9 +38,9 @@ export default function ModalNewCategory({
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalVisible}
+      visible={modalAddVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        setModalAddVisible(!modalAddVisible);
       }}
     >
       <View style={styles.centeredView}>
@@ -64,7 +64,7 @@ export default function ModalNewCategory({
                     style={styles.button}
                     onPress={() => {
                       handleSubmit();
-                      setModalVisible(!modalVisible);
+                      setModalAddVisible(!modalAddVisible);
                     }}
                   >
                     <Text style={styles.buttonText}>Add</Text>
@@ -74,7 +74,7 @@ export default function ModalNewCategory({
             </Formik>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => setModalAddVisible(!modalAddVisible)}
             >
               <Text style={styles.buttonText}>Close</Text>
             </Pressable>
@@ -86,11 +86,6 @@ export default function ModalNewCategory({
 }
 
 const styles = StyleSheet.create({
-  buttonEdit: {
-    fontSize: 12,
-    lineHeight: 20,
-    color: COLORS.BUTTON,
-  },
   button: {
     height: 50,
     alignItems: 'center',

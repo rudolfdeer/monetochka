@@ -13,6 +13,7 @@ import { StackParamList } from '../../App';
 import { COLORS } from '../constants/colors';
 import { Category, defaultCategories } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
+import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
 import Navbar from './Navbar';
 
@@ -26,7 +27,8 @@ export default function CategoriesScreen({
   categories,
   setCategories,
 }: CategoriesScreenProps) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalAddVisible, setModalAddVisible] = useState(false);
+  const [modalEditVisible, setModalEditVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,8 +36,14 @@ export default function CategoriesScreen({
         <Navbar title={'Categories'} message={MESSAGES.CATEGORIES} />
         <View style={styles.categoriesContainer}>
           <ModalNewCategory
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
+            modalAddVisible={modalAddVisible}
+            setModalAddVisible={setModalAddVisible}
+            setCategories={setCategories}
+            categories={categories}
+          />
+          <ModalEditCategory
+            modalEditVisible={modalEditVisible}
+            setModalEditVisible={setModalEditVisible}
             setCategories={setCategories}
             categories={categories}
           />
@@ -46,14 +54,14 @@ export default function CategoriesScreen({
                   <View style={styles.icon}></View>
                   <Text style={styles.category}>{category.name}</Text>
                 </View>
-                <Pressable onPress={() => {}}>
+                <Pressable onPress={() => setModalEditVisible(true)}>
                   <Text style={styles.buttonEdit}>Edit</Text>
                 </Pressable>
               </View>
             ))}
           </View>
         </View>
-        <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
+        <Pressable style={styles.button} onPress={() => setModalAddVisible(true)}>
           <Text style={styles.buttonText}>Add new category</Text>
         </Pressable>
       </ScrollView>
