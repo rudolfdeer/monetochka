@@ -2,9 +2,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import EmojiPicker from 'rn-emoji-keyboard';
 import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
-import { changeIcon } from '../api/categoriesApi';
+import { changeCategoryStyle } from '../api/categoriesApi';
 import { COLORS } from '../constants/colors';
 import { Category } from '../constants/defaultCategories';
+import ModalColorPicker from './ModalColorPicker';
 
 type ModalEditCategoryProps = {
   modalEditVisible: boolean;
@@ -23,9 +24,12 @@ export default function ModalEditCategory({
 }: ModalEditCategoryProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [chosenIcon, setChosenIcon] = useState(currentCategory.icon);
+  const [chosenColor, setChosenColor] = useState(currentCategory.color);
+  const [modalColorVisible, setModalColorVisible] = useState(false);
 
   useEffect(() => {
     setChosenIcon(currentCategory.icon);
+    setChosenColor(currentCategory.color);
   }, [currentCategory]);
 
   const handleEmojiPick = (emojiObject: EmojiType) => {
@@ -33,8 +37,19 @@ export default function ModalEditCategory({
   };
 
   const handleFormSubmit = () => {
-    const response = changeIcon(currentCategory.id, chosenIcon, categories);
+    const response = changeCategoryStyle(
+      currentCategory.id,
+      chosenIcon,
+      chosenColor,
+      categories
+    );
     setCategories(response);
+  };
+
+  const getColorStyle = (color: string) => {
+    return {
+      color: color,
+    };
   };
 
   return (
@@ -51,17 +66,29 @@ export default function ModalEditCategory({
           <View style={styles.modalView}>
             <View style={styles.form}>
               <Text style={styles.icon}>{chosenIcon}</Text>
-              <Text style={styles.categoryName}>{currentCategory.name}</Text>
+              <Text style={[styles.categoryName, getColorStyle(chosenColor)]}>
+                {currentCategory.name}
+              </Text>
               <Pressable onPress={() => setIsOpen(!isOpen)}>
                 <Text style={styles.buttonSmall}>Add icon</Text>
               </Pressable>
-              <Pressable onPress={() => {}}>
+              <Pressable
+                onPress={() => {
+                  setModalColorVisible(true);
+                  setModalColorVisible(true);
+                }}
+              >
                 <Text style={styles.buttonSmall}>Set color</Text>
               </Pressable>
               <EmojiPicker
                 onEmojiSelected={handleEmojiPick}
                 open={isOpen}
                 onClose={() => setIsOpen(!isOpen)}
+              />
+              <ModalColorPicker
+                modalColorVisible={modalColorVisible}
+                setModalColorVisible={setModalColorVisible}
+                setChosenColor={setChosenColor}
               />
               <Pressable
                 style={styles.buttonBig}
@@ -152,5 +179,9 @@ const styles = StyleSheet.create({
   form: {
     width: '100%',
     alignItems: 'center',
+  },
+  colorPicker: {
+    width: '100%',
+    height: 'auto',
   },
 });

@@ -8,6 +8,12 @@ type CategoriesProps = {
 };
 
 export default function Categories({ categories, currency }: CategoriesProps) {
+  const getColorStyle = (color: string) => {
+    return {
+      color: color,
+    }
+  }
+
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
@@ -29,7 +35,7 @@ export default function Categories({ categories, currency }: CategoriesProps) {
             ) : (
               <View style={styles.icon}></View>
             )}
-            <Text style={styles.category}>
+            <Text style={[styles.category, getColorStyle(category.color)]}>
               {category.name}: {category.expenses}
               {currency}
             </Text>

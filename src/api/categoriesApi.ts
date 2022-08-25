@@ -1,5 +1,6 @@
 import { FormikValues } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
+import { COLORS } from '../constants/colors';
 import {
   Category,
   defaultCategories,
@@ -38,6 +39,7 @@ export const addNewCategory = (
     expenses: 0,
     id: uuidv4(),
     icon: '',
+    color: COLORS.BLACK,
   };
 
   const newCategories = [...categories];
@@ -52,14 +54,20 @@ export const getCategoryById = (id: string, categories: Category[]) => {
   const category = categories.find((el) => el.id === id);
 
   return category;
-}
+};
 
-export const changeIcon = (id: string, icon: string, categories: Category[]) => {
+export const changeCategoryStyle = (
+  id: string,
+  icon: string,
+  color: string,
+  categories: Category[]
+) => {
   const category = categories.find((el) => el.id === id);
 
-  if(!category) return;
+  if (!category) return;
 
   category.icon = icon;
+  category.color = color;
 
   const newCategories = categories.map((el) => {
     if (el.id === category.id) {
@@ -69,4 +77,4 @@ export const changeIcon = (id: string, icon: string, categories: Category[]) => 
   });
 
   return newCategories;
-}
+};

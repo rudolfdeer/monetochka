@@ -22,6 +22,12 @@ type CategoriesScreenProps = {
   setCategories: Function;
 };
 
+const getColorStyle = (color: string) => {
+  return {
+    color: color,
+  };
+};
+
 export default function CategoriesScreen({
   categories,
   setCategories,
@@ -59,7 +65,7 @@ export default function CategoriesScreen({
                   ) : (
                     <View style={styles.icon}></View>
                   )}
-                  <Text style={styles.category}>{category.name}</Text>
+                  <Text style={[styles.category,  getColorStyle(category.color)]}>{category.name}</Text>
                 </View>
                 <Pressable
                   onPress={() => {
