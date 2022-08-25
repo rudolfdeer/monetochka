@@ -1,47 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import Categories from './src/components/Categories';
-import FormComponent from './src/components/Form';
-import Navbar from './src/components/Navbar';
-import Total from './src/components/Total';
-import { COLORS } from './src/constants/colors';
-import { defaultCategories, emptyCategory } from './src/constants/defaultCategories';
+import CategoriesScreen from './src/components/CategoriesScreen';
+import HomeScreen from './src/components/HomeScreen';
+import { Category, defaultCategories } from './src/constants/defaultCategories';
+
+export type StackParamList = {
+  Home: {
+    categories: Category[];
+    setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  };
+  Categories: {
+    categories: Category[];
+    setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  };
+};
+
+const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
   const [categories, setCategories] = useState(defaultCategories);
-  const [currency, setCurrency] = useState('$');
-
-  const calculateTotal = () => {
-    const categoriesSum = categories.reduce((accumulator, object) => {
-      return accumulator + object.expenses;
-    }, 0);
-
-    const emptyCategorySum = emptyCategory.expenses;
-    const sum = categoriesSum + emptyCategorySum;
-
-    return sum;
-  };
+  console.log(categories);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-      <Navbar />
-      <Total value={calculateTotal()} currency={currency} />
-      <FormComponent categories={categories} setCategories={setCategories}/>
-      <Categories categories={categories} currency={currency} />
-      <StatusBar style="auto" />
-    </ScrollView>  
-    </SafeAreaView>
-
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home">
+          {(props) => (
+            <HomeScreen
+              params={props}
+              categories={categories}
+              setCategories={setCategories}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Categories">
+          {(props) => (
+            <CategoriesScreen
+              params={props}
+              categories={categories}
+              setCategories={setCategories}
+            />
+          )}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.WHITE,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-});
