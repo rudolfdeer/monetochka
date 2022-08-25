@@ -1,5 +1,8 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import EmojiPicker from 'rn-emoji-keyboard';
+import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
+import { changeIcon } from '../api/categoriesApi';
 import { COLORS } from '../constants/colors';
 import { Category } from '../constants/defaultCategories';
 
@@ -8,6 +11,7 @@ type ModalEditCategoryProps = {
   setModalEditVisible: Dispatch<SetStateAction<boolean>>;
   setCategories: Function;
   categories: Category[];
+  currentCategory: Category;
 };
 
 export default function ModalEditCategory({
@@ -15,7 +19,24 @@ export default function ModalEditCategory({
   setModalEditVisible,
   setCategories,
   categories,
+  currentCategory,
 }: ModalEditCategoryProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [chosenIcon, setChosenIcon] = useState(currentCategory.icon);
+
+  useEffect(() => {
+    setChosenIcon(currentCategory.icon);
+  }, [currentCategory]);
+
+  const handleEmojiPick = (emojiObject: EmojiType) => {
+    setChosenIcon(emojiObject.emoji);
+  };
+
+  const handleFormSubmit = () => {
+    const response = changeIcon(currentCategory.id, chosenIcon, categories);
+    setCategories(response);
+  };
+
   return (
     <Modal
       animationType="fade"
@@ -28,9 +49,32 @@ export default function ModalEditCategory({
       <View style={styles.centeredView}>
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
-            
+            <View style={styles.form}>
+              <Text style={styles.icon}>{chosenIcon}</Text>
+              <Text style={styles.categoryName}>{currentCategory.name}</Text>
+              <Pressable onPress={() => setIsOpen(!isOpen)}>
+                <Text style={styles.buttonSmall}>Add icon</Text>
+              </Pressable>
+              <Pressable onPress={() => {}}>
+                <Text style={styles.buttonSmall}>Set color</Text>
+              </Pressable>
+              <EmojiPicker
+                onEmojiSelected={handleEmojiPick}
+                open={isOpen}
+                onClose={() => setIsOpen(!isOpen)}
+              />
+              <Pressable
+                style={styles.buttonBig}
+                onPress={() => {
+                  handleFormSubmit();
+                  setModalEditVisible(!modalEditVisible);
+                }}
+              >
+                <Text style={styles.buttonText}>Save</Text>
+              </Pressable>
+            </View>
             <Pressable
-              style={[styles.button, styles.buttonClose]}
+              style={[styles.buttonBig, styles.buttonLast]}
               onPress={() => setModalEditVisible(!modalEditVisible)}
             >
               <Text style={styles.buttonText}>Close</Text>
@@ -39,11 +83,11 @@ export default function ModalEditCategory({
         </View>
       </View>
     </Modal>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  buttonBig: {
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -84,25 +128,29 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  buttonClose: {
+  buttonLast: {
     backgroundColor: COLORS.BUTTON,
     marginHorizontal: 0,
     marginBottom: 0,
   },
-  // form: {
-  //   width: '100%',
-  //   alignItems: 'center',
-  // },
-  // inputText: {
-  //   fontSize: 16,
-  //   lineHeight: 21,
-  //   marginBottom: 16,
-  //   width: '100%',
-  //   height: 50,
-  //   textAlign: 'center',
-  //   borderStyle: 'solid',
-  //   borderWidth: 1,
-  //   borderColor: COLORS.BLACK,
-  //   borderRadius: 13,
-  // },
+  categoryName: {
+    height: 20,
+    fontWeight: '700',
+    fontSize: 16,
+    lineHeight: 20,
+    marginBottom: 18,
+  },
+  icon: {
+    height: 20,
+    marginBottom: 10,
+  },
+  buttonSmall: {
+    fontSize: 12,
+    color: COLORS.BUTTON,
+    marginBottom: 10,
+  },
+  form: {
+    width: '100%',
+    alignItems: 'center',
+  },
 });

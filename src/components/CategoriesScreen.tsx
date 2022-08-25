@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import {
-  Modal,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -11,7 +10,7 @@ import {
 } from 'react-native';
 import { StackParamList } from '../../App';
 import { COLORS } from '../constants/colors';
-import { Category, defaultCategories } from '../constants/defaultCategories';
+import { Category, emptyCategory } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
@@ -29,6 +28,7 @@ export default function CategoriesScreen({
 }: CategoriesScreenProps) {
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
+  const [category, setCategory] = useState<Category>(emptyCategory);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,22 +46,37 @@ export default function CategoriesScreen({
             setModalEditVisible={setModalEditVisible}
             setCategories={setCategories}
             categories={categories}
+            currentCategory={category}
           />
           <View style={styles.categories}>
             {categories.map((category) => (
               <View style={styles.rowContainer} key={category.id}>
                 <View style={styles.categoryContainer}>
-                  <View style={styles.icon}></View>
+                  {category.icon ? (
+                    <View style={styles.iconEmoji}>
+                      <Text>{category.icon}</Text>
+                    </View>
+                  ) : (
+                    <View style={styles.icon}></View>
+                  )}
                   <Text style={styles.category}>{category.name}</Text>
                 </View>
-                <Pressable onPress={() => setModalEditVisible(true)}>
+                <Pressable
+                  onPress={() => {
+                    setCategory(category);
+                    setModalEditVisible(true);
+                  }}
+                >
                   <Text style={styles.buttonEdit}>Edit</Text>
                 </Pressable>
               </View>
             ))}
           </View>
         </View>
-        <Pressable style={styles.button} onPress={() => setModalAddVisible(true)}>
+        <Pressable
+          style={styles.button}
+          onPress={() => setModalAddVisible(true)}
+        >
           <Text style={styles.buttonText}>Add new category</Text>
         </Pressable>
       </ScrollView>
@@ -108,6 +123,13 @@ const styles = StyleSheet.create({
     height: 24,
     backgroundColor: COLORS.ICON,
     marginRight: 8,
+  },
+  iconEmoji: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonEdit: {
     fontSize: 12,

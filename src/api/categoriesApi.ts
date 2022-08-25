@@ -37,6 +37,7 @@ export const addNewCategory = (
     name: values.name,
     expenses: 0,
     id: uuidv4(),
+    icon: '',
   };
 
   const newCategories = [...categories];
@@ -46,3 +47,26 @@ export const addNewCategory = (
 
   return newCategories;
 };
+
+export const getCategoryById = (id: string, categories: Category[]) => {
+  const category = categories.find((el) => el.id === id);
+
+  return category;
+}
+
+export const changeIcon = (id: string, icon: string, categories: Category[]) => {
+  const category = categories.find((el) => el.id === id);
+
+  if(!category) return;
+
+  category.icon = icon;
+
+  const newCategories = categories.map((el) => {
+    if (el.id === category.id) {
+      el = category;
+    }
+    return el;
+  });
+
+  return newCategories;
+}

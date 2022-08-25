@@ -20,10 +20,15 @@ export default function Categories({ categories, currency }: CategoriesProps) {
             {currency}
           </Text>
         </View>
-
         {categories?.map((category) => (
           <View style={styles.categoryContainer} key={category.id}>
-            <View style={styles.icon}></View>
+            {category.icon ? (
+              <View style={styles.iconEmoji}>
+                <Text>{category.icon}</Text>
+              </View>
+            ) : (
+              <View style={styles.icon}></View>
+            )}
             <Text style={styles.category}>
               {category.name}: {category.expenses}
               {currency}
@@ -66,6 +71,13 @@ const styles = StyleSheet.create({
     height: 24,
     backgroundColor: COLORS.ICON,
     marginRight: 8,
+  },
+  iconEmoji: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 20,
