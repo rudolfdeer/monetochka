@@ -18,7 +18,7 @@ const initialValues = {
 
 const ValidationSchema = Yup.object().shape({
   sum: Yup.string()
-    .matches(/^[0-9]{1,10}$/, 'enter a valid number')
+    .matches(/^\d+(\.\d+)?$/, 'enter a valid number')
     .required('required'),
 });
 
