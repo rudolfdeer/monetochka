@@ -32,7 +32,7 @@ export default function HomeScreen({
 
   const calculateTotal = () => {
     const categoriesSum = categories.reduce((accumulator, object) => {
-      return accumulator + object.expenses;
+      return Number((accumulator + object.expenses).toFixed(3));
     }, 0);
 
     const emptyCategorySum = emptyCategory.expenses;
