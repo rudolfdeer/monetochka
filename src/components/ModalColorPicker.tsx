@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
 import { COLORS } from '../constants/colors';
+import { STYLES } from '../styles/styles';
 
 type ModalColorPickerProps = {
   modalColorVisible: boolean;
@@ -37,7 +38,7 @@ export default function ModalColorPicker({
               />
             </View>
             <Pressable
-              style={[styles.buttonBig, styles.buttonLast]}
+              style={styles.buttonLast}
               onPress={() => setModalColorVisible(!modalColorVisible)}
             >
               <Text style={styles.buttonText}>Select</Text>
@@ -51,49 +52,24 @@ export default function ModalColorPicker({
 
 const styles = StyleSheet.create({
   buttonBig: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 13,
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
     marginBottom: 16,
     width: '60%',
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    color: COLORS.WHITE,
+    ...STYLES.BUTTON_BIG_TEXT,
   },
   centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
+    ...STYLES.MODAL_CENTERED,
   },
   modalContainer: {
-    width: '100%',
+    ...STYLES.MODAL_CONTAINER,
   },
   modalView: {
-    margin: 16,
-    backgroundColor: COLORS.WHITE,
-    borderRadius: 20,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    ...STYLES.MODAL_VIEW,
   },
   buttonLast: {
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
     marginHorizontal: 0,
     marginBottom: 0,
   },
@@ -109,13 +85,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonSmall: {
-    fontSize: 12,
-    color: COLORS.BUTTON,
+    ...STYLES.BUTTON_SMALL,
     marginBottom: 10,
-  },
-  colorPicker: {
-    width: '100%',
-    height: 'auto',
   },
   pickerContainer: {
     width: '100%',

@@ -11,6 +11,7 @@ import {
 import { addNewCategory } from '../api/categoriesApi';
 import { COLORS } from '../constants/colors';
 import { Category } from '../constants/defaultCategories';
+import { STYLES } from '../styles/styles';
 
 type ModalNewCategoryProps = {
   modalAddVisible: boolean;
@@ -73,7 +74,7 @@ export default function ModalNewCategory({
               )}
             </Formik>
             <Pressable
-              style={[styles.button, styles.buttonClose]}
+              style={styles.buttonLast}
               onPress={() => setModalAddVisible(!modalAddVisible)}
             >
               <Text style={styles.buttonText}>Close</Text>
@@ -87,48 +88,24 @@ export default function ModalNewCategory({
 
 const styles = StyleSheet.create({
   button: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 13,
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
     marginBottom: 16,
     width: '60%',
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    color: COLORS.WHITE,
+    ...STYLES.BUTTON_BIG_TEXT,
   },
   centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
+    ...STYLES.MODAL_CENTERED,
   },
   modalContainer: {
-    width: '100%',
+    ...STYLES.MODAL_CONTAINER,
   },
   modalView: {
-    margin: 16,
-    backgroundColor: COLORS.WHITE,
-    borderRadius: 20,
-    padding: 16,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    ...STYLES.MODAL_VIEW,
   },
-  buttonClose: {
-    backgroundColor: COLORS.BUTTON,
+  buttonLast: {
+    ...STYLES.BUTTON_BIG,
     marginHorizontal: 0,
     marginBottom: 0,
   },

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../constants/colors';
+import { STYLES } from '../styles/styles';
 
 type TotalProps = {
   value: number;
@@ -20,27 +21,12 @@ export default function Total({ value, currency }: TotalProps) {
 }
 
 const styles = StyleSheet.create({
-  totalContainer: {
-    paddingHorizontal: 16,
-    width: '100%',
-  },
-
+  totalContainer: STYLES.SECTION_CONTAINER,
   total: {
-    marginBottom: 20,
+    ...STYLES.SECTION,
     height: 110,
-    backgroundColor: COLORS.BACKGROUND,
-    borderRadius: 13,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
   },
-
-  totalText: {
-    fontSize: 17,
-    height: 42,
-    lineHeight: 22,
-    color: COLORS.TEXT_SECONDARY,
-  },
+  totalText: STYLES.PAGE_MESSAGE,
   totalSum: {
     height: 42,
     fontWeight: '700',
@@ -48,3 +34,5 @@ const styles = StyleSheet.create({
     lineHeight: 41,
   },
 });
+
+const totalStyle = StyleSheet.flatten([STYLES.SECTION, styles.total]);

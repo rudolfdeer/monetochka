@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../constants/colors';
 import { Category, emptyCategory } from '../constants/defaultCategories';
+import { STYLES } from '../styles/styles';
 
 type CategoriesProps = {
   categories: Category[];
@@ -11,8 +12,8 @@ export default function Categories({ categories, currency }: CategoriesProps) {
   const getColorStyle = (color: string) => {
     return {
       color: color,
-    }
-  }
+    };
+  };
 
   return (
     <View style={styles.categoriesContainer}>
@@ -48,47 +49,28 @@ export default function Categories({ categories, currency }: CategoriesProps) {
 
 const styles = StyleSheet.create({
   categoriesContainer: {
-    paddingHorizontal: 16,
-    width: '100%',
+    ...STYLES.SECTION_CONTAINER,
   },
   categories: {
-    backgroundColor: COLORS.BACKGROUND,
-    borderRadius: 13,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
+    ...STYLES.SECTION,
     paddingTop: 16,
-    marginBottom: 20,
   },
   categoryContainer: {
-    flexDirection: 'row',
+    ...STYLES.SECTION_ELEMENT_ROW_CONTINER,
   },
   category: {
-    height: 24,
-    fontSize: 15,
-    lineHeight: 20,
-    marginBottom: 18,
+    ...STYLES.SECTION_ELEMENT,
   },
   'category:last-child': {
     marginBottom: 0,
   },
   icon: {
-    width: 24,
-    height: 24,
-    backgroundColor: COLORS.ICON,
-    marginRight: 8,
+    ...STYLES.ICON,
   },
   iconEmoji: {
-    width: 24,
-    height: 24,
-    marginRight: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...STYLES.ICON_EMOJI,
   },
   title: {
-    fontSize: 20,
-    lineHeight: 24,
-    fontWeight: '600',
-    marginBottom: 20,
+    ...STYLES.SECTION_TITLE,
   },
 });

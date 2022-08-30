@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { addExpensesToCategory } from '../api/categoriesApi';
 import { COLORS } from '../constants/colors';
 import { Category, emptyCategory } from '../constants/defaultCategories';
+import { STYLES } from '../styles/styles';
 
 type FormProps = {
   categories: Category[];
@@ -85,18 +86,14 @@ export default function FormComponent({
 
 const styles = StyleSheet.create({
   formContainer: {
-    paddingHorizontal: 16,
-    width: '100%',
+    ...STYLES.SECTION_CONTAINER,
   },
   form: {
+    ...STYLES.SECTION,
     flexDirection: 'row',
-    marginBottom: 20,
     height: 110,
-    backgroundColor: COLORS.BACKGROUND,
-    borderRadius: 13,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    paddingVertical: 16,
   },
   inputText: {
     height: 50,
@@ -111,24 +108,14 @@ const styles = StyleSheet.create({
     height: 50,
     width: '50%',
   },
-
   selectElement: {
     height: 50,
     fontSize: 15,
   },
   button: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 13,
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    color: COLORS.WHITE,
+    ...STYLES.BUTTON_BIG_TEXT,
   },
 });

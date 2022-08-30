@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../constants/colors';
+import { STYLES } from '../styles/styles';
 
 type NavbarProps = {
-  title: string,
-  message: string,
-}
+  title: string;
+  message: string;
+};
 
 export default function Navbar({ title, message }: NavbarProps) {
   return (
@@ -24,15 +25,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   textSmall: {
-    fontSize: 17,
-    height: 42,
-    lineHeight: 22,
-    color: COLORS.TEXT_SECONDARY,
+    ...STYLES.PAGE_MESSAGE,
   },
   textBig: {
-    height: 42,
-    fontWeight: '700',
-    fontSize: 34,
-    lineHeight: 41,
+    ...STYLES.PAGE_TITLE,
   },
 });
