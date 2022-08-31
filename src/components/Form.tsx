@@ -18,7 +18,7 @@ const initialValues = {
 
 const ValidationSchema = Yup.object().shape({
   sum: Yup.string()
-    .matches(/^\d+(\.\d+)?$/, 'enter a valid number')
+    .matches(/^\d{1,15}(\.\d+)?$/, 'enter a valid number')
     .required('required'),
 });
 
