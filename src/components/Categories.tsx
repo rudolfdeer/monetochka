@@ -8,6 +8,12 @@ type CategoriesProps = {
 };
 
 export default function Categories({ categories, currency }: CategoriesProps) {
+  const getColorStyle = (color: string) => {
+    return {
+      color: color,
+    }
+  }
+
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
@@ -20,11 +26,16 @@ export default function Categories({ categories, currency }: CategoriesProps) {
             {currency}
           </Text>
         </View>
-
         {categories?.map((category) => (
           <View style={styles.categoryContainer} key={category.id}>
-            <View style={styles.icon}></View>
-            <Text style={styles.category}>
+            {category.icon ? (
+              <View style={styles.iconEmoji}>
+                <Text>{category.icon}</Text>
+              </View>
+            ) : (
+              <View style={styles.icon}></View>
+            )}
+            <Text style={[styles.category, getColorStyle(category.color)]}>
               {category.name}: {category.expenses}
               {currency}
             </Text>
@@ -66,6 +77,13 @@ const styles = StyleSheet.create({
     height: 24,
     backgroundColor: COLORS.ICON,
     marginRight: 8,
+  },
+  iconEmoji: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 20,
