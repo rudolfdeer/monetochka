@@ -5,6 +5,7 @@ import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
 import { changeCategoryStyle } from '../api/categoriesApi';
 import { COLORS } from '../constants/colors';
 import { Category } from '../constants/defaultCategories';
+import { STYLES } from '../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
 
 type ModalEditCategoryProps = {
@@ -101,7 +102,7 @@ export default function ModalEditCategory({
               </Pressable>
             </View>
             <Pressable
-              style={[styles.buttonBig, styles.buttonLast]}
+              style={styles.buttonLast}
               onPress={() => setModalEditVisible(!modalEditVisible)}
             >
               <Text style={styles.buttonText}>Close</Text>
@@ -115,48 +116,24 @@ export default function ModalEditCategory({
 
 const styles = StyleSheet.create({
   buttonBig: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 13,
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
     marginBottom: 16,
     width: '60%',
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    color: COLORS.WHITE,
+    ...STYLES.BUTTON_BIG_TEXT,
   },
   centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
+    ...STYLES.MODAL_CENTERED,
   },
   modalContainer: {
-    width: '100%',
+    ...STYLES.MODAL_CONTAINER,
   },
   modalView: {
-    margin: 16,
-    backgroundColor: COLORS.WHITE,
-    borderRadius: 20,
-    padding: 16,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    ...STYLES.MODAL_VIEW,
   },
   buttonLast: {
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
     marginHorizontal: 0,
     marginBottom: 0,
   },
@@ -172,16 +149,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonSmall: {
-    fontSize: 12,
-    color: COLORS.BUTTON,
+    ...STYLES.BUTTON_SMALL,
     marginBottom: 10,
   },
   form: {
     width: '100%',
     alignItems: 'center',
-  },
-  colorPicker: {
-    width: '100%',
-    height: 'auto',
   },
 });

@@ -12,6 +12,7 @@ import { StackParamList } from '../../App';
 import { COLORS } from '../constants/colors';
 import { Category, emptyCategory } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
+import { STYLES } from '../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
 import Navbar from './Navbar';
@@ -65,7 +66,11 @@ export default function CategoriesScreen({
                   ) : (
                     <View style={styles.icon}></View>
                   )}
-                  <Text style={[styles.category,  getColorStyle(category.color)]}>{category.name}</Text>
+                  <Text
+                    style={[styles.category, getColorStyle(category.color)]}
+                  >
+                    {category.name}
+                  </Text>
                 </View>
                 <Pressable
                   onPress={() => {
@@ -92,70 +97,43 @@ export default function CategoriesScreen({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: COLORS.WHITE,
-    width: '100%',
+    ...STYLES.PAGE_CONTAINER,
   },
   categoriesContainer: {
-    paddingHorizontal: 16,
+    ...STYLES.SECTION_CONTAINER,
   },
   categories: {
-    backgroundColor: COLORS.BACKGROUND,
-    borderRadius: 13,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
+    ...STYLES.SECTION,
     paddingTop: 16,
-    marginBottom: 20,
   },
   rowContainer: {
-    flexDirection: 'row',
+    ...STYLES.SECTION_ELEMENT_ROW_CONTINER,
     justifyContent: 'space-between',
   },
   categoryContainer: {
-    flexDirection: 'row',
+    ...STYLES.SECTION_ELEMENT_ROW_CONTINER,
   },
   category: {
-    height: 24,
-    fontSize: 15,
-    lineHeight: 20,
-    marginBottom: 18,
+    ...STYLES.SECTION_ELEMENT,
   },
   'category:last-child': {
     marginBottom: 0,
   },
   icon: {
-    width: 24,
-    height: 24,
-    backgroundColor: COLORS.ICON,
-    marginRight: 8,
+    ...STYLES.ICON,
   },
   iconEmoji: {
-    width: 24,
-    height: 24,
-    marginRight: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...STYLES.ICON_EMOJI,
   },
   buttonEdit: {
-    fontSize: 12,
+    ...STYLES.BUTTON_SMALL,
     lineHeight: 20,
-    color: COLORS.BUTTON,
   },
   button: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 13,
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
     marginHorizontal: 16,
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    color: COLORS.WHITE,
+    ...STYLES.BUTTON_BIG_TEXT,
   },
 });

@@ -12,6 +12,7 @@ import { StackParamList } from '../../App';
 import { COLORS } from '../constants/colors';
 import { Category, emptyCategory } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
+import { STYLES } from '../styles/styles';
 import Categories from './Categories';
 import FormComponent from './Form';
 import Navbar from './Navbar';
@@ -62,25 +63,15 @@ export default function HomeScreen({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: COLORS.WHITE,
+    ...STYLES.PAGE_CONTAINER,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
   button: {
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 13,
-    backgroundColor: COLORS.BUTTON,
+    ...STYLES.BUTTON_BIG,
     marginHorizontal: 16,
   },
   buttonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    color: COLORS.WHITE,
+    ...STYLES.BUTTON_BIG_TEXT,
   },
 });
