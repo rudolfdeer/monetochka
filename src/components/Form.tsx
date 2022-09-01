@@ -3,7 +3,7 @@ import { Formik, FormikValues } from 'formik';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as Yup from 'yup';
 import { addExpensesToCategory } from '../api/categoriesApi';
-import { COLORS } from '../constants/colors';
+import { COLORS } from '../styles/colors';
 import { Category, emptyCategory } from '../constants/defaultCategories';
 import { STYLES } from '../styles/styles';
 

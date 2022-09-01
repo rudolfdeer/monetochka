@@ -1,4 +1,4 @@
-import { COLORS } from './colors';
+import { COLORS } from '../styles/colors';
 
 export interface Category {
   id: string;

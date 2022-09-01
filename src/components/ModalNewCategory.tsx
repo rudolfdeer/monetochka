@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { addNewCategory } from '../api/categoriesApi';
-import { COLORS } from '../constants/colors';
+import { COLORS } from '../styles/colors';
 import { Category } from '../constants/defaultCategories';
 import { STYLES } from '../styles/styles';
 

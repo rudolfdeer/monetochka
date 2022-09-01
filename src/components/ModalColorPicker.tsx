@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
-import { COLORS } from '../constants/colors';
+import { COLORS } from '../styles/colors';
 import { STYLES } from '../styles/styles';
 
 type ModalColorPickerProps = {

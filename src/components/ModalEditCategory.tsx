@@ -3,7 +3,7 @@ import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import EmojiPicker from 'rn-emoji-keyboard';
 import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
 import { changeCategoryStyle } from '../api/categoriesApi';
-import { COLORS } from '../constants/colors';
+import { COLORS } from '../styles/colors';
 import { Category } from '../constants/defaultCategories';
 import { STYLES } from '../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
