@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { COLORS } from '../styles/colors';
 import { Category, emptyCategory } from '../constants/defaultCategories';
 import { STYLES } from '../styles/styles';
 

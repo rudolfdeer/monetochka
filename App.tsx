@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import CategoriesScreen from './src/components/CategoriesScreen';
 import HomeScreen from './src/components/HomeScreen';
-import LoginScreen from './src/components/LoginScreen';
+import IntroScreen from './src/components/IntroScreen';
 import { Category, defaultCategories } from './src/constants/defaultCategories';
 
 export type StackParamList = {
@@ -15,7 +15,7 @@ export type StackParamList = {
     categories: Category[];
     setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   };
-  Login: undefined;
+  Intro: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -27,9 +27,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="Login" options={{headerShown: false}}>
+      <Stack.Screen name="Intro" options={{headerShown: false}}>
           {(props) => (
-            <LoginScreen
+            <IntroScreen
               params={props}
             />
           )}

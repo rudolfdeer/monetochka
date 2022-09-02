@@ -1,32 +1,24 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { useState } from 'react';
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../../App';
 import { STYLES } from '../styles/styles';
+import ModalLogIn from './ModalLogIn';
 
-type LoginScreenProps = {
-  params: NativeStackScreenProps<StackParamList, 'Login'>;
-  // categories: Category[];
-  // setCategories: Function;
+type IntroScreenProps = {
+  params: NativeStackScreenProps<StackParamList, 'Intro'>;
 };
 
-export default function LoginScreen({
-  params,
-}: // categories,
-// setCategories,
-LoginScreenProps) {
+export default function IntroScreen({ params }: IntroScreenProps) {
+  const [modalLogInVisible, setModalLogInVisible] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.sectionContainer}>
+        <ModalLogIn modalLogInVisible={modalLogInVisible} setModalLogInVisible={setModalLogInVisible} />
         <View style={styles.section}>
           <Text style={styles.title}>Monetochka</Text>
           <Text style={styles.text}>
-            Follow your expenses has never been this easier.
+            Follow your expenses has never been easier.
           </Text>
         </View>
         <View>
@@ -36,8 +28,11 @@ LoginScreenProps) {
           >
             <Text style={styles.buttonText}>Get started</Text>
           </Pressable>
-          <Pressable style={styles.buttonLast} onPress={() => {}}>
+          <Pressable style={styles.button} onPress={() => setModalLogInVisible(true)}>
             <Text style={styles.buttonText}>Login</Text>
+          </Pressable>
+          <Pressable onPress={() => {}}>
+            <Text style={styles.buttonSmall}>Register</Text>
           </Pressable>
         </View>
       </View>
@@ -77,8 +72,11 @@ const styles = StyleSheet.create({
   buttonText: {
     ...STYLES.BUTTON_BIG_TEXT,
   },
-  buttonLast: {
-    ...STYLES.BUTTON_BIG,
-    marginBottom: 0,
+  buttonSmall: {
+    ...STYLES.BUTTON_SMALL,
+    fontSize: 16,
+    marginBottom: 16,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
   },
 });
