@@ -4,6 +4,7 @@ import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../../App';
 import { STYLES } from '../styles/styles';
 import ModalLogIn from './ModalLogIn';
+import ModalRegistration from './ModalRegistration';
 
 type IntroScreenProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
@@ -11,10 +12,13 @@ type IntroScreenProps = {
 
 export default function IntroScreen({ params }: IntroScreenProps) {
   const [modalLogInVisible, setModalLogInVisible] = useState(false);
+  const [modalRegistrationVisible, setModalRegistrationVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.sectionContainer}>
         <ModalLogIn modalLogInVisible={modalLogInVisible} setModalLogInVisible={setModalLogInVisible} />
+        <ModalRegistration modalRegistrationVisible={modalRegistrationVisible} setModalRegistrationVisible={setModalRegistrationVisible} />
         <View style={styles.section}>
           <Text style={styles.title}>Monetochka</Text>
           <Text style={styles.text}>
@@ -29,9 +33,9 @@ export default function IntroScreen({ params }: IntroScreenProps) {
             <Text style={styles.buttonText}>Get started</Text>
           </Pressable>
           <Pressable style={styles.button} onPress={() => setModalLogInVisible(true)}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Log in</Text>
           </Pressable>
-          <Pressable onPress={() => {}}>
+          <Pressable onPress={() => setModalRegistrationVisible(true)}>
             <Text style={styles.buttonSmall}>Register</Text>
           </Pressable>
         </View>

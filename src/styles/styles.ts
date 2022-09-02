@@ -114,5 +114,6 @@ export const STYLES = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.BLACK,
     borderRadius: 13,
+    paddingHorizontal: 10,
   }
 });

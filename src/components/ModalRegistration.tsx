@@ -1,20 +1,30 @@
 import { Formik, FormikValues } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
-import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { COLORS } from '../styles/colors';
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { STYLES } from '../styles/styles';
 
-type ModalLogInProps = {
-  modalLogInVisible: boolean;
-  setModalLogInVisible: Dispatch<SetStateAction<boolean>>;
-}
+type ModalRegistrationProps = {
+  modalRegistrationVisible: boolean;
+  setModalRegistrationVisible: Dispatch<SetStateAction<boolean>>;
+};
 
 const initialValues = {
   email: '',
   password: '',
+  confirmedPassword: '',
 };
 
-export default function ModalLogIn({modalLogInVisible, setModalLogInVisible}: ModalLogInProps) {
+export default function ModalRegistration({
+  modalRegistrationVisible,
+  setModalRegistrationVisible,
+}: ModalRegistrationProps) {
   const handleFormSubmit = (values: FormikValues) => {
     console.log(values);
   };
@@ -22,9 +32,9 @@ export default function ModalLogIn({modalLogInVisible, setModalLogInVisible}: Mo
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalLogInVisible}
+      visible={modalRegistrationVisible}
       onRequestClose={() => {
-        setModalLogInVisible(!modalLogInVisible);
+        setModalRegistrationVisible(!modalRegistrationVisible);
       }}
     >
       <View style={styles.centeredView}>
@@ -45,26 +55,36 @@ export default function ModalLogIn({modalLogInVisible, setModalLogInVisible}: Mo
                     onBlur={handleBlur('email')}
                   />
                   <TextInput
+                    secureTextEntry={true}
                     style={styles.inputText}
                     value={values.password}
                     onChangeText={handleChange('password')}
                     onBlur={handleBlur('password')}
                   />
+                  <TextInput
+                    secureTextEntry={true}
+                    style={styles.inputText}
+                    value={values.confirmedPassword}
+                    onChangeText={handleChange('confirmedPassword')}
+                    onBlur={handleBlur('confirmedPassword')}
+                  />
                   <Pressable
                     style={styles.button}
                     onPress={() => {
                       handleSubmit();
-                      setModalLogInVisible(!modalLogInVisible);
+                      setModalRegistrationVisible(!modalRegistrationVisible);
                     }}
                   >
-                    <Text style={styles.buttonText}>Log in</Text>
+                    <Text style={styles.buttonText}>Create account</Text>
                   </Pressable>
                 </View>
               )}
             </Formik>
             <Pressable
               style={styles.buttonLast}
-              onPress={() => setModalLogInVisible(!modalLogInVisible)}
+              onPress={() =>
+                setModalRegistrationVisible(!modalRegistrationVisible)
+              }
             >
               <Text style={styles.buttonText}>Cancel</Text>
             </Pressable>
@@ -72,7 +92,7 @@ export default function ModalLogIn({modalLogInVisible, setModalLogInVisible}: Mo
         </View>
       </View>
     </Modal>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
