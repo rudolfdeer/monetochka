@@ -1,9 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-import { Category } from '../categories/category.schema';
+import { Document } from 'mongoose';
+interface Category {
+  name: string;
+  expenses: number;
+  icon: string;
+  color: string;
+}
 
 export type UserDocument = User & Document;
-
 @Schema()
 export class User {
   @Prop()
@@ -12,8 +16,8 @@ export class User {
   @Prop()
   password: string;
 
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
-  // categories: Category[];
+  @Prop()
+  categories: Category[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
