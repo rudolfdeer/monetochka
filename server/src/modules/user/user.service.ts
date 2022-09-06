@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 import { comparePasswords } from '../../utils/auth/comparePassword.util';
 import { encryptPassword } from '../../utils/auth/encryptPassword.util';
-import { mock } from '../../constants/categoriesDefault';
+import { COLORS, mock } from '../../constants/categoriesDefault';
 import { User, UserDocument } from './user.schema';
 import { HTTP_MESSAGES } from '../../constants/httpMessages';
 
@@ -15,7 +16,7 @@ export class UserService {
 
   async getUser(id: string): Promise<User> {
     const user = await this.userModel.findById(id).exec();
-    if (!user) throw new Error(HTTP_MESSAGES.NOT_FOUND);
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
     return user;
   }
 
@@ -32,7 +33,7 @@ export class UserService {
     const userInDb = await this.userModel.findOne({ email });
 
     if (userInDb) {
-      throw new Error(HTTP_MESSAGES.ALREASY_EXISTS);
+      throw new Error(HTTP_MESSAGES.ALREADY_EXISTS);
     }
 
     const hashedPassword = encryptPassword(password);
@@ -44,5 +45,67 @@ export class UserService {
     });
     const result = await newUser.save();
     return result;
+  }
+
+  async changeCategory(
+    userId: string,
+    categoryId: string,
+    color: string,
+    icon: string,
+    expenses: number,
+  ) {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+
+    const category = user.categories.find(
+      (category) => category.id === categoryId,
+    );
+    if (!category) throw new Error(HTTP_MESSAGES.CATEGORY_NOT_FOUND);
+
+    const updatedCategory = {
+      ...category,
+      color,
+      icon,
+      expenses,
+    };
+
+    const index = user.categories.indexOf(category);
+
+    const updatedCategories = [
+      ...user.categories.slice(0, index),
+      updatedCategory,
+      ...user.categories.slice(index + 1),
+    ];
+
+    await this.userModel.updateOne(
+      { _id: userId },
+      { $set: { categories: updatedCategories } },
+    );
+
+    const updatedUser = await this.getUser(userId);
+    return updatedUser;
+  }
+
+  async createCategory(userId: string, categoryName: string) {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+
+    const newCategory = {
+      id: uuidv4(),
+      name: categoryName,
+      expenses: 0,
+      icon: '',
+      color: COLORS.BLACK,
+    };
+
+    const updatedCategories = [...user.categories, newCategory];
+
+    await this.userModel.updateOne(
+      { _id: userId },
+      { $set: { categories: updatedCategories } },
+    );
+
+    const updatedUser = await this.getUser(userId);
+    return updatedUser;
   }
 }
