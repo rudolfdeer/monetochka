@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native';
 import { StackParamList } from '../../App';
-import { COLORS } from '../constants/colors';
 import { Category, emptyCategory } from '../constants/defaultCategories';
 import { MESSAGES } from '../constants/messages';
 import { STYLES } from '../styles/styles';

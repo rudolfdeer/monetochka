@@ -1,47 +1,30 @@
 import { Formik, FormikValues } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import { addNewCategory } from '../api/categoriesApi';
+import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { COLORS } from '../styles/colors';
-import { Category } from '../constants/defaultCategories';
 import { STYLES } from '../styles/styles';
 
-type ModalNewCategoryProps = {
-  modalAddVisible: boolean;
-  setModalAddVisible: Dispatch<SetStateAction<boolean>>;
-  setCategories: Function;
-  categories: Category[];
-};
+type ModalLogInProps = {
+  modalLogInVisible: boolean;
+  setModalLogInVisible: Dispatch<SetStateAction<boolean>>;
+}
 
 const initialValues = {
-  name: 'New category',
+  email: '',
+  password: '',
 };
 
-export default function ModalNewCategory({
-  modalAddVisible,
-  setModalAddVisible,
-  setCategories,
-  categories,
-}: ModalNewCategoryProps) {
+export default function ModalLogIn({modalLogInVisible, setModalLogInVisible}: ModalLogInProps) {
   const handleFormSubmit = (values: FormikValues) => {
-    const response = addNewCategory(values, categories);
-    setCategories(response);
+    console.log(values);
   };
-
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalAddVisible}
+      visible={modalLogInVisible}
       onRequestClose={() => {
-        setModalAddVisible(!modalAddVisible);
+        setModalLogInVisible(!modalLogInVisible);
       }}
     >
       <View style={styles.centeredView}>
@@ -57,33 +40,39 @@ export default function ModalNewCategory({
                 <View style={styles.form}>
                   <TextInput
                     style={styles.inputText}
-                    value={values.name}
-                    onChangeText={handleChange('name')}
-                    onBlur={handleBlur('name')}
+                    value={values.email}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                  />
+                  <TextInput
+                    style={styles.inputText}
+                    value={values.password}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
                   />
                   <Pressable
                     style={styles.button}
                     onPress={() => {
                       handleSubmit();
-                      setModalAddVisible(!modalAddVisible);
+                      setModalLogInVisible(!modalLogInVisible);
                     }}
                   >
-                    <Text style={styles.buttonText}>Add</Text>
+                    <Text style={styles.buttonText}>Log in</Text>
                   </Pressable>
                 </View>
               )}
             </Formik>
             <Pressable
               style={styles.buttonLast}
-              onPress={() => setModalAddVisible(!modalAddVisible)}
+              onPress={() => setModalLogInVisible(!modalLogInVisible)}
             >
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.buttonText}>Cancel</Text>
             </Pressable>
           </View>
         </View>
       </View>
     </Modal>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -115,5 +104,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     ...STYLES.TEXT_INPUT,
+    textAlign: 'none',
   },
 });

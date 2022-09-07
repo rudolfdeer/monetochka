@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { COLORS } from '../constants/colors';
 import { STYLES } from '../styles/styles';
 
 type TotalProps = {

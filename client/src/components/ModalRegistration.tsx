@@ -8,40 +8,33 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { addNewCategory } from '../api/categoriesApi';
-import { COLORS } from '../styles/colors';
-import { Category } from '../constants/defaultCategories';
 import { STYLES } from '../styles/styles';
 
-type ModalNewCategoryProps = {
-  modalAddVisible: boolean;
-  setModalAddVisible: Dispatch<SetStateAction<boolean>>;
-  setCategories: Function;
-  categories: Category[];
+type ModalRegistrationProps = {
+  modalRegistrationVisible: boolean;
+  setModalRegistrationVisible: Dispatch<SetStateAction<boolean>>;
 };
 
 const initialValues = {
-  name: 'New category',
+  email: '',
+  password: '',
+  confirmedPassword: '',
 };
 
-export default function ModalNewCategory({
-  modalAddVisible,
-  setModalAddVisible,
-  setCategories,
-  categories,
-}: ModalNewCategoryProps) {
+export default function ModalRegistration({
+  modalRegistrationVisible,
+  setModalRegistrationVisible,
+}: ModalRegistrationProps) {
   const handleFormSubmit = (values: FormikValues) => {
-    const response = addNewCategory(values, categories);
-    setCategories(response);
+    console.log(values);
   };
-
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalAddVisible}
+      visible={modalRegistrationVisible}
       onRequestClose={() => {
-        setModalAddVisible(!modalAddVisible);
+        setModalRegistrationVisible(!modalRegistrationVisible);
       }}
     >
       <View style={styles.centeredView}>
@@ -57,27 +50,43 @@ export default function ModalNewCategory({
                 <View style={styles.form}>
                   <TextInput
                     style={styles.inputText}
-                    value={values.name}
-                    onChangeText={handleChange('name')}
-                    onBlur={handleBlur('name')}
+                    value={values.email}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                  />
+                  <TextInput
+                    secureTextEntry={true}
+                    style={styles.inputText}
+                    value={values.password}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                  />
+                  <TextInput
+                    secureTextEntry={true}
+                    style={styles.inputText}
+                    value={values.confirmedPassword}
+                    onChangeText={handleChange('confirmedPassword')}
+                    onBlur={handleBlur('confirmedPassword')}
                   />
                   <Pressable
                     style={styles.button}
                     onPress={() => {
                       handleSubmit();
-                      setModalAddVisible(!modalAddVisible);
+                      setModalRegistrationVisible(!modalRegistrationVisible);
                     }}
                   >
-                    <Text style={styles.buttonText}>Add</Text>
+                    <Text style={styles.buttonText}>Create account</Text>
                   </Pressable>
                 </View>
               )}
             </Formik>
             <Pressable
               style={styles.buttonLast}
-              onPress={() => setModalAddVisible(!modalAddVisible)}
+              onPress={() =>
+                setModalRegistrationVisible(!modalRegistrationVisible)
+              }
             >
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.buttonText}>Cancel</Text>
             </Pressable>
           </View>
         </View>
@@ -115,5 +124,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     ...STYLES.TEXT_INPUT,
+    textAlign: 'none',
   },
 });
