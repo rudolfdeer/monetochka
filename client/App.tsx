@@ -1,13 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CategoriesScreen from './src/components/CategoriesScreen';
 import HomeScreen from './src/components/HomeScreen';
 import IntroScreen from './src/components/IntroScreen';
 import { emptyUser } from './src/constants/emptyMocks';
 import { IUser } from './src/constants/interfaces';
-
-// ON MON-32 NOW !!!!!!!!!!!!!!!!!!!!!!!
 
 export type StackParamList = {
   Home: {
