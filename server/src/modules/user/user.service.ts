@@ -53,6 +53,7 @@ export class UserService {
     color: string,
     icon: string,
     expenses: number,
+    name: string,
   ) {
     const user = await this.userModel.findById(userId).exec();
     if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
@@ -67,6 +68,7 @@ export class UserService {
       color,
       icon,
       expenses,
+      name,
     };
 
     const index = user.categories.indexOf(category);

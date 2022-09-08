@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import EmojiPicker from 'rn-emoji-keyboard';
 import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
 import { ICategory, IUser } from '../constants/interfaces';
@@ -27,10 +27,12 @@ export default function ModalEditCategory({
   const [chosenColor, setChosenColor] = useState(category.color);
   const [modalColorVisible, setModalColorVisible] = useState(false);
   const [error, setError] = useState('');
+  const [newName, setNewName] = useState(category.name);
 
   useEffect(() => {
     setChosenIcon(category.icon);
     setChosenColor(category.color);
+    setNewName(category.name);
   }, [category]);
 
   const handleEmojiPick = (emojiObject: EmojiType) => {
@@ -43,6 +45,7 @@ export default function ModalEditCategory({
         ...category,
         icon: chosenIcon,
         color: chosenColor,
+        name: newName,
       };
       const user = await changeCategory(userId, body);
       console.log(user);
@@ -74,9 +77,11 @@ export default function ModalEditCategory({
           <View style={styles.modalView}>
             <View style={styles.form}>
               <Text style={styles.icon}>{chosenIcon}</Text>
-              <Text style={[styles.categoryName, getColorStyle(chosenColor)]}>
-                {category.name}
-              </Text>
+              <TextInput
+                    style={[styles.categoryName, getColorStyle(chosenColor)]}
+                    value={newName}
+                    onChangeText={(newText) => setNewName(newText)}
+                  />
               <View style={styles.errorContainer}>
                 <Text style={styles.errorText}>{error}</Text>
               </View>
@@ -148,11 +153,13 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   categoryName: {
-    height: 20,
+    ...STYLES.TEXT_INPUT,
+    height: 40,
     fontWeight: '700',
     fontSize: 16,
     lineHeight: 20,
     marginBottom: 18,
+    
   },
   icon: {
     height: 20,
@@ -171,5 +178,8 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...STYLES.ERROR_TEXT,
+  },
+  inputText: {
+    ...STYLES.TEXT_INPUT,
   },
 });

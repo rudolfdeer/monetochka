@@ -61,6 +61,7 @@ export class UserController {
     @Body('color') color: string,
     @Body('icon') icon: string,
     @Body('expenses') expenses: number,
+    @Body('name') name: string,
   ) {
     try {
       const response = await this.userService.changeCategory(
@@ -69,6 +70,7 @@ export class UserController {
         color,
         icon,
         expenses,
+        name,
       );
       return response;
     } catch (err) {
