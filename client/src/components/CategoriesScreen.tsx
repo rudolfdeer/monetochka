@@ -9,9 +9,10 @@ import {
   View,
 } from 'react-native';
 import { StackParamList } from '../../App';
-import { COLORS } from '../constants/colors';
-import { Category, emptyCategory } from '../constants/defaultCategories';
+import { emptyCategory } from '../constants/emptyMocks';
+import { IUser } from '../constants/interfaces';
 import { MESSAGES } from '../constants/messages';
+import { getUser } from '../helpers/api';
 import { STYLES } from '../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
@@ -19,23 +20,23 @@ import Navbar from './Navbar';
 
 type CategoriesScreenProps = {
   params: NativeStackScreenProps<StackParamList, 'Categories'>;
-  categories: Category[];
-  setCategories: Function;
+  user: IUser;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
 };
 
 const getColorStyle = (color: string) => {
   return {
-    color: color,
+    color,
   };
 };
 
 export default function CategoriesScreen({
-  categories,
-  setCategories,
+  user,
+  setUser,
 }: CategoriesScreenProps) {
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
-  const [category, setCategory] = useState<Category>(emptyCategory);
+  const [selectedCategory, setSelectedCategory] = useState(emptyCategory);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,18 +46,18 @@ export default function CategoriesScreen({
           <ModalNewCategory
             modalAddVisible={modalAddVisible}
             setModalAddVisible={setModalAddVisible}
-            setCategories={setCategories}
-            categories={categories}
+            userId={user._id}
+            setUser={setUser}
           />
           <ModalEditCategory
             modalEditVisible={modalEditVisible}
             setModalEditVisible={setModalEditVisible}
-            setCategories={setCategories}
-            categories={categories}
-            currentCategory={category}
+            category={selectedCategory}
+            userId={user._id}
+            setUser={setUser}
           />
           <View style={styles.categories}>
-            {categories.map((category) => (
+            {user.categories.map((category) => (
               <View style={styles.rowContainer} key={category.id}>
                 <View style={styles.categoryContainer}>
                   {category.icon ? (
@@ -74,7 +75,7 @@ export default function CategoriesScreen({
                 </View>
                 <Pressable
                   onPress={() => {
-                    setCategory(category);
+                    setSelectedCategory(category);
                     setModalEditVisible(true);
                   }}
                 >

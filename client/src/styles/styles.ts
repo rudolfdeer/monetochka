@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../constants/colors';
+import { COLORS } from './colors';
 
 export const STYLES = StyleSheet.create({
   BUTTON_BIG: {
@@ -34,33 +34,6 @@ export const STYLES = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  SECTION_TITLE: {
-    fontSize: 20,
-    lineHeight: 24,
-    fontWeight: '600',
-    marginBottom: 20,
-  },
-  PAGE_TITLE: {
-    height: 42,
-    fontWeight: '700',
-    fontSize: 34,
-    lineHeight: 41,
-  },
-  PAGE_MESSAGE: {
-    fontSize: 17,
-    height: 42,
-    lineHeight: 22,
-    color: COLORS.TEXT_SECONDARY,
-  },
-  SECTION_CONTAINER: {
-    paddingHorizontal: 16,
-    width: '100%',
-  },
-  PAGE_CONTAINER: {
-    flex: 1,
-    backgroundColor: COLORS.WHITE,
-    width: '100%',
-  },
   MODAL_CENTERED: {
     flex: 1,
     justifyContent: 'center',
@@ -86,6 +59,33 @@ export const STYLES = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  PAGE_TITLE: {
+    height: 42,
+    fontWeight: '700',
+    fontSize: 34,
+    lineHeight: 41,
+  },
+  PAGE_MESSAGE: {
+    fontSize: 17,
+    height: 42,
+    lineHeight: 22,
+    color: COLORS.TEXT_SECONDARY,
+  },
+  PAGE_CONTAINER: {
+    flex: 1,
+    backgroundColor: COLORS.WHITE,
+    width: '100%',
+  },
+  SECTION_TITLE: {
+    fontSize: 20,
+    lineHeight: 24,
+    fontWeight: '600',
+    marginBottom: 20,
+  },
+  SECTION_CONTAINER: {
+    paddingHorizontal: 16,
+    width: '100%',
+  },
   SECTION: {
     backgroundColor: COLORS.BACKGROUND,
     borderRadius: 13,
@@ -102,5 +102,26 @@ export const STYLES = StyleSheet.create({
   },
   SECTION_ELEMENT_ROW_CONTINER: {
     flexDirection: 'row',
-  }
+  },
+  TEXT_INPUT: {
+    fontSize: 16,
+    lineHeight: 21,
+    marginBottom: 16,
+    width: '100%',
+    height: 50,
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: COLORS.BLACK,
+    borderRadius: 13,
+    paddingHorizontal: 10,
+  },
+  ERROR_CONTAINER: {
+    height: 14,
+    marginBottom: 8,
+  },
+  ERROR_TEXT: {
+    fontSize: 12,
+    color: COLORS.ERROR,
+  },
 });

@@ -2,19 +2,21 @@ import { Picker } from '@react-native-picker/picker';
 import { Formik, FormikValues } from 'formik';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as Yup from 'yup';
-import { addExpensesToCategory } from '../api/categoriesApi';
-import { COLORS } from '../constants/colors';
-import { Category, emptyCategory } from '../constants/defaultCategories';
+import { COLORS } from '../styles/colors';
+import { IUser } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { changeCategory } from '../helpers/api';
+import { emptyCategory } from '../constants/emptyMocks';
 
 type FormProps = {
-  categories: Category[];
-  setCategories: Function;
+  user: IUser;
+  setUser: Dispatch<SetStateAction<IUser>>;
 };
 
 const initialValues = {
   sum: '0',
-  category: '',
+  categoryId: '',
 };
 
 const ValidationSchema = Yup.object().shape({
@@ -23,14 +25,27 @@ const ValidationSchema = Yup.object().shape({
     .required('required'),
 });
 
-export default function FormComponent({
-  categories,
-  setCategories,
-}: FormProps) {
-  const handleFormSubmit = (values: FormikValues) => {
-    console.log(values);
-    const response = addExpensesToCategory(values, categories);
-    setCategories(response);
+export default function FormComponent({ setUser, user }: FormProps) {
+  const { categories, _id } = user;
+  const [error, setError] = useState('');
+
+  const handleFormSubmit = async (values: FormikValues) => {
+    const category = categories.find((cat) => cat.id === values.categoryId);
+    if (!category) {
+      return;
+    }
+    category.expenses = Number(
+      (category.expenses + parseFloat(values.sum)).toFixed(3)
+    );
+
+    try {
+      const updatedUser = await changeCategory(_id, category);
+      setUser(updatedUser);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
   };
 
   return (
@@ -53,19 +68,19 @@ export default function FormComponent({
             <Picker
               style={styles.inputSelect}
               itemStyle={styles.selectElement}
-              selectedValue={values.category}
-              onValueChange={handleChange('category')}
+              selectedValue={values.categoryId}
+              onValueChange={handleChange('categoryId')}
             >
               <Picker.Item
                 label={emptyCategory.name}
-                value={emptyCategory.name}
+                value={emptyCategory.id}
                 key={emptyCategory.id}
               />
               {categories.map((category) => {
                 return (
                   <Picker.Item
                     label={category.name}
-                    value={category.name}
+                    value={category.id}
                     key={category.id}
                   />
                 );
@@ -80,6 +95,9 @@ export default function FormComponent({
           </View>
         )}
       </Formik>
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
     </View>
   );
 }
@@ -117,5 +135,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...STYLES.BUTTON_BIG_TEXT,
+  },
+  errorContainer: {
+    ...STYLES.ERROR_CONTAINER,
+  },
+  errorText: {
+    ...STYLES.ERROR_TEXT,
   },
 });

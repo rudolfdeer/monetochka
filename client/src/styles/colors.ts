@@ -5,4 +5,5 @@ export const COLORS = {
   TEXT_SECONDARY: '#c7c7cc',
   WHITE: '#ffffff',
   BLACK: '#000000',
+  ERROR: '#880808',
 };

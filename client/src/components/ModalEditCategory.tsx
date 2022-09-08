@@ -2,49 +2,56 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import EmojiPicker from 'rn-emoji-keyboard';
 import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
-import { changeCategoryStyle } from '../api/categoriesApi';
-import { COLORS } from '../constants/colors';
-import { Category } from '../constants/defaultCategories';
+import { ICategory, IUser } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
+import { changeCategory } from '../helpers/api';
 
 type ModalEditCategoryProps = {
   modalEditVisible: boolean;
   setModalEditVisible: Dispatch<SetStateAction<boolean>>;
-  setCategories: Function;
-  categories: Category[];
-  currentCategory: Category;
+  category: ICategory;
+  userId: string;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
 };
 
 export default function ModalEditCategory({
   modalEditVisible,
   setModalEditVisible,
-  setCategories,
-  categories,
-  currentCategory,
+  category,
+  userId,
+  setUser,
 }: ModalEditCategoryProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [chosenIcon, setChosenIcon] = useState(currentCategory.icon);
-  const [chosenColor, setChosenColor] = useState(currentCategory.color);
+  const [chosenIcon, setChosenIcon] = useState(category.icon);
+  const [chosenColor, setChosenColor] = useState(category.color);
   const [modalColorVisible, setModalColorVisible] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    setChosenIcon(currentCategory.icon);
-    setChosenColor(currentCategory.color);
-  }, [currentCategory]);
+    setChosenIcon(category.icon);
+    setChosenColor(category.color);
+  }, [category]);
 
   const handleEmojiPick = (emojiObject: EmojiType) => {
     setChosenIcon(emojiObject.emoji);
   };
 
-  const handleFormSubmit = () => {
-    const response = changeCategoryStyle(
-      currentCategory.id,
-      chosenIcon,
-      chosenColor,
-      categories
-    );
-    setCategories(response);
+  const handleFormSubmit = async () => {
+    try {
+      const body = {
+        ...category,
+        icon: chosenIcon,
+        color: chosenColor,
+      };
+      const user = await changeCategory(userId, body);
+      console.log(user);
+      setUser(user);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
   };
 
   const getColorStyle = (color: string) => {
@@ -68,8 +75,11 @@ export default function ModalEditCategory({
             <View style={styles.form}>
               <Text style={styles.icon}>{chosenIcon}</Text>
               <Text style={[styles.categoryName, getColorStyle(chosenColor)]}>
-                {currentCategory.name}
+                {category.name}
               </Text>
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{error}</Text>
+              </View>
               <Pressable onPress={() => setIsOpen(!isOpen)}>
                 <Text style={styles.buttonSmall}>Add icon</Text>
               </Pressable>
@@ -155,5 +165,11 @@ const styles = StyleSheet.create({
   form: {
     width: '100%',
     alignItems: 'center',
+  },
+  errorContainer: {
+    ...STYLES.ERROR_CONTAINER,
+  },
+  errorText: {
+    ...STYLES.ERROR_TEXT,
   },
 });

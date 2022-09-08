@@ -1,13 +1,32 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { COLORS } from '../constants/colors';
+import { emptyCategory } from '../constants/emptyMocks';
+import { ICategory } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 
 type TotalProps = {
-  value: number;
+  categories: ICategory[];
   currency: string;
 };
 
-export default function Total({ value, currency }: TotalProps) {
+export default function Total({ categories, currency }: TotalProps) {
+  const [value, setValue] = useState(0);
+
+  const calculateTotal = () => {
+    const categoriesSum = categories.reduce((accumulator, object) => {
+      return Number((accumulator + object.expenses).toFixed(3));
+    }, 0);
+
+    const emptyCategorySum = emptyCategory.expenses;
+    const sum = categoriesSum + emptyCategorySum;
+    return sum;
+  };
+
+  useEffect(() => {
+    const value = calculateTotal();
+    setValue(value);
+  }, [categories])
+
   return (
     <View style={styles.totalContainer}>
       <View style={styles.total}>
@@ -34,5 +53,3 @@ const styles = StyleSheet.create({
     lineHeight: 41,
   },
 });
-
-const totalStyle = StyleSheet.flatten([STYLES.SECTION, styles.total]);

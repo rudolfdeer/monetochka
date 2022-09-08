@@ -1,5 +1,5 @@
 import { Formik, FormikValues } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import {
   Modal,
   Pressable,
@@ -8,16 +8,15 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { addNewCategory } from '../api/categoriesApi';
-import { COLORS } from '../constants/colors';
-import { Category } from '../constants/defaultCategories';
+import { IUser } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
+import { createCategory } from '../helpers/api';
 
 type ModalNewCategoryProps = {
   modalAddVisible: boolean;
   setModalAddVisible: Dispatch<SetStateAction<boolean>>;
-  setCategories: Function;
-  categories: Category[];
+  userId: string;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
 };
 
 const initialValues = {
@@ -27,12 +26,21 @@ const initialValues = {
 export default function ModalNewCategory({
   modalAddVisible,
   setModalAddVisible,
-  setCategories,
-  categories,
+  userId,
+  setUser,
 }: ModalNewCategoryProps) {
-  const handleFormSubmit = (values: FormikValues) => {
-    const response = addNewCategory(values, categories);
-    setCategories(response);
+  const [error, setError] = useState('');
+  const handleFormSubmit = async (values: FormikValues) => {
+    try {
+      const user = await createCategory(userId, values.name);
+      console.log(user);
+      setModalAddVisible(!modalAddVisible);
+      setUser(user);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
   };
 
   return (
@@ -61,6 +69,9 @@ export default function ModalNewCategory({
                     onChangeText={handleChange('name')}
                     onBlur={handleBlur('name')}
                   />
+                  <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>{error}</Text>
+                  </View>
                   <Pressable
                     style={styles.button}
                     onPress={() => {
@@ -114,15 +125,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputText: {
-    fontSize: 16,
-    lineHeight: 21,
-    marginBottom: 16,
-    width: '100%',
-    height: 50,
-    textAlign: 'center',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: COLORS.BLACK,
-    borderRadius: 13,
+    ...STYLES.TEXT_INPUT,
+  },
+  errorContainer: {
+    ...STYLES.ERROR_CONTAINER,
+  },
+  errorText: {
+    ...STYLES.ERROR_TEXT,
   },
 });
