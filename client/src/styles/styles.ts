@@ -86,6 +86,33 @@ export const STYLES = StyleSheet.create({
     paddingHorizontal: 16,
     width: '100%',
   },
+  PAGE_TITLE: {
+    height: 42,
+    fontWeight: '700',
+    fontSize: 34,
+    lineHeight: 41,
+  },
+  PAGE_MESSAGE: {
+    fontSize: 17,
+    height: 42,
+    lineHeight: 22,
+    color: COLORS.TEXT_SECONDARY,
+  },
+  PAGE_CONTAINER: {
+    flex: 1,
+    backgroundColor: COLORS.WHITE,
+    width: '100%',
+  },
+  SECTION_TITLE: {
+    fontSize: 20,
+    lineHeight: 24,
+    fontWeight: '600',
+    marginBottom: 20,
+  },
+  SECTION_CONTAINER: {
+    paddingHorizontal: 16,
+    width: '100%',
+  },
   SECTION: {
     backgroundColor: COLORS.BACKGROUND,
     borderRadius: 13,
