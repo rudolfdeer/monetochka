@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import { StackParamList } from '../../App';
 import { emptyCategory } from '../constants/emptyMocks';
-import { IUser } from '../constants/interfaces';
+import { ICategory, IUser } from '../constants/interfaces';
 import { MESSAGES } from '../constants/messages';
-import { getUser } from '../helpers/api';
+import { deleteCategory } from '../helpers/api';
 import { STYLES } from '../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
@@ -37,6 +37,19 @@ export default function CategoriesScreen({
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(emptyCategory);
+  const { _id } = user;
+  const [error, setError] = useState('');
+
+  const handleDeleteCategory = async (category: ICategory) => {
+    try {
+      const user = await deleteCategory(_id, category.id);
+      setUser(user);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,6 +69,9 @@ export default function CategoriesScreen({
             userId={user._id}
             setUser={setUser}
           />
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
           <View style={styles.categories}>
             {user.categories.map((category) => (
               <View style={styles.rowContainer} key={category.id}>
@@ -73,14 +89,25 @@ export default function CategoriesScreen({
                     {category.name}
                   </Text>
                 </View>
-                <Pressable
-                  onPress={() => {
-                    setSelectedCategory(category);
-                    setModalEditVisible(true);
-                  }}
-                >
-                  <Text style={styles.buttonEdit}>Edit</Text>
-                </Pressable>
+                <View style={styles.buttonsContainer}>
+                  <Pressable
+                    style={styles.firstBtn}
+                    onPress={() => {
+                      setSelectedCategory(category);
+                      setModalEditVisible(true);
+                    }}
+                  >
+                    <Text style={styles.buttonEdit}>Edit</Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => {
+                      setSelectedCategory(category);
+                      handleDeleteCategory(category);
+                    }}
+                  >
+                    <Text style={styles.buttonEdit}>Delete</Text>
+                  </Pressable>
+                </View>
               </View>
             ))}
           </View>
@@ -136,5 +163,18 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...STYLES.BUTTON_BIG_TEXT,
+  },
+  errorContainer: {
+    ...STYLES.ERROR_CONTAINER,
+  },
+  errorText: {
+    ...STYLES.ERROR_TEXT,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  firstBtn: {
+    marginRight: 16,
   },
 });

@@ -6,7 +6,8 @@ import HomeScreen from './src/components/HomeScreen';
 import IntroScreen from './src/components/IntroScreen';
 import { emptyUser } from './src/constants/emptyMocks';
 import { IUser } from './src/constants/interfaces';
-import { getUser } from './src/helpers/api';
+
+// ON MON-32 NOW !!!!!!!!!!!!!!!!!!!!!!!
 
 export type StackParamList = {
   Home: {

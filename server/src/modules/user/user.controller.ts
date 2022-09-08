@@ -2,6 +2,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   HttpCode,
   NotFoundException,
@@ -82,6 +83,22 @@ export class UserController {
   ) {
     try {
       const response = await this.userService.createCategory(userId, name);
+      return response;
+    } catch (err) {
+      throw new NotFoundException(err.message);
+    }
+  }
+
+  @Delete('/:userId/category/:categoryId')
+  async deleteCategory(
+    @Param('userId') userId: string,
+    @Param('categoryId') categoryId: string,
+  ) {
+    try {
+      const response = await this.userService.deleteCategory(
+        userId,
+        categoryId,
+      );
       return response;
     } catch (err) {
       throw new NotFoundException(err.message);
