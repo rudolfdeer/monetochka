@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { emptyCategory } from '../constants/emptyMocks';
 import { ICategory } from '../constants/interfaces';
+import { LOCALES } from '../constants/locales';
 import { STYLES } from '../styles/styles';
 
 type CategoriesProps = {
@@ -18,7 +19,7 @@ export default function Categories({ categories, currency }: CategoriesProps) {
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
-        <Text style={styles.title}>Expenses</Text>
+        <Text style={styles.title}>{LOCALES.EXPENSES}</Text>
         <View style={styles.categoryContainer} key={emptyCategory.id}>
           <View style={styles.icon}></View>
           <Text style={styles.category}>

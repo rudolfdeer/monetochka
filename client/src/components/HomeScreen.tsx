@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { StackParamList } from '../../App';
 import { IUser } from '../constants/interfaces';
-import { MESSAGES } from '../constants/messages';
+import { LOCALES } from '../constants/locales';
 import { getUser } from '../helpers/api';
 import { STYLES } from '../styles/styles';
 import Categories from './Categories';
@@ -43,7 +43,7 @@ export default function HomeScreen({
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar title={'Home'} message={MESSAGES.HOME} />
+        <Navbar title={'Home'} message={LOCALES.HOME} />
         <Total categories={categories} currency={currency} />
         <FormComponent user={user} setUser={setUser} />
         <Categories categories={categories} currency={currency} />
@@ -51,7 +51,7 @@ export default function HomeScreen({
           style={styles.button}
           onPress={() => params.navigation.navigate('Categories')}
         >
-          <Text style={styles.buttonText}>Manage categories</Text>
+          <Text style={styles.buttonText}>{LOCALES.MANAGE_CATEGORIES}</Text>
         </Pressable>
         <StatusBar style="auto" />
       </ScrollView>

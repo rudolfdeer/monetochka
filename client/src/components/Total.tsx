@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { emptyCategory } from '../constants/emptyMocks';
 import { ICategory } from '../constants/interfaces';
+import { LOCALES } from '../constants/locales';
 import { STYLES } from '../styles/styles';
 
 type TotalProps = {
@@ -30,7 +31,7 @@ export default function Total({ categories, currency }: TotalProps) {
   return (
     <View style={styles.totalContainer}>
       <View style={styles.total}>
-        <Text style={styles.totalText}>Total Expenses</Text>
+        <Text style={styles.totalText}>{LOCALES.TOTAL_EXPENSES}</Text>
         <Text style={styles.totalSum}>
           {value} {currency}
         </Text>

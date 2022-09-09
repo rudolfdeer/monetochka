@@ -8,6 +8,7 @@ import { STYLES } from '../styles/styles';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { changeCategory } from '../helpers/api';
 import { emptyCategory } from '../constants/emptyMocks';
+import { LOCALES } from '../constants/locales';
 
 type FormProps = {
   user: IUser;
@@ -90,7 +91,7 @@ export default function FormComponent({ setUser, user }: FormProps) {
               style={styles.button}
               onPress={handleSubmit as (values: FormikValues) => void}
             >
-              <Text style={styles.buttonText}>Add</Text>
+              <Text style={styles.buttonText}>{LOCALES.ADD}</Text>
             </Pressable>
           </View>
         )}

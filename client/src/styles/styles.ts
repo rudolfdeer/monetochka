@@ -9,7 +9,7 @@ export const STYLES = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 13,
-    backgroundColor: COLORS.BUTTON,
+    backgroundColor: COLORS.BLUE_BUTTON,
   },
   BUTTON_BIG_TEXT: {
     fontSize: 16,
@@ -19,12 +19,12 @@ export const STYLES = StyleSheet.create({
   },
   BUTTON_SMALL: {
     fontSize: 12,
-    color: COLORS.BUTTON,
+    color: COLORS.BLUE_BUTTON,
   },
   ICON: {
     width: 24,
     height: 24,
-    backgroundColor: COLORS.ICON,
+    backgroundColor: COLORS.GREY_ICON,
     marginRight: 8,
   },
   ICON_EMOJI: {
@@ -69,7 +69,7 @@ export const STYLES = StyleSheet.create({
     fontSize: 17,
     height: 42,
     lineHeight: 22,
-    color: COLORS.TEXT_SECONDARY,
+    color: COLORS.GREY_TEXT_SECONDARY,
   },
   PAGE_CONTAINER: {
     flex: 1,
@@ -87,7 +87,7 @@ export const STYLES = StyleSheet.create({
     width: '100%',
   },
   SECTION: {
-    backgroundColor: COLORS.BACKGROUND,
+    backgroundColor: COLORS.GREY_BACKGROUND,
     borderRadius: 13,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -122,6 +122,6 @@ export const STYLES = StyleSheet.create({
   },
   ERROR_TEXT: {
     fontSize: 12,
-    color: COLORS.ERROR,
+    color: COLORS.RED_ERROR,
   },
 });

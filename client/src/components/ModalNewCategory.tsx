@@ -11,6 +11,7 @@ import {
 import { IUser } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import { createCategory } from '../helpers/api';
+import { LOCALES } from '../constants/locales';
 
 type ModalNewCategoryProps = {
   modalAddVisible: boolean;
@@ -33,7 +34,6 @@ export default function ModalNewCategory({
   const handleFormSubmit = async (values: FormikValues) => {
     try {
       const user = await createCategory(userId, values.name);
-      console.log(user);
       setModalAddVisible(!modalAddVisible);
       setUser(user);
     } catch (err: unknown) {
@@ -79,7 +79,7 @@ export default function ModalNewCategory({
                       setModalAddVisible(!modalAddVisible);
                     }}
                   >
-                    <Text style={styles.buttonText}>Add</Text>
+                    <Text style={styles.buttonText}>{LOCALES.ADD}</Text>
                   </Pressable>
                 </View>
               )}
@@ -88,7 +88,7 @@ export default function ModalNewCategory({
               style={styles.buttonLast}
               onPress={() => setModalAddVisible(!modalAddVisible)}
             >
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.buttonText}>{LOCALES.CLOSE}</Text>
             </Pressable>
           </View>
         </View>

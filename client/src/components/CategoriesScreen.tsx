@@ -11,8 +11,9 @@ import {
 import { StackParamList } from '../../App';
 import { emptyCategory } from '../constants/emptyMocks';
 import { ICategory, IUser } from '../constants/interfaces';
-import { MESSAGES } from '../constants/messages';
+import { LOCALES } from '../constants/locales';
 import { deleteCategory } from '../helpers/api';
+import { getColorStyle } from '../helpers/getColorStyle';
 import { STYLES } from '../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
@@ -22,12 +23,6 @@ type CategoriesScreenProps = {
   params: NativeStackScreenProps<StackParamList, 'Categories'>;
   user: IUser;
   setUser: React.Dispatch<React.SetStateAction<IUser>>;
-};
-
-const getColorStyle = (color: string) => {
-  return {
-    color,
-  };
 };
 
 export default function CategoriesScreen({
@@ -54,7 +49,7 @@ export default function CategoriesScreen({
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar title={'Categories'} message={MESSAGES.CATEGORIES} />
+        <Navbar title={'Categories'} message={LOCALES.CATEGORIES} />
         <View style={styles.categoriesContainer}>
           <ModalNewCategory
             modalAddVisible={modalAddVisible}
@@ -97,7 +92,7 @@ export default function CategoriesScreen({
                       setModalEditVisible(true);
                     }}
                   >
-                    <Text style={styles.buttonEdit}>Edit</Text>
+                    <Text style={styles.buttonEdit}>{LOCALES.EDIT}</Text>
                   </Pressable>
                   <Pressable
                     onPress={() => {
@@ -105,7 +100,7 @@ export default function CategoriesScreen({
                       handleDeleteCategory(category);
                     }}
                   >
-                    <Text style={styles.buttonEdit}>Delete</Text>
+                    <Text style={styles.buttonEdit}>{LOCALES.DELETE}</Text>
                   </Pressable>
                 </View>
               </View>
@@ -116,7 +111,7 @@ export default function CategoriesScreen({
           style={styles.button}
           onPress={() => setModalAddVisible(true)}
         >
-          <Text style={styles.buttonText}>Add new category</Text>
+          <Text style={styles.buttonText}>{LOCALES.ADD_NEW_CATEGORY}</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaView>

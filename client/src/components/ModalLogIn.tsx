@@ -12,6 +12,7 @@ import {
 import * as Yup from 'yup';
 import { StackParamList } from '../../App';
 import { IUser } from '../constants/interfaces';
+import { LOCALES } from '../constants/locales';
 import { signIn } from '../helpers/api';
 import { COLORS } from '../styles/colors';
 import { STYLES } from '../styles/styles';
@@ -44,7 +45,6 @@ export default function ModalLogIn({
   const handleFormSubmit = async (values: FormikValues) => {
     try {
       const user = await signIn(values.email, values.password);
-      console.log(user);
       setModalLogInVisible(!modalLogInVisible);
       setUser(user);
       params.navigation.navigate('Home');
@@ -84,7 +84,7 @@ export default function ModalLogIn({
               }) => (
                 <View style={styles.form}>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>Email: </Text>
+                    <Text style={styles.labelText}>{LOCALES.EMAIL}</Text>
                   </View>
                   <TextInput
                     style={styles.inputText}
@@ -100,7 +100,7 @@ export default function ModalLogIn({
                     ) : null}
                   </View>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>Password: </Text>
+                    <Text style={styles.labelText}>{LOCALES.PASSWORD}</Text>
                   </View>
                   <TextInput
                     style={styles.inputText}
@@ -125,7 +125,7 @@ export default function ModalLogIn({
                       handleSubmit();
                     }}
                   >
-                    <Text style={styles.buttonText}>Log in</Text>
+                    <Text style={styles.buttonText}>{LOCALES.LOG_IN}</Text>
                   </Pressable>
                 </View>
               )}
@@ -134,7 +134,7 @@ export default function ModalLogIn({
               style={styles.buttonLast}
               onPress={() => setModalLogInVisible(!modalLogInVisible)}
             >
-              <Text style={styles.buttonText}>Cancel</Text>
+              <Text style={styles.buttonText}>{LOCALES.CANCEL}</Text>
             </Pressable>
           </View>
         </View>

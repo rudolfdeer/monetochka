@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../../App';
 import { IUser } from '../constants/interfaces';
+import { LOCALES } from '../constants/locales';
 import { STYLES } from '../styles/styles';
 import ModalLogIn from './ModalLogIn';
 import ModalRegistration from './ModalRegistration';
@@ -34,9 +35,9 @@ export default function IntroScreen({ params, setUser }: IntroScreenProps) {
           
         />
         <View style={styles.section}>
-          <Text style={styles.title}>Monetochka</Text>
+          <Text style={styles.title}>{LOCALES.APP_TITLE}</Text>
           <Text style={styles.text}>
-            Follow your expenses has never been easier.
+            {LOCALES.INTRO_SCREEN}
           </Text>
         </View>
         <View>
@@ -44,10 +45,10 @@ export default function IntroScreen({ params, setUser }: IntroScreenProps) {
             style={styles.button}
             onPress={() => setModalLogInVisible(true)}
           >
-            <Text style={styles.buttonText}>Log in</Text>
+            <Text style={styles.buttonText}>{LOCALES.LOG_IN}</Text>
           </Pressable>
           <Pressable onPress={() => setModalRegistrationVisible(true)}>
-            <Text style={styles.buttonSmall}>Register</Text>
+            <Text style={styles.buttonSmall}>{LOCALES.REGISTER}</Text>
           </Pressable>
         </View>
       </View>

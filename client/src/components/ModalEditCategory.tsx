@@ -6,6 +6,8 @@ import { ICategory, IUser } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
 import { changeCategory } from '../helpers/api';
+import { getColorStyle } from '../helpers/getColorStyle';
+import { LOCALES } from '../constants/locales';
 
 type ModalEditCategoryProps = {
   modalEditVisible: boolean;
@@ -48,7 +50,6 @@ export default function ModalEditCategory({
         name: newName,
       };
       const user = await changeCategory(userId, body);
-      console.log(user);
       setUser(user);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -57,11 +58,7 @@ export default function ModalEditCategory({
     }
   };
 
-  const getColorStyle = (color: string) => {
-    return {
-      color: color,
-    };
-  };
+  const color = getColorStyle(chosenColor);
 
   return (
     <Modal
@@ -78,7 +75,7 @@ export default function ModalEditCategory({
             <View style={styles.form}>
               <Text style={styles.icon}>{chosenIcon}</Text>
               <TextInput
-                    style={[styles.categoryName, getColorStyle(chosenColor)]}
+                    style={[styles.categoryName, color]}
                     value={newName}
                     onChangeText={(newText) => setNewName(newText)}
                   />
@@ -86,7 +83,7 @@ export default function ModalEditCategory({
                 <Text style={styles.errorText}>{error}</Text>
               </View>
               <Pressable onPress={() => setIsOpen(!isOpen)}>
-                <Text style={styles.buttonSmall}>Add icon</Text>
+                <Text style={styles.buttonSmall}>{LOCALES.ADD_ICON}</Text>
               </Pressable>
               <Pressable
                 onPress={() => {
@@ -94,7 +91,7 @@ export default function ModalEditCategory({
                   setModalColorVisible(true);
                 }}
               >
-                <Text style={styles.buttonSmall}>Set color</Text>
+                <Text style={styles.buttonSmall}>{LOCALES.SET_COLOR}</Text>
               </Pressable>
               <EmojiPicker
                 onEmojiSelected={handleEmojiPick}
@@ -113,14 +110,14 @@ export default function ModalEditCategory({
                   setModalEditVisible(!modalEditVisible);
                 }}
               >
-                <Text style={styles.buttonText}>Save</Text>
+                <Text style={styles.buttonText}>{LOCALES.SAVE}</Text>
               </Pressable>
             </View>
             <Pressable
               style={styles.buttonLast}
               onPress={() => setModalEditVisible(!modalEditVisible)}
             >
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.buttonText}>{LOCALES.CLOSE}</Text>
             </Pressable>
           </View>
         </View>

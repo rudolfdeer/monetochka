@@ -39,7 +39,6 @@ export const changeCategory = async (userId: string, category: ICategory) => {
     },
   });
   const result = await response.json();
-  console.log(response, result);
   if (result.message) {
     throw new Error(result.message);
   }

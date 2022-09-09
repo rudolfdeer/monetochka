@@ -12,6 +12,7 @@ import {
 import * as Yup from 'yup';
 import { StackParamList } from '../../App';
 import { IUser } from '../constants/interfaces';
+import { LOCALES } from '../constants/locales';
 import { signUp } from '../helpers/api';
 import { COLORS } from '../styles/colors';
 import { STYLES } from '../styles/styles';
@@ -52,7 +53,6 @@ export default function ModalRegistration({
   const handleFormSubmit = async (values: FormikValues) => {
     try {
       const user = await signUp(values.email, values.password);
-      console.log(user);
       setUser(user);
       setModalRegistrationVisible(!modalRegistrationVisible);
       params.navigation.navigate('Home');
@@ -91,7 +91,7 @@ export default function ModalRegistration({
               }) => (
                 <View style={styles.form}>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>Email: </Text>
+                    <Text style={styles.labelText}>{LOCALES.EMAIL}</Text>
                   </View>
                   <TextInput
                     textAlign={'left'}
@@ -107,7 +107,7 @@ export default function ModalRegistration({
                     ) : null}
                   </View>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>Create your password: </Text>
+                    <Text style={styles.labelText}>{LOCALES.CREATE_PASSWORD}</Text>
                   </View>
                   <TextInput
                     textAlign={'left'}
@@ -125,7 +125,7 @@ export default function ModalRegistration({
                   </View>
                   <View style={styles.label}>
                     <Text style={styles.labelText}>
-                      Confirm your password:{' '}
+                      {LOCALES.CONFIRM_PASSWORD}
                     </Text>
                   </View>
                   <TextInput
@@ -151,7 +151,7 @@ export default function ModalRegistration({
                       handleSubmit();
                     }}
                   >
-                    <Text style={styles.buttonText}>Create account</Text>
+                    <Text style={styles.buttonText}>{LOCALES.CREATE_ACCOUNT}</Text>
                   </Pressable>
                 </View>
               )}
@@ -162,7 +162,7 @@ export default function ModalRegistration({
                 setModalRegistrationVisible(!modalRegistrationVisible)
               }
             >
-              <Text style={styles.buttonText}>Cancel</Text>
+              <Text style={styles.buttonText}>{LOCALES.CANCEL}</Text>
             </Pressable>
           </View>
         </View>
