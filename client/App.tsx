@@ -5,19 +5,19 @@ import CategoriesScreen from './src/components/CategoriesScreen';
 import HomeScreen from './src/components/HomeScreen';
 import IntroScreen from './src/components/IntroScreen';
 import { emptyUser } from './src/constants/emptyMocks';
-import { IUser } from './src/constants/interfaces';
+import { User } from './src/constants/interfaces';
 
 export type StackParamList = {
   Home: {
-    user: IUser;
-    setUser: React.Dispatch<React.SetStateAction<IUser>>;
+    user: User;
+    setUser: React.Dispatch<React.SetStateAction<User>>;
   };
   Categories: {
-    user: IUser;
-    setUser: React.Dispatch<React.SetStateAction<IUser>>;
+    user: User;
+    setUser: React.Dispatch<React.SetStateAction<User>>;
   };
   Intro: {
-    setUser: React.Dispatch<React.SetStateAction<IUser>>;
+    setUser: React.Dispatch<React.SetStateAction<User>>;
   };
 };
 

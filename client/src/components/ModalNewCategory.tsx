@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { IUser } from '../constants/interfaces';
+import { User } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import { createCategory } from '../helpers/api';
 import { LOCALES } from '../constants/locales';
@@ -17,7 +17,7 @@ type ModalNewCategoryProps = {
   modalAddVisible: boolean;
   setModalAddVisible: Dispatch<SetStateAction<boolean>>;
   userId: string;
-  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 const initialValues = {

@@ -3,7 +3,7 @@ import { Formik, FormikValues } from 'formik';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as Yup from 'yup';
 import { COLORS } from '../styles/colors';
-import { IUser } from '../constants/interfaces';
+import { User } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { changeCategory } from '../helpers/api';
@@ -11,8 +11,8 @@ import { emptyCategory } from '../constants/emptyMocks';
 import { LOCALES } from '../constants/locales';
 
 type FormProps = {
-  user: IUser;
-  setUser: Dispatch<SetStateAction<IUser>>;
+  user: User;
+  setUser: Dispatch<SetStateAction<User>>;
 };
 
 const initialValues = {

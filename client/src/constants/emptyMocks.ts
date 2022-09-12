@@ -1,17 +1,17 @@
-import { COLORS } from '../styles/colors'
-import { ICategory, IUser } from './interfaces'
+import { COLORS } from '../styles/colors';
+import { Category, User } from './interfaces';
 
-export const emptyCategory: ICategory = {
+export const emptyCategory: Category = {
   id: '0',
   name: '',
   expenses: 0,
   icon: '',
   color: COLORS.BLACK,
-}
+};
 
-export const emptyUser: IUser = {
+export const emptyUser: User = {
   _id: '',
   email: '',
   password: '',
-  categories: []
-}
+  categories: [],
+};

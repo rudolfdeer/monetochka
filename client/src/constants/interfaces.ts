@@ -1,4 +1,4 @@
-export interface ICategory {
+export interface Category {
   id: string;
   name: string;
   expenses: number;
@@ -6,9 +6,9 @@ export interface ICategory {
   color: string;
 }
 
-export interface IUser {
+export interface User {
   _id: string;
   email: string;
   password: string;
-  categories: ICategory[];
+  categories: Category[];
 }

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { emptyCategory } from '../constants/emptyMocks';
-import { ICategory } from '../constants/interfaces';
+import { Category } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { STYLES } from '../styles/styles';
 
 type TotalProps = {
-  categories: ICategory[];
+  categories: Category[];
   currency: string;
 };
 
@@ -26,7 +26,7 @@ export default function Total({ categories, currency }: TotalProps) {
   useEffect(() => {
     const value = calculateTotal();
     setValue(value);
-  }, [categories])
+  }, [categories]);
 
   return (
     <View style={styles.totalContainer}>

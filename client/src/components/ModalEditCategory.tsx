@@ -1,20 +1,26 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import EmojiPicker from 'rn-emoji-keyboard';
 import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
-import { ICategory, IUser } from '../constants/interfaces';
+import { Category, User } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
 import { changeCategory } from '../helpers/api';
-import { getColorStyle } from '../helpers/getColorStyle';
 import { LOCALES } from '../constants/locales';
 
 type ModalEditCategoryProps = {
   modalEditVisible: boolean;
   setModalEditVisible: Dispatch<SetStateAction<boolean>>;
-  category: ICategory;
+  category: Category;
   userId: string;
-  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 export default function ModalEditCategory({
@@ -30,11 +36,13 @@ export default function ModalEditCategory({
   const [modalColorVisible, setModalColorVisible] = useState(false);
   const [error, setError] = useState('');
   const [newName, setNewName] = useState(category.name);
+  const [newAmount, setNewAmount] = useState(category.expenses.toString());
 
   useEffect(() => {
     setChosenIcon(category.icon);
     setChosenColor(category.color);
     setNewName(category.name);
+    setNewAmount(category.expenses.toString());
   }, [category]);
 
   const handleEmojiPick = (emojiObject: EmojiType) => {
@@ -48,6 +56,7 @@ export default function ModalEditCategory({
         icon: chosenIcon,
         color: chosenColor,
         name: newName,
+        expenses: parseFloat(newAmount),
       };
       const user = await changeCategory(userId, body);
       setUser(user);
@@ -57,8 +66,6 @@ export default function ModalEditCategory({
       }
     }
   };
-
-  const color = getColorStyle(chosenColor);
 
   return (
     <Modal
@@ -75,10 +82,15 @@ export default function ModalEditCategory({
             <View style={styles.form}>
               <Text style={styles.icon}>{chosenIcon}</Text>
               <TextInput
-                    style={[styles.categoryName, color]}
-                    value={newName}
-                    onChangeText={(newText) => setNewName(newText)}
-                  />
+                style={[styles.categoryName, { color: category.color }]}
+                value={newName}
+                onChangeText={(newText) => setNewName(newText)}
+              />
+              <TextInput
+                style={styles.categoryName}
+                value={newAmount}
+                onChangeText={(newAmount) => setNewAmount(newAmount)}
+              />
               <View style={styles.errorContainer}>
                 <Text style={styles.errorText}>{error}</Text>
               </View>
@@ -156,7 +168,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     marginBottom: 18,
-    
   },
   icon: {
     height: 20,

@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../../App';
-import { IUser } from '../constants/interfaces';
+import { User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { STYLES } from '../styles/styles';
 import ModalLogIn from './ModalLogIn';
@@ -10,7 +10,7 @@ import ModalRegistration from './ModalRegistration';
 
 type IntroScreenProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
-  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 export default function IntroScreen({ params, setUser }: IntroScreenProps) {
@@ -32,13 +32,10 @@ export default function IntroScreen({ params, setUser }: IntroScreenProps) {
           setUser={setUser}
           modalRegistrationVisible={modalRegistrationVisible}
           setModalRegistrationVisible={setModalRegistrationVisible}
-          
         />
         <View style={styles.section}>
           <Text style={styles.title}>{LOCALES.APP_TITLE}</Text>
-          <Text style={styles.text}>
-            {LOCALES.INTRO_SCREEN}
-          </Text>
+          <Text style={styles.text}>{LOCALES.INTRO_SCREEN}</Text>
         </View>
         <View>
           <Pressable

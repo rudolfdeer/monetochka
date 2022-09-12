@@ -9,7 +9,7 @@ import {
   Text,
 } from 'react-native';
 import { StackParamList } from '../../App';
-import { IUser } from '../constants/interfaces';
+import { User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { getUser } from '../helpers/api';
 import { STYLES } from '../styles/styles';
@@ -20,25 +20,21 @@ import Total from './Total';
 
 type HomeScreenProps = {
   params: NativeStackScreenProps<StackParamList, 'Home'>;
-  user: IUser;
-  setUser: Dispatch<SetStateAction<IUser>>;
+  user: User;
+  setUser: Dispatch<SetStateAction<User>>;
 };
 
-export default function HomeScreen({
-  params,
-  user,
-  setUser,
-}: HomeScreenProps) {
+export default function HomeScreen({ params, user, setUser }: HomeScreenProps) {
   const [currency, setCurrency] = useState('$');
   const [categories, setCategories] = useState(user.categories);
 
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       const response = await getUser(user._id);
       setCategories(response.categories);
-    }
+    };
     fetchData();
-  }, [categories])
+  }, [categories]);
 
   return (
     <SafeAreaView style={styles.container}>

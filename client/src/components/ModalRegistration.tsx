@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 import { StackParamList } from '../../App';
-import { IUser } from '../constants/interfaces';
+import { User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { signUp } from '../helpers/api';
 import { COLORS } from '../styles/colors';
@@ -21,7 +21,7 @@ type ModalRegistrationProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
   modalRegistrationVisible: boolean;
   setModalRegistrationVisible: Dispatch<SetStateAction<boolean>>;
-  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 const initialValues = {
@@ -33,13 +33,11 @@ const initialValues = {
 const ValidationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required'),
-  confirmedPassword: Yup.string().test(
-    'passwords-match',
-    'Passwords must match',
-    function (value) {
+  confirmedPassword: Yup.string()
+    .test('passwords-match', 'Passwords must match', function (value) {
       return this.parent.password === value;
-    }
-  ).required('Required'),
+    })
+    .required('Required'),
 });
 
 export default function ModalRegistration({
@@ -107,7 +105,9 @@ export default function ModalRegistration({
                     ) : null}
                   </View>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>{LOCALES.CREATE_PASSWORD}</Text>
+                    <Text style={styles.labelText}>
+                      {LOCALES.CREATE_PASSWORD}
+                    </Text>
                   </View>
                   <TextInput
                     textAlign={'left'}
@@ -151,7 +151,9 @@ export default function ModalRegistration({
                       handleSubmit();
                     }}
                   >
-                    <Text style={styles.buttonText}>{LOCALES.CREATE_ACCOUNT}</Text>
+                    <Text style={styles.buttonText}>
+                      {LOCALES.CREATE_ACCOUNT}
+                    </Text>
                   </Pressable>
                 </View>
               )}

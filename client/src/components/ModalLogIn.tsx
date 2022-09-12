@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 import { StackParamList } from '../../App';
-import { IUser } from '../constants/interfaces';
+import { User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { signIn } from '../helpers/api';
 import { COLORS } from '../styles/colors';
@@ -19,7 +19,7 @@ import { STYLES } from '../styles/styles';
 
 type ModalLogInProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
-  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
   modalLogInVisible: boolean;
   setModalLogInVisible: Dispatch<SetStateAction<boolean>>;
 };
@@ -183,9 +183,9 @@ const styles = StyleSheet.create({
     color: COLORS.BLACK,
   },
   errorContainer: {
-    ...STYLES.ERROR_CONTAINER
+    ...STYLES.ERROR_CONTAINER,
   },
   errorText: {
-    ...STYLES.ERROR_TEXT
-  }
+    ...STYLES.ERROR_TEXT,
+  },
 });

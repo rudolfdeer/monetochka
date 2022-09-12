@@ -10,10 +10,9 @@ import {
 } from 'react-native';
 import { StackParamList } from '../../App';
 import { emptyCategory } from '../constants/emptyMocks';
-import { ICategory, IUser } from '../constants/interfaces';
+import { Category, User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { deleteCategory } from '../helpers/api';
-import { getColorStyle } from '../helpers/getColorStyle';
 import { STYLES } from '../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
@@ -21,8 +20,8 @@ import Navbar from './Navbar';
 
 type CategoriesScreenProps = {
   params: NativeStackScreenProps<StackParamList, 'Categories'>;
-  user: IUser;
-  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 export default function CategoriesScreen({
@@ -35,7 +34,7 @@ export default function CategoriesScreen({
   const { _id } = user;
   const [error, setError] = useState('');
 
-  const handleDeleteCategory = async (category: ICategory) => {
+  const handleDeleteCategory = async (category: Category) => {
     try {
       const user = await deleteCategory(_id, category.id);
       setUser(user);
@@ -78,9 +77,7 @@ export default function CategoriesScreen({
                   ) : (
                     <View style={styles.icon}></View>
                   )}
-                  <Text
-                    style={[styles.category, getColorStyle(category.color)]}
-                  >
+                  <Text style={[styles.category, { color: category.color }]}>
                     {category.name}
                   </Text>
                 </View>

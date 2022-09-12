@@ -1,21 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { emptyCategory } from '../constants/emptyMocks';
-import { ICategory } from '../constants/interfaces';
+import { Category } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { STYLES } from '../styles/styles';
 
 type CategoriesProps = {
-  categories: ICategory[];
+  categories: Category[];
   currency: string;
 };
 
 export default function Categories({ categories, currency }: CategoriesProps) {
-  const getColorStyle = (color: string) => {
-    return {
-      color: color,
-    };
-  };
-
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
@@ -36,7 +30,7 @@ export default function Categories({ categories, currency }: CategoriesProps) {
             ) : (
               <View style={styles.icon}></View>
             )}
-            <Text style={[styles.category, getColorStyle(category.color)]}>
+            <Text style={[styles.category, { color: category.color }]}>
               {category.name}: {category.expenses}
               {currency}
             </Text>

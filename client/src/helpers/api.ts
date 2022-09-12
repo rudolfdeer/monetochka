@@ -1,4 +1,4 @@
-import { ICategory } from '../constants/interfaces';
+import { Category } from '../constants/interfaces';
 
 const base = 'http://127.0.0.1:3000/api/user';
 
@@ -28,7 +28,7 @@ export const signIn = async (email: string, password: string) => {
   return result;
 };
 
-export const changeCategory = async (userId: string, category: ICategory) => {
+export const changeCategory = async (userId: string, category: Category) => {
   const body = { ...category };
 
   const response = await fetch(`${base}/${userId}/category/${category.id}`, {
