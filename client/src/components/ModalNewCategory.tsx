@@ -1,5 +1,5 @@
 import { Formik, FormikValues } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import {
   Modal,
   Pressable,
@@ -8,16 +8,16 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { addNewCategory } from '../api/categoriesApi';
-import { COLORS } from '../styles/colors';
-import { Category } from '../constants/defaultCategories';
+import { User } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
+import { createCategory } from '../helpers/api';
+import { LOCALES } from '../constants/locales';
 
 type ModalNewCategoryProps = {
   modalAddVisible: boolean;
   setModalAddVisible: Dispatch<SetStateAction<boolean>>;
-  setCategories: Function;
-  categories: Category[];
+  userId: string;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 const initialValues = {
@@ -27,12 +27,20 @@ const initialValues = {
 export default function ModalNewCategory({
   modalAddVisible,
   setModalAddVisible,
-  setCategories,
-  categories,
+  userId,
+  setUser,
 }: ModalNewCategoryProps) {
-  const handleFormSubmit = (values: FormikValues) => {
-    const response = addNewCategory(values, categories);
-    setCategories(response);
+  const [error, setError] = useState('');
+  const handleFormSubmit = async (values: FormikValues) => {
+    try {
+      const user = await createCategory(userId, values.name);
+      setModalAddVisible(!modalAddVisible);
+      setUser(user);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
   };
 
   return (
@@ -61,6 +69,9 @@ export default function ModalNewCategory({
                     onChangeText={handleChange('name')}
                     onBlur={handleBlur('name')}
                   />
+                  <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>{error}</Text>
+                  </View>
                   <Pressable
                     style={styles.button}
                     onPress={() => {
@@ -68,7 +79,7 @@ export default function ModalNewCategory({
                       setModalAddVisible(!modalAddVisible);
                     }}
                   >
-                    <Text style={styles.buttonText}>Add</Text>
+                    <Text style={styles.buttonText}>{LOCALES.ADD}</Text>
                   </Pressable>
                 </View>
               )}
@@ -77,7 +88,7 @@ export default function ModalNewCategory({
               style={styles.buttonLast}
               onPress={() => setModalAddVisible(!modalAddVisible)}
             >
-              <Text style={styles.buttonText}>Close</Text>
+              <Text style={styles.buttonText}>{LOCALES.CLOSE}</Text>
             </Pressable>
           </View>
         </View>
@@ -115,5 +126,11 @@ const styles = StyleSheet.create({
   },
   inputText: {
     ...STYLES.TEXT_INPUT,
+  },
+  errorContainer: {
+    ...STYLES.ERROR_CONTAINER,
+  },
+  errorText: {
+    ...STYLES.ERROR_TEXT,
   },
 });

@@ -53,6 +53,7 @@ export class UserService {
     color: string,
     icon: string,
     expenses: number,
+    name: string,
   ) {
     const user = await this.userModel.findById(userId).exec();
     if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
@@ -67,6 +68,7 @@ export class UserService {
       color,
       icon,
       expenses,
+      name,
     };
 
     const index = user.categories.indexOf(category);
@@ -99,6 +101,26 @@ export class UserService {
     };
 
     const updatedCategories = [...user.categories, newCategory];
+
+    await this.userModel.updateOne(
+      { _id: userId },
+      { $set: { categories: updatedCategories } },
+    );
+
+    const updatedUser = await this.getUser(userId);
+    return updatedUser;
+  }
+
+  async deleteCategory(userId: string, categoryId: string) {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+
+    const category = user.categories.find((cat) => cat.id === categoryId);
+    if (!category) throw new Error(HTTP_MESSAGES.CATEGORY_NOT_FOUND);
+
+    const updatedCategories = user.categories.filter(
+      (cat) => cat.id !== categoryId,
+    );
 
     await this.userModel.updateOne(
       { _id: userId },

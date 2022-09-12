@@ -1,16 +1,37 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { emptyCategory } from '../constants/emptyMocks';
+import { Category } from '../constants/interfaces';
+import { LOCALES } from '../constants/locales';
 import { STYLES } from '../styles/styles';
 
 type TotalProps = {
-  value: number;
+  categories: Category[];
   currency: string;
 };
 
-export default function Total({ value, currency }: TotalProps) {
+export default function Total({ categories, currency }: TotalProps) {
+  const [value, setValue] = useState(0);
+
+  const calculateTotal = () => {
+    const categoriesSum = categories.reduce((accumulator, object) => {
+      return Number((accumulator + object.expenses).toFixed(3));
+    }, 0);
+
+    const emptyCategorySum = emptyCategory.expenses;
+    const sum = categoriesSum + emptyCategorySum;
+    return sum;
+  };
+
+  useEffect(() => {
+    const value = calculateTotal();
+    setValue(value);
+  }, [categories]);
+
   return (
     <View style={styles.totalContainer}>
       <View style={styles.total}>
-        <Text style={styles.totalText}>Total Expenses</Text>
+        <Text style={styles.totalText}>{LOCALES.TOTAL_EXPENSES}</Text>
         <Text style={styles.totalSum}>
           {value} {currency}
         </Text>
@@ -33,5 +54,3 @@ const styles = StyleSheet.create({
     lineHeight: 41,
   },
 });
-
-const totalStyle = StyleSheet.flatten([STYLES.SECTION, styles.total]);

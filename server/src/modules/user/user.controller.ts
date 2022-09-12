@@ -2,6 +2,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   HttpCode,
   NotFoundException,
@@ -60,6 +61,7 @@ export class UserController {
     @Body('color') color: string,
     @Body('icon') icon: string,
     @Body('expenses') expenses: number,
+    @Body('name') name: string,
   ) {
     try {
       const response = await this.userService.changeCategory(
@@ -68,6 +70,7 @@ export class UserController {
         color,
         icon,
         expenses,
+        name,
       );
       return response;
     } catch (err) {
@@ -82,6 +85,22 @@ export class UserController {
   ) {
     try {
       const response = await this.userService.createCategory(userId, name);
+      return response;
+    } catch (err) {
+      throw new NotFoundException(err.message);
+    }
+  }
+
+  @Delete('/:userId/category/:categoryId')
+  async deleteCategory(
+    @Param('userId') userId: string,
+    @Param('categoryId') categoryId: string,
+  ) {
+    try {
+      const response = await this.userService.deleteCategory(
+        userId,
+        categoryId,
+      );
       return response;
     } catch (err) {
       throw new NotFoundException(err.message);

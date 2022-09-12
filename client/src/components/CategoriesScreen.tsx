@@ -9,8 +9,10 @@ import {
   View,
 } from 'react-native';
 import { StackParamList } from '../../App';
-import { Category, emptyCategory } from '../constants/defaultCategories';
-import { MESSAGES } from '../constants/messages';
+import { emptyCategory } from '../constants/emptyMocks';
+import { Category, User } from '../constants/interfaces';
+import { LOCALES } from '../constants/locales';
+import { deleteCategory } from '../helpers/api';
 import { STYLES } from '../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
@@ -18,44 +20,54 @@ import Navbar from './Navbar';
 
 type CategoriesScreenProps = {
   params: NativeStackScreenProps<StackParamList, 'Categories'>;
-  categories: Category[];
-  setCategories: Function;
-};
-
-const getColorStyle = (color: string) => {
-  return {
-    color: color,
-  };
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 export default function CategoriesScreen({
-  categories,
-  setCategories,
+  user,
+  setUser,
 }: CategoriesScreenProps) {
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
-  const [category, setCategory] = useState<Category>(emptyCategory);
+  const [selectedCategory, setSelectedCategory] = useState(emptyCategory);
+  const { _id } = user;
+  const [error, setError] = useState('');
+
+  const handleDeleteCategory = async (category: Category) => {
+    try {
+      const user = await deleteCategory(_id, category.id);
+      setUser(user);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar title={'Categories'} message={MESSAGES.CATEGORIES} />
+        <Navbar title={'Categories'} message={LOCALES.CATEGORIES} />
         <View style={styles.categoriesContainer}>
           <ModalNewCategory
             modalAddVisible={modalAddVisible}
             setModalAddVisible={setModalAddVisible}
-            setCategories={setCategories}
-            categories={categories}
+            userId={user._id}
+            setUser={setUser}
           />
           <ModalEditCategory
             modalEditVisible={modalEditVisible}
             setModalEditVisible={setModalEditVisible}
-            setCategories={setCategories}
-            categories={categories}
-            currentCategory={category}
+            category={selectedCategory}
+            userId={user._id}
+            setUser={setUser}
           />
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
           <View style={styles.categories}>
-            {categories.map((category) => (
+            {user.categories.map((category) => (
               <View style={styles.rowContainer} key={category.id}>
                 <View style={styles.categoryContainer}>
                   {category.icon ? (
@@ -65,20 +77,29 @@ export default function CategoriesScreen({
                   ) : (
                     <View style={styles.icon}></View>
                   )}
-                  <Text
-                    style={[styles.category, getColorStyle(category.color)]}
-                  >
+                  <Text style={[styles.category, { color: category.color }]}>
                     {category.name}
                   </Text>
                 </View>
-                <Pressable
-                  onPress={() => {
-                    setCategory(category);
-                    setModalEditVisible(true);
-                  }}
-                >
-                  <Text style={styles.buttonEdit}>Edit</Text>
-                </Pressable>
+                <View style={styles.buttonsContainer}>
+                  <Pressable
+                    style={styles.firstBtn}
+                    onPress={() => {
+                      setSelectedCategory(category);
+                      setModalEditVisible(true);
+                    }}
+                  >
+                    <Text style={styles.buttonEdit}>{LOCALES.EDIT}</Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => {
+                      setSelectedCategory(category);
+                      handleDeleteCategory(category);
+                    }}
+                  >
+                    <Text style={styles.buttonEdit}>{LOCALES.DELETE}</Text>
+                  </Pressable>
+                </View>
               </View>
             ))}
           </View>
@@ -87,7 +108,7 @@ export default function CategoriesScreen({
           style={styles.button}
           onPress={() => setModalAddVisible(true)}
         >
-          <Text style={styles.buttonText}>Add new category</Text>
+          <Text style={styles.buttonText}>{LOCALES.ADD_NEW_CATEGORY}</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaView>
@@ -134,5 +155,18 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...STYLES.BUTTON_BIG_TEXT,
+  },
+  errorContainer: {
+    ...STYLES.ERROR_CONTAINER,
+  },
+  errorText: {
+    ...STYLES.ERROR_TEXT,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  firstBtn: {
+    marginRight: 16,
   },
 });

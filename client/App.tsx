@@ -4,53 +4,42 @@ import { useState } from 'react';
 import CategoriesScreen from './src/components/CategoriesScreen';
 import HomeScreen from './src/components/HomeScreen';
 import IntroScreen from './src/components/IntroScreen';
-import { Category, defaultCategories } from './src/constants/defaultCategories';
+import { emptyUser } from './src/constants/emptyMocks';
+import { User } from './src/constants/interfaces';
 
 export type StackParamList = {
   Home: {
-    categories: Category[];
-    setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+    user: User;
+    setUser: React.Dispatch<React.SetStateAction<User>>;
   };
   Categories: {
-    categories: Category[];
-    setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+    user: User;
+    setUser: React.Dispatch<React.SetStateAction<User>>;
   };
-  Intro: undefined;
+  Intro: {
+    setUser: React.Dispatch<React.SetStateAction<User>>;
+  };
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
-  const [categories, setCategories] = useState(defaultCategories);
-  console.log(categories);
+  const [user, setUser] = useState(emptyUser);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="Intro" options={{headerShown: false}}>
-          {(props) => (
-            <IntroScreen
-              params={props}
-            />
-          )}
+        <Stack.Screen name="Intro" options={{ headerShown: false }}>
+          {(props) => <IntroScreen params={props} setUser={setUser} />}
         </Stack.Screen>
-        <Stack.Screen name="Home" options={{headerShown: false}}>
-          
+        <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) => (
-            <HomeScreen
-              params={props}
-              categories={categories}
-              setCategories={setCategories}
-            />
+            <HomeScreen params={props} user={user} setUser={setUser} />
           )}
         </Stack.Screen>
         <Stack.Screen name="Categories">
           {(props) => (
-            <CategoriesScreen
-              params={props}
-              categories={categories}
-              setCategories={setCategories}
-            />
+            <CategoriesScreen params={props} user={user} setUser={setUser} />
           )}
         </Stack.Screen>
       </Stack.Navigator>
