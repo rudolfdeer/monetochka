@@ -9,27 +9,27 @@ import {
 } from 'react-native';
 import EmojiPicker from 'rn-emoji-keyboard';
 import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
-import { Category, User } from '../constants/interfaces';
+import { Category } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
 import { changeCategory } from '../helpers/api';
 import { LOCALES } from '../constants/locales';
+import { useStore } from '../mobx/store';
+import { observer } from 'mobx-react-lite';
 
 type ModalEditCategoryProps = {
   modalEditVisible: boolean;
   setModalEditVisible: Dispatch<SetStateAction<boolean>>;
   category: Category;
-  userId: string;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
-export default function ModalEditCategory({
+function ModalEditCategory({
   modalEditVisible,
   setModalEditVisible,
   category,
-  userId,
-  setUser,
 }: ModalEditCategoryProps) {
+  const { currentUserId, changeCategories } = useStore();
+
   const [isOpen, setIsOpen] = useState(false);
   const [chosenIcon, setChosenIcon] = useState(category.icon);
   const [chosenColor, setChosenColor] = useState(category.color);
@@ -58,8 +58,8 @@ export default function ModalEditCategory({
         name: newName,
         expenses: parseFloat(newAmount),
       };
-      const user = await changeCategory(userId, body);
-      setUser(user);
+      const user = await changeCategory(currentUserId, body);
+      changeCategories(user.categories);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -82,7 +82,7 @@ export default function ModalEditCategory({
             <View style={styles.form}>
               <Text style={styles.icon}>{chosenIcon}</Text>
               <TextInput
-                style={[styles.categoryName, { color: category.color }]}
+                style={[styles.categoryName, { color: chosenColor }]}
                 value={newName}
                 onChangeText={(newText) => setNewName(newText)}
               />
@@ -191,3 +191,5 @@ const styles = StyleSheet.create({
     ...STYLES.TEXT_INPUT,
   },
 });
+
+export default observer(ModalEditCategory);

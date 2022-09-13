@@ -8,34 +8,34 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { User } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
 import { createCategory } from '../helpers/api';
 import { LOCALES } from '../constants/locales';
+import { useStore } from '../mobx/store';
+import { observer } from 'mobx-react';
 
 type ModalNewCategoryProps = {
   modalAddVisible: boolean;
   setModalAddVisible: Dispatch<SetStateAction<boolean>>;
-  userId: string;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 const initialValues = {
   name: 'New category',
 };
 
-export default function ModalNewCategory({
+function ModalNewCategory({
   modalAddVisible,
   setModalAddVisible,
-  userId,
-  setUser,
 }: ModalNewCategoryProps) {
+  const { currentUserId, changeCategories } = useStore();
+
   const [error, setError] = useState('');
+  
   const handleFormSubmit = async (values: FormikValues) => {
     try {
-      const user = await createCategory(userId, values.name);
+      const user = await createCategory(currentUserId, values.name);
       setModalAddVisible(!modalAddVisible);
-      setUser(user);
+      changeCategories(user.categories);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -134,3 +134,5 @@ const styles = StyleSheet.create({
     ...STYLES.ERROR_TEXT,
   },
 });
+
+export default observer(ModalNewCategory);

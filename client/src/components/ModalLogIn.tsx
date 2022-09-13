@@ -11,15 +11,15 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 import { StackParamList } from '../../App';
-import { User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { signIn } from '../helpers/api';
 import { COLORS } from '../styles/colors';
 import { STYLES } from '../styles/styles';
+import { observer } from 'mobx-react';
+import { useStore } from '../mobx/store';
 
 type ModalLogInProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
   modalLogInVisible: boolean;
   setModalLogInVisible: Dispatch<SetStateAction<boolean>>;
 };
@@ -34,19 +34,19 @@ const ValidationSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
 });
 
-export default function ModalLogIn({
+function ModalLogIn({
   params,
-  setUser,
   modalLogInVisible,
   setModalLogInVisible,
 }: ModalLogInProps) {
+  const { setLoggedInUser } = useStore();
   const [error, setError] = useState('');
 
   const handleFormSubmit = async (values: FormikValues) => {
     try {
       const user = await signIn(values.email, values.password);
       setModalLogInVisible(!modalLogInVisible);
-      setUser(user);
+      setLoggedInUser(user);
       params.navigation.navigate('Home');
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -189,3 +189,5 @@ const styles = StyleSheet.create({
     ...STYLES.ERROR_TEXT,
   },
 });
+
+export default observer(ModalLogIn);

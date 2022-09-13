@@ -3,17 +3,13 @@ import { Formik, FormikValues } from 'formik';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as Yup from 'yup';
 import { COLORS } from '../styles/colors';
-import { User } from '../constants/interfaces';
 import { STYLES } from '../styles/styles';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { changeCategory } from '../helpers/api';
 import { emptyCategory } from '../constants/emptyMocks';
 import { LOCALES } from '../constants/locales';
-
-type FormProps = {
-  user: User;
-  setUser: Dispatch<SetStateAction<User>>;
-};
+import { useStore } from '../mobx/store';
+import { observer } from 'mobx-react';
 
 const initialValues = {
   sum: '0',
@@ -26,12 +22,13 @@ const ValidationSchema = Yup.object().shape({
     .required('required'),
 });
 
-export default function FormComponent({ setUser, user }: FormProps) {
-  const { categories, _id } = user;
+function FormComponent() {
   const [error, setError] = useState('');
 
+  const { allCategories, changeCategories, currentUserId } = useStore();
+
   const handleFormSubmit = async (values: FormikValues) => {
-    const category = categories.find((cat) => cat.id === values.categoryId);
+    const category = allCategories.find((cat) => cat.id === values.categoryId);
     if (!category) {
       return;
     }
@@ -40,8 +37,8 @@ export default function FormComponent({ setUser, user }: FormProps) {
     );
 
     try {
-      const updatedUser = await changeCategory(_id, category);
-      setUser(updatedUser);
+      const updatedUser = await changeCategory(currentUserId, category);
+      changeCategories(updatedUser.categories);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -77,7 +74,7 @@ export default function FormComponent({ setUser, user }: FormProps) {
                 value={emptyCategory.id}
                 key={emptyCategory.id}
               />
-              {categories.map((category) => {
+              {allCategories.map((category) => {
                 return (
                   <Picker.Item
                     label={category.name}
@@ -144,3 +141,5 @@ const styles = StyleSheet.create({
     ...STYLES.ERROR_TEXT,
   },
 });
+
+export default observer(FormComponent);

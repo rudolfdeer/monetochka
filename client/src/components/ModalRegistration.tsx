@@ -11,17 +11,17 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 import { StackParamList } from '../../App';
-import { User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { signUp } from '../helpers/api';
 import { COLORS } from '../styles/colors';
 import { STYLES } from '../styles/styles';
+import { observer } from 'mobx-react';
+import { useStore } from '../mobx/store';
 
 type ModalRegistrationProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
   modalRegistrationVisible: boolean;
   setModalRegistrationVisible: Dispatch<SetStateAction<boolean>>;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
 const initialValues = {
@@ -40,18 +40,18 @@ const ValidationSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export default function ModalRegistration({
+function ModalRegistration({
   params,
   modalRegistrationVisible,
   setModalRegistrationVisible,
-  setUser,
 }: ModalRegistrationProps) {
+  const { setLoggedInUser } = useStore();
   const [error, setError] = useState('');
-
+  
   const handleFormSubmit = async (values: FormikValues) => {
     try {
       const user = await signUp(values.email, values.password);
-      setUser(user);
+      setLoggedInUser(user);
       setModalRegistrationVisible(!modalRegistrationVisible);
       params.navigation.navigate('Home');
     } catch (err: unknown) {
@@ -218,3 +218,5 @@ const styles = StyleSheet.create({
     ...STYLES.ERROR_TEXT,
   },
 });
+
+export default observer(ModalRegistration);
