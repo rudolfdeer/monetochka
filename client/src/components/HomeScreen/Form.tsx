@@ -2,13 +2,13 @@ import { Picker } from '@react-native-picker/picker';
 import { Formik, FormikValues } from 'formik';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as Yup from 'yup';
-import { COLORS } from '../styles/colors';
-import { STYLES } from '../styles/styles';
+import { COLORS } from '../../styles/colors';
+import { STYLES } from '../../styles/styles';
 import { useState } from 'react';
-import { changeCategory } from '../helpers/api';
-import { emptyCategory } from '../constants/emptyMocks';
-import { LOCALES } from '../constants/locales';
-import { useStore } from '../mobx/store';
+import { changeCategory } from '../../helpers/api';
+import { emptyCategory } from '../../constants/emptyMocks';
+import { LOCALES } from '../../constants/locales';
+import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
 
 const initialValues = {

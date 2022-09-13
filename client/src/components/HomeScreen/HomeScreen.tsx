@@ -9,13 +9,13 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import { StackParamList } from '../../App';
-import { LOCALES } from '../constants/locales';
-import { useStore } from '../mobx/store';
-import { STYLES } from '../styles/styles';
+import { StackParamList } from '../../../App';
+import { LOCALES } from '../../constants/locales';
+import { useStore } from '../../mobx/store';
+import { STYLES } from '../../styles/styles';
 import Categories from './Categories';
 import FormComponent from './Form';
-import Navbar from './Navbar';
+import Navbar from '../shared/Navbar';
 import Total from './Total';
 
 type HomeScreenProps = {
@@ -24,6 +24,7 @@ type HomeScreenProps = {
 
 function HomeScreen({ params }: HomeScreenProps) {
   const { allCategories } = useStore();
+  
   const [currency, setCurrency] = useState('$');
   
   return (

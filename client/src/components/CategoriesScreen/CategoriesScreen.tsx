@@ -8,15 +8,15 @@ import {
   Text,
   View,
 } from 'react-native';
-import { emptyCategory } from '../constants/emptyMocks';
-import { Category } from '../constants/interfaces';
-import { LOCALES } from '../constants/locales';
-import { deleteCategory } from '../helpers/api';
-import { useStore } from '../mobx/store';
-import { STYLES } from '../styles/styles';
+import { emptyCategory } from '../../constants/emptyMocks';
+import { Category } from '../../constants/interfaces';
+import { LOCALES } from '../../constants/locales';
+import { deleteCategory } from '../../helpers/api';
+import { useStore } from '../../mobx/store';
+import { STYLES } from '../../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
-import Navbar from './Navbar';
+import Navbar from '../shared/Navbar';
 
 function CategoriesScreen() {
   const {allCategories, currentUserId, changeCategories} = useStore();

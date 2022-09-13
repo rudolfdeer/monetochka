@@ -1,7 +1,6 @@
 import { observable, action, computed, makeAutoObservable } from 'mobx';
 import { createContext, useContext } from 'react';
 import { Category, User } from '../constants/interfaces';
-import { getUser } from '../helpers/api';
 
 class Store {
   @observable categories: Category[] = [];

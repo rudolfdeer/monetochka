@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { StackParamList } from '../../App';
-import { LOCALES } from '../constants/locales';
+import { StackParamList } from '../../../App';
+import { LOCALES } from '../../constants/locales';
 import { observer } from 'mobx-react';
-import { STYLES } from '../styles/styles';
+import { STYLES } from '../../styles/styles';
 import ModalLogIn from './ModalLogIn';
 import ModalRegistration from './ModalRegistration';
 

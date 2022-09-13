@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CategoriesScreen from './src/components/CategoriesScreen';
-import HomeScreen from './src/components/HomeScreen';
-import IntroScreen from './src/components/IntroScreen';
+import CategoriesScreen from './src/components/CategoriesScreen/CategoriesScreen';
+import HomeScreen from './src/components/HomeScreen/HomeScreen';
+import IntroScreen from './src/components/IntroScreen/IntroScreen';
 
 export type StackParamList = {
   Home: undefined;
@@ -13,7 +13,6 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
-
   return (
     <NavigationContainer>
       <Stack.Navigator>

@@ -8,10 +8,10 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { STYLES } from '../styles/styles';
-import { createCategory } from '../helpers/api';
-import { LOCALES } from '../constants/locales';
-import { useStore } from '../mobx/store';
+import { STYLES } from '../../styles/styles';
+import { createCategory } from '../../helpers/api';
+import { LOCALES } from '../../constants/locales';
+import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
 
 type ModalNewCategoryProps = {

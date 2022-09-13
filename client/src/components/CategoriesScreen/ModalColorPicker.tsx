@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
-import { LOCALES } from '../constants/locales';
-import { STYLES } from '../styles/styles';
+import { LOCALES } from '../../constants/locales';
+import { STYLES } from '../../styles/styles';
 
 type ModalColorPickerProps = {
   modalColorVisible: boolean;

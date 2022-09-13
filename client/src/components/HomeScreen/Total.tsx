@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { emptyCategory } from '../constants/emptyMocks';
-import { Category } from '../constants/interfaces';
-import { LOCALES } from '../constants/locales';
-import { STYLES } from '../styles/styles';
+import { emptyCategory } from '../../constants/emptyMocks';
+import { Category } from '../../constants/interfaces';
+import { LOCALES } from '../../constants/locales';
+import { STYLES } from '../../styles/styles';
 
 type TotalProps = {
   categories: Category[];
@@ -35,6 +35,8 @@ export default function Total({ categories, currency }: TotalProps) {
         <Text style={styles.totalSum}>
           {value} {currency}
         </Text>
+      </View>
+      <View>
       </View>
     </View>
   );

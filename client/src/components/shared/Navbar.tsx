@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { STYLES } from '../styles/styles';
+import { STYLES } from '../../styles/styles';
 
 type NavbarProps = {
   title: string;

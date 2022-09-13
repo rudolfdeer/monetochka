@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import EmojiPicker from 'rn-emoji-keyboard';
 import { EmojiType } from 'rn-emoji-keyboard/lib/typescript/types';
-import { Category } from '../constants/interfaces';
-import { STYLES } from '../styles/styles';
+import { Category } from '../../constants/interfaces';
+import { STYLES } from '../../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
-import { changeCategory } from '../helpers/api';
-import { LOCALES } from '../constants/locales';
-import { useStore } from '../mobx/store';
+import { changeCategory } from '../../helpers/api';
+import { LOCALES } from '../../constants/locales';
+import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react-lite';
 
 type ModalEditCategoryProps = {
