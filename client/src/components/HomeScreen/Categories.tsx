@@ -44,7 +44,6 @@ export default function Categories({ categories, currency }: CategoriesProps) {
               </View>
             ))}
           </View>
-
             <PieChart
             data={categories}
             width={150}
@@ -57,7 +56,6 @@ export default function Categories({ categories, currency }: CategoriesProps) {
             hasLegend={false}
             absolute
           />
-         
         </View>
       </View>
     </View>
@@ -95,8 +93,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     
   },
-  // chart: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'center'
-  // }
 });

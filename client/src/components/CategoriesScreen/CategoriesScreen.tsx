@@ -17,9 +17,19 @@ import { STYLES } from '../../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
 import Navbar from '../shared/Navbar';
+import BarChart from './BarChart';
+
+const getChartData = (categories: Category[]) => {
+  const data = categories.map((category) => ({
+    label: category.icon,
+    value: category.expenses,
+    color: category.color,
+  }));
+  return data;
+};
 
 function CategoriesScreen() {
-  const {allCategories, currentUserId, changeCategories} = useStore();
+  const { allCategories, currentUserId, changeCategories } = useStore();
 
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
@@ -91,6 +101,12 @@ function CategoriesScreen() {
               </View>
             ))}
           </View>
+          <View style={styles.categories}>
+            <Text style={styles.title}>{LOCALES.STATISTICS}</Text>
+            <View style={styles.chart}>
+              <BarChart data={getChartData(allCategories)}/>
+            </View>
+          </View>
         </View>
         <Pressable
           style={styles.button}
@@ -156,6 +172,13 @@ const styles = StyleSheet.create({
   },
   firstBtn: {
     marginRight: 16,
+  },
+  title: {
+    ...STYLES.SECTION_TITLE,
+  },
+  chart: {
+    
+   
   },
 });
 

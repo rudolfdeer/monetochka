@@ -22,5 +22,6 @@ export const LOCALES = {
   SAVE: 'Save',
   SELECT: 'Select',
   SET_COLOR: 'Set color',
+  STATISTICS: 'Statistics',
   TOTAL_EXPENSES: 'Total expenses',
 };
