@@ -1,4 +1,4 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { observer } from 'mobx-react';
 import { useState } from 'react';
 import {
   Pressable,
@@ -8,36 +8,28 @@ import {
   Text,
   View,
 } from 'react-native';
-import { StackParamList } from '../../App';
 import { emptyCategory } from '../constants/emptyMocks';
-import { Category, User } from '../constants/interfaces';
+import { Category } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
 import { deleteCategory } from '../helpers/api';
+import { useStore } from '../mobx/store';
 import { STYLES } from '../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
 import Navbar from './Navbar';
 
-type CategoriesScreenProps = {
-  params: NativeStackScreenProps<StackParamList, 'Categories'>;
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-};
+function CategoriesScreen() {
+  const {allCategories, currentUserId, changeCategories} = useStore();
 
-export default function CategoriesScreen({
-  user,
-  setUser,
-}: CategoriesScreenProps) {
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(emptyCategory);
-  const { _id } = user;
   const [error, setError] = useState('');
 
   const handleDeleteCategory = async (category: Category) => {
     try {
-      const user = await deleteCategory(_id, category.id);
-      setUser(user);
+      const user = await deleteCategory(currentUserId, category.id);
+      changeCategories(user.categories);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -53,21 +45,17 @@ export default function CategoriesScreen({
           <ModalNewCategory
             modalAddVisible={modalAddVisible}
             setModalAddVisible={setModalAddVisible}
-            userId={user._id}
-            setUser={setUser}
           />
           <ModalEditCategory
             modalEditVisible={modalEditVisible}
             setModalEditVisible={setModalEditVisible}
             category={selectedCategory}
-            userId={user._id}
-            setUser={setUser}
           />
           <View style={styles.errorContainer}>
             <Text style={styles.errorText}>{error}</Text>
           </View>
           <View style={styles.categories}>
-            {user.categories.map((category) => (
+            {allCategories.map((category) => (
               <View style={styles.rowContainer} key={category.id}>
                 <View style={styles.categoryContainer}>
                   {category.icon ? (
@@ -170,3 +158,5 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
 });
+
+export default observer(CategoriesScreen);

@@ -2,18 +2,15 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../../App';
-import { User } from '../constants/interfaces';
 import { LOCALES } from '../constants/locales';
+import { observer } from 'mobx-react';
 import { STYLES } from '../styles/styles';
 import ModalLogIn from './ModalLogIn';
 import ModalRegistration from './ModalRegistration';
 
-type IntroScreenProps = {
-  params: NativeStackScreenProps<StackParamList, 'Intro'>;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-};
+type IntroScreenProps = NativeStackScreenProps<StackParamList, 'Intro'>;
 
-export default function IntroScreen({ params, setUser }: IntroScreenProps) {
+function IntroScreen(props: IntroScreenProps) {
   const [modalLogInVisible, setModalLogInVisible] = useState(false);
   const [modalRegistrationVisible, setModalRegistrationVisible] =
     useState(false);
@@ -22,14 +19,12 @@ export default function IntroScreen({ params, setUser }: IntroScreenProps) {
     <SafeAreaView style={styles.container}>
       <View style={styles.sectionContainer}>
         <ModalLogIn
-          params={params}
-          setUser={setUser}
+          params={props}
           modalLogInVisible={modalLogInVisible}
           setModalLogInVisible={setModalLogInVisible}
         />
         <ModalRegistration
-          params={params}
-          setUser={setUser}
+          params={props}
           modalRegistrationVisible={modalRegistrationVisible}
           setModalRegistrationVisible={setModalRegistrationVisible}
         />
@@ -93,3 +88,5 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
 });
+
+export default observer(IntroScreen);
