@@ -13,9 +13,10 @@ import { Category } from '../../constants/interfaces';
 import { STYLES } from '../../styles/styles';
 import ModalColorPicker from './ModalColorPicker';
 import { changeCategory } from '../../helpers/api';
-import { LOCALES } from '../../constants/locales';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react-lite';
+import { FormattedMessage } from 'react-intl';
+import { LOCALES_EN } from '../../constants/locales/en';
 
 type ModalEditCategoryProps = {
   modalEditVisible: boolean;
@@ -95,7 +96,12 @@ function ModalEditCategory({
                 <Text style={styles.errorText}>{error}</Text>
               </View>
               <Pressable onPress={() => setIsOpen(!isOpen)}>
-                <Text style={styles.buttonSmall}>{LOCALES.ADD_ICON}</Text>
+                <FormattedMessage
+                  id="ADD_ICON"
+                  defaultMessage={LOCALES_EN.ADD_ICON}
+                >
+                  {(msg) => <Text style={styles.buttonSmall}>{msg}</Text>}
+                </FormattedMessage>
               </Pressable>
               <Pressable
                 onPress={() => {
@@ -103,7 +109,12 @@ function ModalEditCategory({
                   setModalColorVisible(true);
                 }}
               >
-                <Text style={styles.buttonSmall}>{LOCALES.SET_COLOR}</Text>
+                <FormattedMessage
+                  id="SET_COLOR"
+                  defaultMessage={LOCALES_EN.SET_COLOR}
+                >
+                  {(msg) => <Text style={styles.buttonSmall}>{msg}</Text>}
+                </FormattedMessage>
               </Pressable>
               <EmojiPicker
                 onEmojiSelected={handleEmojiPick}
@@ -122,14 +133,18 @@ function ModalEditCategory({
                   setModalEditVisible(!modalEditVisible);
                 }}
               >
-                <Text style={styles.buttonText}>{LOCALES.SAVE}</Text>
+                <FormattedMessage id="SAVE" defaultMessage={LOCALES_EN.SAVE}>
+                  {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+                </FormattedMessage>
               </Pressable>
             </View>
             <Pressable
               style={styles.buttonLast}
               onPress={() => setModalEditVisible(!modalEditVisible)}
             >
-              <Text style={styles.buttonText}>{LOCALES.CLOSE}</Text>
+              <FormattedMessage id="CLOSE" defaultMessage={LOCALES_EN.CLOSE}>
+                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+              </FormattedMessage>
             </Pressable>
           </View>
         </View>

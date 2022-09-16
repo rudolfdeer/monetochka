@@ -18,6 +18,8 @@ import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
 import Navbar from '../shared/Navbar';
 import BarChart from './BarChart';
+import { FormattedMessage } from 'react-intl';
+import { LOCALES_EN } from '../../constants/locales/en';
 
 const getChartData = (categories: Category[]) => {
   const data = categories.map((category) => ({
@@ -50,7 +52,7 @@ function CategoriesScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar title={'Categories'} message={LOCALES.CATEGORIES} />
+        <Navbar titleId="CATEGORIES" messageId="CATEGORIES_MSG" />
         <View style={styles.categoriesContainer}>
           <ModalNewCategory
             modalAddVisible={modalAddVisible}
@@ -87,7 +89,12 @@ function CategoriesScreen() {
                       setModalEditVisible(true);
                     }}
                   >
-                    <Text style={styles.buttonEdit}>{LOCALES.EDIT}</Text>
+                    <FormattedMessage
+                      id="EDIT"
+                      defaultMessage={LOCALES_EN.EDIT}
+                    >
+                      {(msg) => <Text style={styles.buttonEdit}>{msg}</Text>}
+                    </FormattedMessage>
                   </Pressable>
                   <Pressable
                     onPress={() => {
@@ -95,16 +102,26 @@ function CategoriesScreen() {
                       handleDeleteCategory(category);
                     }}
                   >
-                    <Text style={styles.buttonEdit}>{LOCALES.DELETE}</Text>
+                    <FormattedMessage
+                      id="DELETE"
+                      defaultMessage={LOCALES_EN.DELETE}
+                    >
+                      {(msg) => <Text style={styles.buttonEdit}>{msg}</Text>}
+                    </FormattedMessage>
                   </Pressable>
                 </View>
               </View>
             ))}
           </View>
           <View style={styles.categories}>
-            <Text style={styles.title}>{LOCALES.STATISTICS}</Text>
+            <FormattedMessage
+              id="STATISTICS"
+              defaultMessage={LOCALES_EN.STATISTICS}
+            >
+              {(msg) => <Text style={styles.title}>{msg}</Text>}
+            </FormattedMessage>
             <View style={styles.chart}>
-              <BarChart data={getChartData(allCategories)}/>
+              <BarChart data={getChartData(allCategories)} />
             </View>
           </View>
         </View>
@@ -112,7 +129,12 @@ function CategoriesScreen() {
           style={styles.button}
           onPress={() => setModalAddVisible(true)}
         >
-          <Text style={styles.buttonText}>{LOCALES.ADD_NEW_CATEGORY}</Text>
+          <FormattedMessage
+            id="ADD_NEW_CATEGORY"
+            defaultMessage={LOCALES_EN.ADD_NEW_CATEGORY}
+          >
+            {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+          </FormattedMessage>
         </Pressable>
       </ScrollView>
     </SafeAreaView>
@@ -176,10 +198,7 @@ const styles = StyleSheet.create({
   title: {
     ...STYLES.SECTION_TITLE,
   },
-  chart: {
-    
-   
-  },
+  chart: {},
 });
 
 export default observer(CategoriesScreen);

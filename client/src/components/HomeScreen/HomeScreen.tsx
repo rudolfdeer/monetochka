@@ -17,6 +17,8 @@ import Categories from './Categories';
 import FormComponent from './Form';
 import Navbar from '../shared/Navbar';
 import Total from './Total';
+import { FormattedMessage } from 'react-intl';
+import { LOCALES_EN } from '../../constants/locales/en';
 
 type HomeScreenProps = NativeStackScreenProps<StackParamList, 'Home'>;
 
@@ -28,7 +30,7 @@ function HomeScreen(props: HomeScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar title={'Home'} message={LOCALES.HOME} />
+        <Navbar titleId="HOME" messageId="HOME_MSG" />
         <Total categories={allCategories} currency={currency} />
         <FormComponent />
         <Categories categories={allCategories} currency={currency} />
@@ -36,7 +38,9 @@ function HomeScreen(props: HomeScreenProps) {
           style={styles.button}
           onPress={() => props.navigation.navigate('Categories')}
         >
-          <Text style={styles.buttonText}>{LOCALES.MANAGE_CATEGORIES}</Text>
+          <FormattedMessage id="MANAGE_CATEGORIES" defaultMessage={LOCALES_EN.MANAGE_CATEGORIES}>
+                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+              </FormattedMessage>
         </Pressable>
         <StatusBar style="auto" />
       </ScrollView>

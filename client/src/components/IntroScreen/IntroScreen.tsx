@@ -2,18 +2,26 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../../../App';
-import { LOCALES } from '../../constants/locales';
 import { observer } from 'mobx-react';
 import { STYLES } from '../../styles/styles';
 import ModalLogIn from './ModalLogIn';
 import ModalRegistration from './ModalRegistration';
+import { FormattedMessage } from 'react-intl';
+import { LOCALES_EN } from '../../constants/locales/en';
+import { useStore } from '../../mobx/store';
 
 type IntroScreenProps = NativeStackScreenProps<StackParamList, 'Intro'>;
 
 function IntroScreen(props: IntroScreenProps) {
+  const { changeLang } = useStore();
+
   const [modalLogInVisible, setModalLogInVisible] = useState(false);
   const [modalRegistrationVisible, setModalRegistrationVisible] =
     useState(false);
+
+  const onChangeLanguage = (lang: string) => {
+    changeLang(lang);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,18 +37,51 @@ function IntroScreen(props: IntroScreenProps) {
           setModalRegistrationVisible={setModalRegistrationVisible}
         />
         <View style={styles.section}>
-          <Text style={styles.title}>{LOCALES.APP_TITLE}</Text>
-          <Text style={styles.text}>{LOCALES.INTRO_SCREEN}</Text>
+          <View style={styles.langs}>
+            <Pressable
+              style={styles.buttonSmall}
+              onPress={() => onChangeLanguage('en')}
+            >
+              <Text style={styles.lang}>EN</Text>
+            </Pressable>
+            <Pressable
+              style={styles.buttonSmall}
+              onPress={() => onChangeLanguage('fr')}
+            >
+              <Text style={styles.lang}>FR</Text>
+            </Pressable>
+          </View>
+          <View>
+            <FormattedMessage
+              id="APP_TITLE"
+              defaultMessage={LOCALES_EN.APP_TITLE}
+            >
+              {(msg) => <Text style={styles.title}>{msg}</Text>}
+            </FormattedMessage>
+            <FormattedMessage
+              id="INTRO_SCREEN"
+              defaultMessage={LOCALES_EN.INTRO_SCREEN}
+            >
+              {(msg) => <Text style={styles.text}>{msg}</Text>}
+            </FormattedMessage>
+          </View>
         </View>
         <View>
           <Pressable
             style={styles.button}
             onPress={() => setModalLogInVisible(true)}
           >
-            <Text style={styles.buttonText}>{LOCALES.LOG_IN}</Text>
+            <FormattedMessage id="LOG_IN" defaultMessage={LOCALES_EN.LOG_IN}>
+              {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+            </FormattedMessage>
           </Pressable>
           <Pressable onPress={() => setModalRegistrationVisible(true)}>
-            <Text style={styles.buttonSmall}>{LOCALES.REGISTER}</Text>
+            <FormattedMessage
+              id="REGISTER"
+              defaultMessage={LOCALES_EN.REGISTER}
+            >
+              {(msg) => <Text style={styles.buttonSmall}>{msg}</Text>}
+            </FormattedMessage>
           </Pressable>
         </View>
       </View>
@@ -62,6 +103,7 @@ const styles = StyleSheet.create({
   section: {
     ...STYLES.SECTION,
     flex: 1,
+    justifyContent: 'flex-start',
     marginTop: 16,
   },
   title: {
@@ -86,6 +128,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
     textDecorationLine: 'underline',
+  },
+  langs: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 16,
+    marginBottom: 200,
+  },
+  lang: {
+    marginRight: 20,
+    borderRightColor: 'black',
   },
 });
 

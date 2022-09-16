@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import { STYLES } from '../../styles/styles';
 import { createCategory } from '../../helpers/api';
-import { LOCALES } from '../../constants/locales';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
+import { FormattedMessage } from 'react-intl';
+import { LOCALES_EN } from '../../constants/locales/en';
 
 type ModalNewCategoryProps = {
   modalAddVisible: boolean;
@@ -30,7 +31,7 @@ function ModalNewCategory({
   const { currentUserId, changeCategories } = useStore();
 
   const [error, setError] = useState('');
-  
+
   const handleFormSubmit = async (values: FormikValues) => {
     try {
       const user = await createCategory(currentUserId, values.name);
@@ -79,7 +80,9 @@ function ModalNewCategory({
                       setModalAddVisible(!modalAddVisible);
                     }}
                   >
-                    <Text style={styles.buttonText}>{LOCALES.ADD}</Text>
+                    <FormattedMessage id="ADD" defaultMessage={LOCALES_EN.ADD}>
+                      {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+                    </FormattedMessage>
                   </Pressable>
                 </View>
               )}
@@ -88,7 +91,9 @@ function ModalNewCategory({
               style={styles.buttonLast}
               onPress={() => setModalAddVisible(!modalAddVisible)}
             >
-              <Text style={styles.buttonText}>{LOCALES.CLOSE}</Text>
+              <FormattedMessage id="CLOSE" defaultMessage={LOCALES_EN.CLOSE}>
+                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+              </FormattedMessage>
             </Pressable>
           </View>
         </View>

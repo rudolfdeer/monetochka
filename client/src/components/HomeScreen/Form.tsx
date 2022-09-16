@@ -7,9 +7,10 @@ import { STYLES } from '../../styles/styles';
 import { useState } from 'react';
 import { changeCategory } from '../../helpers/api';
 import { emptyCategory } from '../../constants/emptyMocks';
-import { LOCALES } from '../../constants/locales';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
+import { FormattedMessage } from 'react-intl';
+import { LOCALES_EN } from '../../constants/locales/en';
 
 const initialValues = {
   sum: '0',
@@ -88,7 +89,9 @@ function FormComponent() {
               style={styles.button}
               onPress={handleSubmit as (values: FormikValues) => void}
             >
-              <Text style={styles.buttonText}>{LOCALES.ADD}</Text>
+              <FormattedMessage id="ADD" defaultMessage={LOCALES_EN.ADD}>
+                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+              </FormattedMessage>
             </Pressable>
           </View>
         )}

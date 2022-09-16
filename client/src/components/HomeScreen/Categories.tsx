@@ -1,8 +1,9 @@
+import { FormattedMessage } from 'react-intl';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { emptyCategory } from '../../constants/emptyMocks';
 import { Category } from '../../constants/interfaces';
-import { LOCALES } from '../../constants/locales';
+import { LOCALES_EN } from '../../constants/locales/en';
 import { STYLES } from '../../styles/styles';
 
 type CategoriesProps = {
@@ -18,7 +19,9 @@ export default function Categories({ categories, currency }: CategoriesProps) {
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
-        <Text style={styles.title}>{LOCALES.EXPENSES}</Text>
+        <FormattedMessage id="EXPENSES" defaultMessage={LOCALES_EN.EXPENSES}>
+          {(msg) => <Text style={styles.title}>{msg}</Text>}
+        </FormattedMessage>
         <View style={styles.rowContainer}>
           <View>
             <View style={styles.categoryContainer} key={emptyCategory.id}>
@@ -44,7 +47,7 @@ export default function Categories({ categories, currency }: CategoriesProps) {
               </View>
             ))}
           </View>
-            <PieChart
+          <PieChart
             data={categories}
             width={150}
             height={150}
@@ -91,6 +94,5 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
-    
   },
 });

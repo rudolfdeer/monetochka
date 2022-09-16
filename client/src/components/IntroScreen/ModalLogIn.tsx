@@ -11,12 +11,13 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 import { StackParamList } from '../../../App';
-import { LOCALES } from '../../constants/locales';
 import { signIn } from '../../helpers/api';
 import { COLORS } from '../../styles/colors';
 import { STYLES } from '../../styles/styles';
 import { observer } from 'mobx-react';
 import { useStore } from '../../mobx/store';
+import { FormattedMessage } from 'react-intl';
+import { LOCALES_EN } from '../../constants/locales/en';
 
 type ModalLogInProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
@@ -40,7 +41,7 @@ function ModalLogIn({
   setModalLogInVisible,
 }: ModalLogInProps) {
   const { setLoggedInUser } = useStore();
-  
+
   const [error, setError] = useState('');
 
   const handleFormSubmit = async (values: FormikValues) => {
@@ -85,7 +86,12 @@ function ModalLogIn({
               }) => (
                 <View style={styles.form}>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>{LOCALES.EMAIL}</Text>
+                    <FormattedMessage
+                      id="EMAIL"
+                      defaultMessage={LOCALES_EN.EMAIL}
+                    >
+                      {(msg) => <Text style={styles.labelText}>{msg}</Text>}
+                    </FormattedMessage>
                   </View>
                   <TextInput
                     style={styles.inputText}
@@ -101,7 +107,12 @@ function ModalLogIn({
                     ) : null}
                   </View>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>{LOCALES.PASSWORD}</Text>
+                    <FormattedMessage
+                      id="PASSWORD"
+                      defaultMessage={LOCALES_EN.PASSWORD}
+                    >
+                      {(msg) => <Text style={styles.labelText}>{msg}</Text>}
+                    </FormattedMessage>
                   </View>
                   <TextInput
                     style={styles.inputText}
@@ -126,7 +137,12 @@ function ModalLogIn({
                       handleSubmit();
                     }}
                   >
-                    <Text style={styles.buttonText}>{LOCALES.LOG_IN}</Text>
+                    <FormattedMessage
+                      id="LOG_IN"
+                      defaultMessage={LOCALES_EN.LOG_IN}
+                    >
+                      {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+                    </FormattedMessage>
                   </Pressable>
                 </View>
               )}
@@ -135,7 +151,9 @@ function ModalLogIn({
               style={styles.buttonLast}
               onPress={() => setModalLogInVisible(!modalLogInVisible)}
             >
-              <Text style={styles.buttonText}>{LOCALES.CANCEL}</Text>
+              <FormattedMessage id="CANCEL" defaultMessage={LOCALES_EN.CANCEL}>
+                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
+              </FormattedMessage>
             </Pressable>
           </View>
         </View>

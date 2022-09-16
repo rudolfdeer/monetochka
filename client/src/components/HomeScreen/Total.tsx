@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { StyleSheet, Text, View } from 'react-native';
 import { emptyCategory } from '../../constants/emptyMocks';
 import { Category } from '../../constants/interfaces';
-import { LOCALES } from '../../constants/locales';
+import { LOCALES_EN } from '../../constants/locales/en';
 import { STYLES } from '../../styles/styles';
 
 type TotalProps = {
@@ -31,13 +32,17 @@ export default function Total({ categories, currency }: TotalProps) {
   return (
     <View style={styles.totalContainer}>
       <View style={styles.total}>
-        <Text style={styles.totalText}>{LOCALES.TOTAL_EXPENSES}</Text>
+        <FormattedMessage
+          id="TOTAL_EXPENSES"
+          defaultMessage={LOCALES_EN.TOTAL_EXPENSES}
+        >
+          {(msg) => <Text style={styles.totalText}>{msg}</Text>}
+        </FormattedMessage>
         <Text style={styles.totalSum}>
           {value} {currency}
         </Text>
       </View>
-      <View>
-      </View>
+      <View></View>
     </View>
   );
 }
