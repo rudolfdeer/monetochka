@@ -8,11 +8,9 @@ import { STYLES } from '../styles/styles';
 import ModalLogIn from './ModalLogIn';
 import ModalRegistration from './ModalRegistration';
 
-type IntroScreenProps = {
-  params: NativeStackScreenProps<StackParamList, 'Intro'>;
-};
+type IntroScreenProps = NativeStackScreenProps<StackParamList, 'Intro'>;
 
-function IntroScreen({ params }: IntroScreenProps) {
+function IntroScreen(props: IntroScreenProps) {
   const [modalLogInVisible, setModalLogInVisible] = useState(false);
   const [modalRegistrationVisible, setModalRegistrationVisible] =
     useState(false);
@@ -21,12 +19,12 @@ function IntroScreen({ params }: IntroScreenProps) {
     <SafeAreaView style={styles.container}>
       <View style={styles.sectionContainer}>
         <ModalLogIn
-          params={params}
+          params={props}
           modalLogInVisible={modalLogInVisible}
           setModalLogInVisible={setModalLogInVisible}
         />
         <ModalRegistration
-          params={params}
+          params={props}
           modalRegistrationVisible={modalRegistrationVisible}
           setModalRegistrationVisible={setModalRegistrationVisible}
         />

@@ -17,19 +17,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Intro" options={{ headerShown: false }}>
-          {(props) => <IntroScreen params={props}/>}
-        </Stack.Screen>
-        <Stack.Screen name="Home" options={{ headerShown: false }}>
-          {(props) => (
-            <HomeScreen params={props}/>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="Categories">
-          {(props) => (
-            <CategoriesScreen />
-          )}
-        </Stack.Screen>
+        <Stack.Screen  name="Intro" component={IntroScreen}/>
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Categories" component={CategoriesScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
