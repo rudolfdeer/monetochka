@@ -18,11 +18,9 @@ import FormComponent from './Form';
 import Navbar from '../shared/Navbar';
 import Total from './Total';
 
-type HomeScreenProps = {
-  params: NativeStackScreenProps<StackParamList, 'Home'>;
-};
+type HomeScreenProps = NativeStackScreenProps<StackParamList, 'Home'>;
 
-function HomeScreen({ params }: HomeScreenProps) {
+function HomeScreen(props: HomeScreenProps) {
   const { allCategories } = useStore();
   
   const [currency, setCurrency] = useState('$');
@@ -36,7 +34,7 @@ function HomeScreen({ params }: HomeScreenProps) {
         <Categories categories={allCategories} currency={currency} />
         <Pressable
           style={styles.button}
-          onPress={() => params.navigation.navigate('Categories')}
+          onPress={() => props.navigation.navigate('Categories')}
         >
           <Text style={styles.buttonText}>{LOCALES.MANAGE_CATEGORIES}</Text>
         </Pressable>
