@@ -8,6 +8,7 @@ export const COLORS = {
 };
 
 export const mock = [
+  { id: '0', name: 'unsorted', expenses: 0, icon: '', color: COLORS.BLACK },
   {
     id: '1',
     name: 'Home',

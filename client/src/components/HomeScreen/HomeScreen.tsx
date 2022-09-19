@@ -10,7 +10,6 @@ import {
   Text,
 } from 'react-native';
 import { StackParamList } from '../../../App';
-import { LOCALES } from '../../constants/locales';
 import { useStore } from '../../mobx/store';
 import { STYLES } from '../../styles/styles';
 import Categories from './Categories';

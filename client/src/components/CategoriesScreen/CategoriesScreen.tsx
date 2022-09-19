@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { emptyCategory } from '../../constants/emptyMocks';
 import { Category } from '../../constants/interfaces';
-import { LOCALES } from '../../constants/locales';
 import { deleteCategory } from '../../helpers/api';
 import { useStore } from '../../mobx/store';
 import { STYLES } from '../../styles/styles';

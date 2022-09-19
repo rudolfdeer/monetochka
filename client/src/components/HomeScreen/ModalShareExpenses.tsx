@@ -13,6 +13,8 @@ import { Formik, FormikValues } from 'formik';
 import { LOCALES_EN } from '../../constants/locales/en';
 import { STYLES } from '../../styles/styles';
 import { COLORS } from '../../styles/colors';
+import { shareExpense } from '../../helpers/api';
+import { useStore } from '../../mobx/store';
 
 type ModalShareExpensesProps = {
   modalShareExpensesVisible: boolean;
@@ -36,8 +38,20 @@ export default function ModalShareExpenses({
   setModalShareExpensesVisible,
 }: ModalShareExpensesProps) {
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const { currentUserId } = useStore();
+
   const handleFormSubmit = async (values: FormikValues) => {
-    console.log(values);
+    const numberSum = +parseFloat(values.sum).toFixed(3);
+    try {
+      const result = await shareExpense(currentUserId, values.email, numberSum);
+      setSuccess(result);
+      //setModalShareExpensesVisible(!modalShareExpensesVisible);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
   };
   return (
     <Modal
@@ -80,6 +94,8 @@ export default function ModalShareExpenses({
                       <TextInput
                         style={styles.inputText}
                         value={values.email}
+                        textAlign={'left'}
+                        autoCapitalize={'none'}
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
                       />
@@ -90,7 +106,7 @@ export default function ModalShareExpenses({
                       </View>
                     </View>
                     <View style={styles.sumContainer}>
-                    <View style={styles.label}>
+                      <View style={styles.label}>
                         <FormattedMessage
                           id="AMOUNT"
                           defaultMessage={LOCALES_EN.AMOUNT}
@@ -101,6 +117,8 @@ export default function ModalShareExpenses({
                       <TextInput
                         style={styles.inputText}
                         value={values.sum}
+                        textAlign={'left'}
+                        autoCapitalize={'none'}
                         onChangeText={handleChange('sum')}
                         onBlur={handleBlur('sum')}
                       />
@@ -111,9 +129,16 @@ export default function ModalShareExpenses({
                       </View>
                     </View>
                   </View>
-                  <View style={styles.errorContainer}>
-                    <Text style={styles.errorText}>{error}</Text>
-                  </View>
+                  {error ? (
+                    <View style={styles.errorContainer}>
+                      <Text style={styles.errorText}>{error}</Text>
+                    </View>
+                  ) : (
+                    <View style={styles.errorContainer}>
+                      <Text style={styles.successText}>{success}</Text>
+                    </View>
+                  )}
+
                   <Pressable
                     style={styles.buttonFirst}
                     onPress={handleSubmit as (values: FormikValues) => void}
@@ -185,6 +210,10 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...STYLES.ERROR_TEXT,
+  },
+  successText: {
+    ...STYLES.ERROR_TEXT,
+    color: COLORS.SUCCESS,
   },
   label: {
     height: 21,

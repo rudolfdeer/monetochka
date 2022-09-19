@@ -1,7 +1,6 @@
 import { FormattedMessage } from 'react-intl';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
-import { emptyCategory } from '../../constants/emptyMocks';
 import { Category } from '../../constants/interfaces';
 import { LOCALES_EN } from '../../constants/locales/en';
 import { STYLES } from '../../styles/styles';
@@ -24,13 +23,6 @@ export default function Categories({ categories, currency }: CategoriesProps) {
         </FormattedMessage>
         <View style={styles.rowContainer}>
           <View>
-            <View style={styles.categoryContainer} key={emptyCategory.id}>
-              <View style={styles.icon}></View>
-              <Text style={styles.category}>
-                unsorted: {emptyCategory.expenses}
-                {currency}
-              </Text>
-            </View>
             {categories?.map((category) => (
               <View style={styles.categoryContainer} key={category.id}>
                 {category.icon ? (

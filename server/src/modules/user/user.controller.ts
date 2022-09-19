@@ -106,4 +106,21 @@ export class UserController {
       throw new NotFoundException(err.message);
     }
   }
+
+  @Post(':userId/share')
+  @HttpCode(200)
+  async shareExpenses(
+    @Param('userId') userId: string,
+    @Body('email') email: string,
+    @Body('sum') sum: number,
+  ) {
+    try {
+      await this.userService.shareExpenses(userId, email, sum);
+      return {
+        success: `Successfully shared ${sum}$ with ${email}`,
+      };
+    } catch (err) {
+      throw new NotFoundException(err.message);
+    }
+  }
 }

@@ -130,4 +130,47 @@ export class UserService {
     const updatedUser = await this.getUser(userId);
     return updatedUser;
   }
+
+  async shareExpenses(userId: string, email: string, sum: number) {
+    const user = await this.userModel.findOne({ email });
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+
+    const category = user.categories.find(
+      (category) => category.name === 'unsorted',
+    );
+    if (!category) {
+      const newCategory = {
+        id: uuidv4(),
+        name: 'unsorted',
+        expenses: sum,
+        icon: '',
+        color: COLORS.BLACK,
+      };
+      user.categories.unshift(newCategory);
+      const updatedCategories = [...user.categories];
+
+      await this.userModel.updateOne(
+        { _id: user._id },
+        { $set: { categories: updatedCategories } },
+      );
+    } else {
+      const updatedCategory = {
+        ...category,
+        expenses: category.expenses + sum,
+      };
+      const index = user.categories.indexOf(category);
+      const updatedCategories = [
+        ...user.categories.slice(0, index),
+        updatedCategory,
+        ...user.categories.slice(index + 1),
+      ];
+
+      await this.userModel.updateOne(
+        { _id: user._id },
+        { $set: { categories: updatedCategories } },
+      );
+    }
+    const updatedUser = await this.getUser(user._id);
+    return updatedUser;
+  }
 }

@@ -6,7 +6,6 @@ import { COLORS } from '../../styles/colors';
 import { STYLES } from '../../styles/styles';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { changeCategory } from '../../helpers/api';
-import { emptyCategory } from '../../constants/emptyMocks';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
@@ -79,11 +78,6 @@ function FormComponent({
                 selectedValue={values.categoryId}
                 onValueChange={handleChange('categoryId')}
               >
-                <Picker.Item
-                  label={emptyCategory.name}
-                  value={emptyCategory.id}
-                  key={emptyCategory.id}
-                />
                 {allCategories.map((category) => {
                   return (
                     <Picker.Item
