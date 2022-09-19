@@ -91,3 +91,14 @@ export const deleteCategory = async (userId: string, categoryId: string) => {
   }
   return result;
 };
+
+export const chareExpense = async (userId: string, categoryId: string) => {
+  const response = await fetch(`${base}/${userId}/category/${categoryId}`, {
+    method: 'DELETE',
+  });
+  const result = await response.json();
+  if (result.message) {
+    throw new Error(result.message);
+  }
+  return result;
+};

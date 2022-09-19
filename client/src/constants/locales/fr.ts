@@ -2,6 +2,7 @@ export const LOCALES_FR: { [key: string]: string; } = {
   ADD: 'Ajouter',
   ADD_NEW_CATEGORY: 'Nouvelle catégorie',
   ADD_ICON: 'Icône',
+  AMOUNT: 'Montant:',
   APP_TITLE: 'Monetochka',
   CANCEL: 'Annuler',
   CATEGORIES: 'Catégories',
@@ -24,6 +25,8 @@ export const LOCALES_FR: { [key: string]: string; } = {
   SAVE: 'Sauvegarder',
   SELECT: 'Choisir',
   SET_COLOR: 'Définir la couleur',
+  SHARE: 'Partager',
+  SHARE_EXPENSES: 'Partager avec un autre utilisateur',
   STATISTICS: 'Statistiques',
   TOTAL_EXPENSES: 'Dépenses totales',
 };
