@@ -10,49 +10,44 @@ import {
   View,
 } from 'react-native';
 import * as Yup from 'yup';
-import { StackParamList } from '../../App';
-import { LOCALES } from '../constants/locales';
-import { signUp } from '../helpers/api';
-import { COLORS } from '../styles/colors';
-import { STYLES } from '../styles/styles';
+import { StackParamList } from '../../../App';
+import { signIn } from '../../helpers/api';
+import { COLORS } from '../../styles/colors';
+import { STYLES } from '../../styles/styles';
 import { observer } from 'mobx-react';
-import { useStore } from '../mobx/store';
+import { useStore } from '../../mobx/store';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
-type ModalRegistrationProps = {
+type ModalLogInProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
-  modalRegistrationVisible: boolean;
-  setModalRegistrationVisible: Dispatch<SetStateAction<boolean>>;
+  modalLogInVisible: boolean;
+  setModalLogInVisible: Dispatch<SetStateAction<boolean>>;
 };
 
 const initialValues = {
   email: '',
   password: '',
-  confirmedPassword: '',
 };
 
 const ValidationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string().required('Required'),
-  confirmedPassword: Yup.string()
-    .test('passwords-match', 'Passwords must match', function (value) {
-      return this.parent.password === value;
-    })
-    .required('Required'),
 });
 
-function ModalRegistration({
+function ModalLogIn({
   params,
-  modalRegistrationVisible,
-  setModalRegistrationVisible,
-}: ModalRegistrationProps) {
+  modalLogInVisible,
+  setModalLogInVisible,
+}: ModalLogInProps) {
   const { setLoggedInUser } = useStore();
+
   const [error, setError] = useState('');
-  
+
   const handleFormSubmit = async (values: FormikValues) => {
     try {
-      const user = await signUp(values.email, values.password);
+      const user = await signIn(values.email, values.password);
+      setModalLogInVisible(!modalLogInVisible);
       setLoggedInUser(user);
-      setModalRegistrationVisible(!modalRegistrationVisible);
       params.navigation.navigate('Home');
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -60,13 +55,14 @@ function ModalRegistration({
       }
     }
   };
+
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalRegistrationVisible}
+      visible={modalLogInVisible}
       onRequestClose={() => {
-        setModalRegistrationVisible(!modalRegistrationVisible);
+        setModalLogInVisible(!modalLogInVisible);
       }}
     >
       <View style={styles.centeredView}>
@@ -89,12 +85,15 @@ function ModalRegistration({
               }) => (
                 <View style={styles.form}>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>{LOCALES.EMAIL}</Text>
+                    <FormattedMessageComponent
+                      id="EMAIL"
+                      style={styles.labelText}
+                    />
                   </View>
                   <TextInput
+                    style={styles.inputText}
                     textAlign={'left'}
                     autoCapitalize={'none'}
-                    style={styles.inputText}
                     value={values.email}
                     onChangeText={handleChange('email')}
                     onBlur={handleBlur('email')}
@@ -105,15 +104,16 @@ function ModalRegistration({
                     ) : null}
                   </View>
                   <View style={styles.label}>
-                    <Text style={styles.labelText}>
-                      {LOCALES.CREATE_PASSWORD}
-                    </Text>
+                    <FormattedMessageComponent
+                      id="PASSWORD"
+                      style={styles.labelText}
+                    />
                   </View>
                   <TextInput
+                    style={styles.inputText}
                     textAlign={'left'}
                     autoCapitalize={'none'}
                     secureTextEntry={true}
-                    style={styles.inputText}
                     value={values.password}
                     onChangeText={handleChange('password')}
                     onBlur={handleBlur('password')}
@@ -121,25 +121,6 @@ function ModalRegistration({
                   <View style={styles.label}>
                     {errors.password && touched.password ? (
                       <Text style={styles.errorText}>{errors.password}</Text>
-                    ) : null}
-                  </View>
-                  <View style={styles.label}>
-                    <Text style={styles.labelText}>
-                      {LOCALES.CONFIRM_PASSWORD}
-                    </Text>
-                  </View>
-                  <TextInput
-                    secureTextEntry={true}
-                    style={styles.inputText}
-                    value={values.confirmedPassword}
-                    onChangeText={handleChange('confirmedPassword')}
-                    onBlur={handleBlur('confirmedPassword')}
-                  />
-                  <View style={styles.label}>
-                    {errors.confirmedPassword && touched.confirmedPassword ? (
-                      <Text style={styles.errorText}>
-                        {errors.confirmedPassword}
-                      </Text>
                     ) : null}
                   </View>
                   <View style={styles.errorContainer}>
@@ -151,20 +132,22 @@ function ModalRegistration({
                       handleSubmit();
                     }}
                   >
-                    <Text style={styles.buttonText}>
-                      {LOCALES.CREATE_ACCOUNT}
-                    </Text>
+                    <FormattedMessageComponent
+                      id="LOG_IN"
+                      style={styles.buttonText}
+                    />
                   </Pressable>
                 </View>
               )}
             </Formik>
             <Pressable
               style={styles.buttonLast}
-              onPress={() =>
-                setModalRegistrationVisible(!modalRegistrationVisible)
-              }
+              onPress={() => setModalLogInVisible(!modalLogInVisible)}
             >
-              <Text style={styles.buttonText}>{LOCALES.CANCEL}</Text>
+              <FormattedMessageComponent
+                id="CANCEL"
+                style={styles.buttonText}
+              />
             </Pressable>
           </View>
         </View>
@@ -202,6 +185,7 @@ const styles = StyleSheet.create({
   },
   inputText: {
     ...STYLES.TEXT_INPUT,
+    marginBottom: 4,
   },
   label: {
     height: 21,
@@ -219,4 +203,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default observer(ModalRegistration);
+export default observer(ModalLogIn);

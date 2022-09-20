@@ -1,10 +1,11 @@
-export const LOCALES = {
+export const LOCALES_EN: { [key: string]: string; } = {
   ADD: 'Add',
   ADD_NEW_CATEGORY: 'Add new category',
   ADD_ICON: 'Add icon',
   APP_TITLE: 'Monetochka',
   CANCEL: 'Cancel',
-  CATEGORIES: 'Here you can manage all your categories',
+  CATEGORIES: 'Categories',
+  CATEGORIES_MSG: 'Here you can manage all your categories',
   CLOSE: 'Close',
   CONFIRM_PASSWORD: 'Confirm your password:',
   CREATE_ACCOUNT: 'Create account',
@@ -13,7 +14,8 @@ export const LOCALES = {
   EDIT: 'Edit',
   EMAIL: 'Email:',
   EXPENSES: 'Expenses',
-  HOME: 'Hello!',
+  HOME: 'Home',
+  HOME_MSG: 'Hello!',
   INTRO_SCREEN: 'Follow your expenses has never been easier.',
   LOG_IN: 'Log in',
   MANAGE_CATEGORIES: 'Manage categories',

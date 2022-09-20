@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dispatch, SetStateAction } from 'react';
+import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
-import { LOCALES } from '../constants/locales';
-import { STYLES } from '../styles/styles';
+import { STYLES } from '../../styles/styles';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type ModalColorPickerProps = {
   modalColorVisible: boolean;
@@ -41,7 +41,10 @@ export default function ModalColorPicker({
               style={styles.buttonLast}
               onPress={() => setModalColorVisible(!modalColorVisible)}
             >
-              <Text style={styles.buttonText}>{LOCALES.SELECT}</Text>
+              <FormattedMessageComponent
+                id="SELECT"
+                style={styles.buttonText}
+              />
             </Pressable>
           </View>
         </View>

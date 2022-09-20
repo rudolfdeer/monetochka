@@ -1,11 +1,14 @@
 import { observable, action, computed, makeAutoObservable } from 'mobx';
 import { createContext, useContext } from 'react';
+import * as Localization from 'expo-localization';
 import { Category, User } from '../constants/interfaces';
-import { getUser } from '../helpers/api';
+
+const locale = Localization.locale;
 
 class Store {
   @observable categories: Category[] = [];
   @observable userId: string = '';
+  @observable lang: string = locale;
 
   constructor() {
     makeAutoObservable(this);
@@ -20,12 +23,20 @@ class Store {
     this.categories = categories;
   }
 
+  @action changeLang = (lang: string) => {
+    this.lang = lang;
+  }
+
   @computed get allCategories () {
     return this.categories;
   }
 
   @computed get currentUserId () {
     return this.userId;
+  }
+
+  @computed get currentLang () {
+    return this.lang;
   }
 }
 

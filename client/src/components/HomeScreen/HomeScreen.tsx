@@ -9,25 +9,26 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import { StackParamList } from '../../App';
-import { LOCALES } from '../constants/locales';
-import { useStore } from '../mobx/store';
-import { STYLES } from '../styles/styles';
+import { StackParamList } from '../../../App';
+import { useStore } from '../../mobx/store';
+import { STYLES } from '../../styles/styles';
 import Categories from './Categories';
 import FormComponent from './Form';
-import Navbar from './Navbar';
+import Navbar from '../shared/Navbar';
 import Total from './Total';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type HomeScreenProps = NativeStackScreenProps<StackParamList, 'Home'>;
 
 function HomeScreen(props: HomeScreenProps) {
   const { allCategories } = useStore();
+
   const [currency, setCurrency] = useState('$');
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar title={'Home'} message={LOCALES.HOME} />
+        <Navbar titleId="HOME" messageId="HOME_MSG" />
         <Total categories={allCategories} currency={currency} />
         <FormComponent />
         <Categories categories={allCategories} currency={currency} />
@@ -35,7 +36,10 @@ function HomeScreen(props: HomeScreenProps) {
           style={styles.button}
           onPress={() => props.navigation.navigate('Categories')}
         >
-          <Text style={styles.buttonText}>{LOCALES.MANAGE_CATEGORIES}</Text>
+          <FormattedMessageComponent
+            id="MANAGE_CATEGORIES"
+            style={styles.buttonText}
+          />
         </Pressable>
         <StatusBar style="auto" />
       </ScrollView>

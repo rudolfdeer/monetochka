@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { STYLES } from '../styles/styles';
+import { STYLES } from '../../styles/styles';
+import FormattedMessageComponent from './FormattedMessage';
 
 type NavbarProps = {
-  title: string;
-  message: string;
+  titleId: string;
+  messageId: string;
 };
 
-export default function Navbar({ title, message }: NavbarProps) {
+export default function Navbar({ titleId, messageId }: NavbarProps) {
   return (
     <View style={styles.navbar}>
-      <Text style={styles.textSmall}>{message}</Text>
-      <Text style={styles.textBig}>{title}</Text>
+      <FormattedMessageComponent id={messageId} style={styles.textSmall} />
+      <FormattedMessageComponent id={titleId} style={styles.textBig} />
     </View>
   );
 }

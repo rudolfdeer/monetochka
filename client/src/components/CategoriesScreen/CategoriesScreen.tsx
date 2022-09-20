@@ -8,18 +8,28 @@ import {
   Text,
   View,
 } from 'react-native';
-import { emptyCategory } from '../constants/emptyMocks';
-import { Category } from '../constants/interfaces';
-import { LOCALES } from '../constants/locales';
-import { deleteCategory } from '../helpers/api';
-import { useStore } from '../mobx/store';
-import { STYLES } from '../styles/styles';
+import { emptyCategory } from '../../constants/emptyMocks';
+import { Category } from '../../constants/interfaces';
+import { deleteCategory } from '../../helpers/api';
+import { useStore } from '../../mobx/store';
+import { STYLES } from '../../styles/styles';
 import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
-import Navbar from './Navbar';
+import Navbar from '../shared/Navbar';
+import BarChart from './BarChart';
+import FormattedMessageComponent from '../shared/FormattedMessage';
+
+const getChartData = (categories: Category[]) => {
+  const data = categories.map((category) => ({
+    label: category.icon,
+    value: category.expenses,
+    color: category.color,
+  }));
+  return data;
+};
 
 function CategoriesScreen() {
-  const {allCategories, currentUserId, changeCategories} = useStore();
+  const { allCategories, currentUserId, changeCategories } = useStore();
 
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
@@ -40,7 +50,7 @@ function CategoriesScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar title={'Categories'} message={LOCALES.CATEGORIES} />
+        <Navbar titleId="CATEGORIES" messageId="CATEGORIES_MSG" />
         <View style={styles.categoriesContainer}>
           <ModalNewCategory
             modalAddVisible={modalAddVisible}
@@ -77,7 +87,10 @@ function CategoriesScreen() {
                       setModalEditVisible(true);
                     }}
                   >
-                    <Text style={styles.buttonEdit}>{LOCALES.EDIT}</Text>
+                    <FormattedMessageComponent
+                      id="EDIT"
+                      style={styles.buttonSmall}
+                    />
                   </Pressable>
                   <Pressable
                     onPress={() => {
@@ -85,18 +98,30 @@ function CategoriesScreen() {
                       handleDeleteCategory(category);
                     }}
                   >
-                    <Text style={styles.buttonEdit}>{LOCALES.DELETE}</Text>
+                    <FormattedMessageComponent
+                      id="DELETE"
+                      style={styles.buttonSmall}
+                    />
                   </Pressable>
                 </View>
               </View>
             ))}
+          </View>
+          <View style={styles.categories}>
+            <FormattedMessageComponent id="STATISTICS" style={styles.title} />
+            <View style={styles.chart}>
+              <BarChart data={getChartData(allCategories)} />
+            </View>
           </View>
         </View>
         <Pressable
           style={styles.button}
           onPress={() => setModalAddVisible(true)}
         >
-          <Text style={styles.buttonText}>{LOCALES.ADD_NEW_CATEGORY}</Text>
+          <FormattedMessageComponent
+            id="ADD_NEW_CATEGORY"
+            style={styles.buttonText}
+          />
         </Pressable>
       </ScrollView>
     </SafeAreaView>
@@ -133,7 +158,7 @@ const styles = StyleSheet.create({
   iconEmoji: {
     ...STYLES.ICON_EMOJI,
   },
-  buttonEdit: {
+  buttonSmall: {
     ...STYLES.BUTTON_SMALL,
     lineHeight: 20,
   },
@@ -157,6 +182,10 @@ const styles = StyleSheet.create({
   firstBtn: {
     marginRight: 16,
   },
+  title: {
+    ...STYLES.SECTION_TITLE,
+  },
+  chart: {},
 });
 
 export default observer(CategoriesScreen);
