@@ -15,8 +15,7 @@ import ModalColorPicker from './ModalColorPicker';
 import { changeCategory } from '../../helpers/api';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react-lite';
-import { FormattedMessage } from 'react-intl';
-import { LOCALES_EN } from '../../constants/locales/en';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type ModalEditCategoryProps = {
   modalEditVisible: boolean;
@@ -96,12 +95,10 @@ function ModalEditCategory({
                 <Text style={styles.errorText}>{error}</Text>
               </View>
               <Pressable onPress={() => setIsOpen(!isOpen)}>
-                <FormattedMessage
+                <FormattedMessageComponent
                   id="ADD_ICON"
-                  defaultMessage={LOCALES_EN.ADD_ICON}
-                >
-                  {(msg) => <Text style={styles.buttonSmall}>{msg}</Text>}
-                </FormattedMessage>
+                  style={styles.buttonSmall}
+                />
               </Pressable>
               <Pressable
                 onPress={() => {
@@ -109,12 +106,10 @@ function ModalEditCategory({
                   setModalColorVisible(true);
                 }}
               >
-                <FormattedMessage
+                <FormattedMessageComponent
                   id="SET_COLOR"
-                  defaultMessage={LOCALES_EN.SET_COLOR}
-                >
-                  {(msg) => <Text style={styles.buttonSmall}>{msg}</Text>}
-                </FormattedMessage>
+                  style={styles.buttonSmall}
+                />
               </Pressable>
               <EmojiPicker
                 onEmojiSelected={handleEmojiPick}
@@ -133,18 +128,17 @@ function ModalEditCategory({
                   setModalEditVisible(!modalEditVisible);
                 }}
               >
-                <FormattedMessage id="SAVE" defaultMessage={LOCALES_EN.SAVE}>
-                  {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-                </FormattedMessage>
+                <FormattedMessageComponent
+                  id="SAVE"
+                  style={styles.buttonText}
+                />
               </Pressable>
             </View>
             <Pressable
               style={styles.buttonLast}
               onPress={() => setModalEditVisible(!modalEditVisible)}
             >
-              <FormattedMessage id="CLOSE" defaultMessage={LOCALES_EN.CLOSE}>
-                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-              </FormattedMessage>
+              <FormattedMessageComponent id="CLOSE" style={styles.buttonText} />
             </Pressable>
           </View>
         </View>

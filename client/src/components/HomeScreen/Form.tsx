@@ -8,8 +8,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { changeCategory } from '../../helpers/api';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
-import { LOCALES_EN } from '../../constants/locales/en';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type FormProps = {
   modalShareExpensesVisible: boolean;
@@ -92,9 +91,7 @@ function FormComponent({
                 style={styles.button}
                 onPress={handleSubmit as (values: FormikValues) => void}
               >
-                <FormattedMessage id="ADD" defaultMessage={LOCALES_EN.ADD}>
-                  {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-                </FormattedMessage>
+                <FormattedMessageComponent id="ADD" style={styles.buttonText} />
               </Pressable>
             </View>
             <View style={styles.buttonShareContainer}>
@@ -104,12 +101,7 @@ function FormComponent({
                   setModalShareExpensesVisible(true);
                 }}
               >
-                <FormattedMessage
-                  id="SHARE_EXPENSES"
-                  defaultMessage={LOCALES_EN.SHARE_EXPENSES}
-                >
-                  {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-                </FormattedMessage>
+                <FormattedMessageComponent id="SHARE_EXPENSES" style={styles.buttonText} />
               </Pressable>
             </View>
           </View>

@@ -17,8 +17,7 @@ import ModalEditCategory from './ModalEditCategory';
 import ModalNewCategory from './ModalNewCategory';
 import Navbar from '../shared/Navbar';
 import BarChart from './BarChart';
-import { FormattedMessage } from 'react-intl';
-import { LOCALES_EN } from '../../constants/locales/en';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 const getChartData = (categories: Category[]) => {
   const data = categories.map((category) => ({
@@ -88,12 +87,10 @@ function CategoriesScreen() {
                       setModalEditVisible(true);
                     }}
                   >
-                    <FormattedMessage
+                    <FormattedMessageComponent
                       id="EDIT"
-                      defaultMessage={LOCALES_EN.EDIT}
-                    >
-                      {(msg) => <Text style={styles.buttonEdit}>{msg}</Text>}
-                    </FormattedMessage>
+                      style={styles.buttonSmall}
+                    />
                   </Pressable>
                   <Pressable
                     onPress={() => {
@@ -101,24 +98,17 @@ function CategoriesScreen() {
                       handleDeleteCategory(category);
                     }}
                   >
-                    <FormattedMessage
+                    <FormattedMessageComponent
                       id="DELETE"
-                      defaultMessage={LOCALES_EN.DELETE}
-                    >
-                      {(msg) => <Text style={styles.buttonEdit}>{msg}</Text>}
-                    </FormattedMessage>
+                      style={styles.buttonSmall}
+                    />
                   </Pressable>
                 </View>
               </View>
             ))}
           </View>
           <View style={styles.categories}>
-            <FormattedMessage
-              id="STATISTICS"
-              defaultMessage={LOCALES_EN.STATISTICS}
-            >
-              {(msg) => <Text style={styles.title}>{msg}</Text>}
-            </FormattedMessage>
+            <FormattedMessageComponent id="STATISTICS" style={styles.title} />
             <View style={styles.chart}>
               <BarChart data={getChartData(allCategories)} />
             </View>
@@ -128,12 +118,10 @@ function CategoriesScreen() {
           style={styles.button}
           onPress={() => setModalAddVisible(true)}
         >
-          <FormattedMessage
+          <FormattedMessageComponent
             id="ADD_NEW_CATEGORY"
-            defaultMessage={LOCALES_EN.ADD_NEW_CATEGORY}
-          >
-            {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-          </FormattedMessage>
+            style={styles.buttonText}
+          />
         </Pressable>
       </ScrollView>
     </SafeAreaView>
@@ -170,7 +158,7 @@ const styles = StyleSheet.create({
   iconEmoji: {
     ...STYLES.ICON_EMOJI,
   },
-  buttonEdit: {
+  buttonSmall: {
     ...STYLES.BUTTON_SMALL,
     lineHeight: 20,
   },

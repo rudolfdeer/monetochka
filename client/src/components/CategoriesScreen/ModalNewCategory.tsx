@@ -12,8 +12,7 @@ import { STYLES } from '../../styles/styles';
 import { createCategory } from '../../helpers/api';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
-import { LOCALES_EN } from '../../constants/locales/en';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type ModalNewCategoryProps = {
   modalAddVisible: boolean;
@@ -80,9 +79,10 @@ function ModalNewCategory({
                       setModalAddVisible(!modalAddVisible);
                     }}
                   >
-                    <FormattedMessage id="ADD" defaultMessage={LOCALES_EN.ADD}>
-                      {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-                    </FormattedMessage>
+                    <FormattedMessageComponent
+                      id="ADD"
+                      style={styles.buttonText}
+                    />
                   </Pressable>
                 </View>
               )}
@@ -91,9 +91,7 @@ function ModalNewCategory({
               style={styles.buttonLast}
               onPress={() => setModalAddVisible(!modalAddVisible)}
             >
-              <FormattedMessage id="CLOSE" defaultMessage={LOCALES_EN.CLOSE}>
-                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-              </FormattedMessage>
+              <FormattedMessageComponent id="CLOSE" style={styles.buttonText} />
             </Pressable>
           </View>
         </View>
