@@ -1,10 +1,9 @@
-import { FormattedMessage } from 'react-intl';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { emptyCategory } from '../../constants/emptyMocks';
 import { Category } from '../../constants/interfaces';
-import { LOCALES_EN } from '../../constants/locales/en';
 import { STYLES } from '../../styles/styles';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type CategoriesProps = {
   categories: Category[];
@@ -19,9 +18,7 @@ export default function Categories({ categories, currency }: CategoriesProps) {
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>
-        <FormattedMessage id="EXPENSES" defaultMessage={LOCALES_EN.EXPENSES}>
-          {(msg) => <Text style={styles.title}>{msg}</Text>}
-        </FormattedMessage>
+        <FormattedMessageComponent id="EXPENSES" style={styles.title} />
         <View style={styles.rowContainer}>
           <View>
             <View style={styles.categoryContainer} key={emptyCategory.id}>

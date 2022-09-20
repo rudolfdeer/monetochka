@@ -16,8 +16,7 @@ import { COLORS } from '../../styles/colors';
 import { STYLES } from '../../styles/styles';
 import { observer } from 'mobx-react';
 import { useStore } from '../../mobx/store';
-import { FormattedMessage } from 'react-intl';
-import { LOCALES_EN } from '../../constants/locales/en';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type ModalRegistrationProps = {
   params: NativeStackScreenProps<StackParamList, 'Intro'>;
@@ -91,12 +90,10 @@ function ModalRegistration({
               }) => (
                 <View style={styles.form}>
                   <View style={styles.label}>
-                    <FormattedMessage
+                    <FormattedMessageComponent
                       id="EMAIL"
-                      defaultMessage={LOCALES_EN.EMAIL}
-                    >
-                      {(msg) => <Text style={styles.labelText}>{msg}</Text>}
-                    </FormattedMessage>
+                      style={styles.labelText}
+                    />
                   </View>
                   <TextInput
                     textAlign={'left'}
@@ -112,12 +109,10 @@ function ModalRegistration({
                     ) : null}
                   </View>
                   <View style={styles.label}>
-                    <FormattedMessage
+                    <FormattedMessageComponent
                       id="CREATE_PASSWORD"
-                      defaultMessage={LOCALES_EN.CREATE_PASSWORD}
-                    >
-                      {(msg) => <Text style={styles.labelText}>{msg}</Text>}
-                    </FormattedMessage>
+                      style={styles.labelText}
+                    />
                   </View>
                   <TextInput
                     textAlign={'left'}
@@ -134,12 +129,10 @@ function ModalRegistration({
                     ) : null}
                   </View>
                   <View style={styles.label}>
-                    <FormattedMessage
+                    <FormattedMessageComponent
                       id="CONFIRM_PASSWORD"
-                      defaultMessage={LOCALES_EN.CONFIRM_PASSWORD}
-                    >
-                      {(msg) => <Text style={styles.labelText}>{msg}</Text>}
-                    </FormattedMessage>
+                      style={styles.labelText}
+                    />
                   </View>
                   <TextInput
                     secureTextEntry={true}
@@ -164,12 +157,10 @@ function ModalRegistration({
                       handleSubmit();
                     }}
                   >
-                    <FormattedMessage
+                    <FormattedMessageComponent
                       id="CREATE_ACCOUNT"
-                      defaultMessage={LOCALES_EN.CREATE_ACCOUNT}
-                    >
-                      {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-                    </FormattedMessage>
+                      style={styles.buttonText}
+                    />
                   </Pressable>
                 </View>
               )}
@@ -180,9 +171,10 @@ function ModalRegistration({
                 setModalRegistrationVisible(!modalRegistrationVisible)
               }
             >
-              <FormattedMessage id="CANCEL" defaultMessage={LOCALES_EN.CANCEL}>
-                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-              </FormattedMessage>
+              <FormattedMessageComponent
+                id="CANCEL"
+                style={styles.buttonText}
+              />
             </Pressable>
           </View>
         </View>

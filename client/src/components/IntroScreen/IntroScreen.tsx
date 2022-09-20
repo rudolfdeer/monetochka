@@ -6,9 +6,8 @@ import { observer } from 'mobx-react';
 import { STYLES } from '../../styles/styles';
 import ModalLogIn from './ModalLogIn';
 import ModalRegistration from './ModalRegistration';
-import { FormattedMessage } from 'react-intl';
-import { LOCALES_EN } from '../../constants/locales/en';
 import { useStore } from '../../mobx/store';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type IntroScreenProps = NativeStackScreenProps<StackParamList, 'Intro'>;
 
@@ -52,18 +51,8 @@ function IntroScreen(props: IntroScreenProps) {
             </Pressable>
           </View>
           <View>
-            <FormattedMessage
-              id="APP_TITLE"
-              defaultMessage={LOCALES_EN.APP_TITLE}
-            >
-              {(msg) => <Text style={styles.title}>{msg}</Text>}
-            </FormattedMessage>
-            <FormattedMessage
-              id="INTRO_SCREEN"
-              defaultMessage={LOCALES_EN.INTRO_SCREEN}
-            >
-              {(msg) => <Text style={styles.text}>{msg}</Text>}
-            </FormattedMessage>
+            <FormattedMessageComponent id="APP_TITLE" style={styles.title} />
+            <FormattedMessageComponent id="INTRO_SCREEN" style={styles.text} />
           </View>
         </View>
         <View>
@@ -71,17 +60,13 @@ function IntroScreen(props: IntroScreenProps) {
             style={styles.button}
             onPress={() => setModalLogInVisible(true)}
           >
-            <FormattedMessage id="LOG_IN" defaultMessage={LOCALES_EN.LOG_IN}>
-              {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-            </FormattedMessage>
+            <FormattedMessageComponent id="LOG_IN" style={styles.buttonText} />
           </Pressable>
           <Pressable onPress={() => setModalRegistrationVisible(true)}>
-            <FormattedMessage
+            <FormattedMessageComponent
               id="REGISTER"
-              defaultMessage={LOCALES_EN.REGISTER}
-            >
-              {(msg) => <Text style={styles.buttonSmall}>{msg}</Text>}
-            </FormattedMessage>
+              style={styles.buttonSmall}
+            />
           </Pressable>
         </View>
       </View>

@@ -10,23 +10,21 @@ import {
   Text,
 } from 'react-native';
 import { StackParamList } from '../../../App';
-import { LOCALES } from '../../constants/locales';
 import { useStore } from '../../mobx/store';
 import { STYLES } from '../../styles/styles';
 import Categories from './Categories';
 import FormComponent from './Form';
 import Navbar from '../shared/Navbar';
 import Total from './Total';
-import { FormattedMessage } from 'react-intl';
-import { LOCALES_EN } from '../../constants/locales/en';
+import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type HomeScreenProps = NativeStackScreenProps<StackParamList, 'Home'>;
 
 function HomeScreen(props: HomeScreenProps) {
   const { allCategories } = useStore();
-  
+
   const [currency, setCurrency] = useState('$');
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -38,9 +36,10 @@ function HomeScreen(props: HomeScreenProps) {
           style={styles.button}
           onPress={() => props.navigation.navigate('Categories')}
         >
-          <FormattedMessage id="MANAGE_CATEGORIES" defaultMessage={LOCALES_EN.MANAGE_CATEGORIES}>
-                {(msg) => <Text style={styles.buttonText}>{msg}</Text>}
-              </FormattedMessage>
+          <FormattedMessageComponent
+            id="MANAGE_CATEGORIES"
+            style={styles.buttonText}
+          />
         </Pressable>
         <StatusBar style="auto" />
       </ScrollView>

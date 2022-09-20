@@ -14,7 +14,7 @@ export const LOCALES_EN: { [key: string]: string; } = {
   EDIT: 'Edit',
   EMAIL: 'Email:',
   EXPENSES: 'Expenses',
-  HOME: 'HOME',
+  HOME: 'Home',
   HOME_MSG: 'Hello!',
   INTRO_SCREEN: 'Follow your expenses has never been easier.',
   LOG_IN: 'Log in',
