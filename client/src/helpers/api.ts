@@ -2,6 +2,38 @@ import { Category } from '../constants/interfaces';
 
 const base = 'http://127.0.0.1:3000/api/user';
 
+
+  //  const ws = new WebSocket('ws://127.0.0.1:3000');
+
+  // ws.onopen = () => {
+  //   // connection opened
+  //   ws.send('opened'); // send a message
+  // };
+
+  // ws.onmessage = function (event) {
+  //   const result = JSON.parse(event.data);
+  //   try {
+  //     if ((result.event = 'data')) {
+  //       console.log(result.data);
+  //       //changeCategories(result.data.categories);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // ws.onerror = (e) => {
+  //   // an error occurred
+  //   if (e instanceof Error) {
+  //     console.log('error', e.message);
+  //   }
+  // };
+
+  // ws.onclose = (e) => {
+  //   // connection closed
+  //   console.log('closed', e.code, e.reason);
+  // };
+
 export const getUser = async (id: string) => {
   const response = await fetch(`${base}/${id}`);
   const result = await response.json();
@@ -25,6 +57,9 @@ export const signIn = async (email: string, password: string) => {
   if (result.message) {
     throw new Error(result.message);
   }
+
+  
+
   return result;
 };
 
@@ -112,5 +147,11 @@ export const shareExpense = async (
   if (result.message) {
     throw new Error(result.message);
   }
+
+
   return result.success;
+};
+
+export const signOut = () => {
+  
 };

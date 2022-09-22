@@ -15,6 +15,7 @@ import { STYLES } from '../../styles/styles';
 import { COLORS } from '../../styles/colors';
 import { shareExpense } from '../../helpers/api';
 import { useStore } from '../../mobx/store';
+import { useSockets } from '../../helpers/useSockets';
 
 type ModalShareExpensesProps = {
   modalShareExpensesVisible: boolean;
@@ -40,13 +41,26 @@ export default function ModalShareExpenses({
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { currentUserId } = useStore();
+  const { actions } = useSockets();
 
   const handleFormSubmit = async (values: FormikValues) => {
     const numberSum = +parseFloat(values.sum).toFixed(3);
+    const payload = {
+      userId: currentUserId,
+      email: values.email,
+      sum: numberSum
+    };
+
     try {
       const result = await shareExpense(currentUserId, values.email, numberSum);
+      actions.update(payload);
       setSuccess(result);
-      //setModalShareExpensesVisible(!modalShareExpensesVisible);
+      setTimeout(() => {
+        setModalShareExpensesVisible(!modalShareExpensesVisible);
+        setSuccess('');
+        setError('');
+      }, 1000);
+
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

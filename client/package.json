@@ -37,6 +37,7 @@
     "react-native-web": "0.17.7",
     "react-native-wheel-color-picker": "^1.2.0",
     "rn-emoji-keyboard": "^0.7.1",
+    "socket.io-client": "^4.5.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },

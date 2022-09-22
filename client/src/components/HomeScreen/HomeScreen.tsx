@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
 } from 'react-native';
 import { StackParamList } from '../../../App';
 import { useStore } from '../../mobx/store';
