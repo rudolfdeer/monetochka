@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { User } from '../constants/interfaces';
 import { useStore } from '../mobx/store';

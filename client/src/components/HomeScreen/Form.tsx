@@ -27,7 +27,6 @@ const ValidationSchema = Yup.object().shape({
 });
 
 function FormComponent({
-  modalShareExpensesVisible,
   setModalShareExpensesVisible,
 }: FormProps) {
   const [error, setError] = useState('');
