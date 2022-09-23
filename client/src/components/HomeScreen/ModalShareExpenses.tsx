@@ -52,9 +52,7 @@ export default function ModalShareExpenses({
     };
 
     try {
-      const result = await shareExpense(currentUserId, values.email, numberSum);
       actions.update(payload);
-      setSuccess(result);
       setTimeout(() => {
         setModalShareExpensesVisible(!modalShareExpensesVisible);
         setSuccess('');

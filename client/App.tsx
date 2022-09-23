@@ -1,13 +1,24 @@
+import "intl";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react';
 import { IntlProvider } from 'react-intl';
+import { Platform } from 'react-native';
 import CategoriesScreen from './src/components/CategoriesScreen/CategoriesScreen';
 import HomeScreen from './src/components/HomeScreen/HomeScreen';
 import IntroScreen from './src/components/IntroScreen/IntroScreen';
 import { LOCALES_EN } from './src/constants/locales/en';
 import { LOCALES_FR } from './src/constants/locales/fr';
 import { useStore } from './src/mobx/store';
+
+if (Platform.OS === "android") {
+  // See https://github.com/expo/expo/issues/6536 for this issue.
+  if (typeof (Intl as any).__disableRegExpRestore === "function") {
+      (Intl as any).__disableRegExpRestore();
+  }
+}
+
+import "intl/locale-data/jsonp/en";
 
 export type StackParamList = {
   Home: undefined;

@@ -156,8 +156,10 @@ export class UserService {
     } else {
       const updatedCategory = {
         ...category,
-        expenses: category.expenses + sum,
       };
+
+      updatedCategory.expenses = category.expenses + sum;
+
       const index = user.categories.indexOf(category);
       const updatedCategories = [
         ...user.categories.slice(0, index),

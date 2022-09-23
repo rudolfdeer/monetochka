@@ -16,6 +16,8 @@ type ShareExpensesPayload = {
   sum: number;
 };
 
+const users: Record<string, string> = {};
+
 @WebSocketGateway({
   namespace: 'events',
   cors: {
@@ -30,16 +32,21 @@ export class EventsGateway
   server: Server;
 
   afterInit(server: Server) {
-    console.log('initialized', server);
+    console.log('initialized');
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log('connected');
     const userId = client.handshake.query.userId as string;
+    const socketId = client.id;
+    users[socketId] = userId;
+    console.log(`user ${userId} connected`);
   }
 
   handleDisconnect(client: Socket) {
-    console.log('disconnected');
+    const socketId = client.id;
+    const userId = users[socketId];
+    delete users[socketId];
+    console.log(`user ${userId} disconnected`);
   }
 
   @SubscribeMessage('user:put')

@@ -1,6 +1,7 @@
+import {IP_ADRESS} from '@env';
 import { Category } from '../constants/interfaces';
 
-const base = 'http://127.0.0.1:3000/api/user';
+const base = `http://${IP_ADRESS}:3000/api/user`;
 
 export const getUser = async (id: string) => {
   const response = await fetch(`${base}/${id}`);
