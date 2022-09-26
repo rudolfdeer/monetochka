@@ -26,9 +26,7 @@ const ValidationSchema = Yup.object().shape({
     .required('required'),
 });
 
-function FormComponent({
-  setModalShareExpensesVisible,
-}: FormProps) {
+function FormComponent({ setModalShareExpensesVisible }: FormProps) {
   const [error, setError] = useState('');
 
   const { allCategories, changeCategories, currentUserId } = useStore();
@@ -76,15 +74,13 @@ function FormComponent({
                 selectedValue={values.categoryId}
                 onValueChange={handleChange('categoryId')}
               >
-                {allCategories.map((category) => {
-                  return (
-                    <Picker.Item
-                      label={category.name}
-                      value={category.id}
-                      key={category.id}
-                    />
-                  );
-                })}
+                {allCategories.map((category) => (
+                  <Picker.Item
+                    label={category.name}
+                    value={category.id}
+                    key={category.id}
+                  />
+                ))}
               </Picker>
               <Pressable
                 style={styles.button}
@@ -100,7 +96,10 @@ function FormComponent({
                   setModalShareExpensesVisible(true);
                 }}
               >
-                <FormattedMessageComponent id="SHARE_EXPENSES" style={styles.buttonText} />
+                <FormattedMessageComponent
+                  id="SHARE_EXPENSES"
+                  style={styles.buttonText}
+                />
               </Pressable>
             </View>
           </View>
