@@ -34,9 +34,14 @@ export const useSockets = () => {
     socket.emit('user:put', payload);
   }, []);
 
+  const logOut = useCallback(() => {
+    socket.close();
+  }, []);
+
   const actions = useMemo(
     () => ({
       update,
+      logOut,
     }),
     []
   );

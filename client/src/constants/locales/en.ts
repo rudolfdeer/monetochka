@@ -19,6 +19,7 @@ export const LOCALES_EN: { [key: string]: string; } = {
   HOME_MSG: 'Hello!',
   INTRO_SCREEN: 'Follow your expenses has never been easier.',
   LOG_IN: 'Log in',
+  LOG_OUT: 'Log out',
   MANAGE_CATEGORIES: 'Manage categories',
   PASSWORD: 'Password:',
   REGISTER: 'Register',

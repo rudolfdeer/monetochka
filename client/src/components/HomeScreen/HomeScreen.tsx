@@ -34,7 +34,7 @@ function HomeScreen(props: HomeScreenProps) {
           modalShareExpensesVisible={modalShareExpensesVisible}
           setModalShareExpensesVisible={setModalShareExpensesVisible}
         />
-        <Navbar titleId="HOME" messageId="HOME_MSG" />
+        <Navbar params={props} titleId="HOME" messageId="HOME_MSG" />
         <Total categories={allCategories} currency={currency} />
         <FormComponent
           modalShareExpensesVisible={modalShareExpensesVisible}

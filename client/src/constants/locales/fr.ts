@@ -19,6 +19,7 @@ export const LOCALES_FR: { [key: string]: string; } = {
   HOME_MSG: 'Bonjour !',
   INTRO_SCREEN: 'Le suivi de vos dépenses est facile.',
   LOG_IN: 'Se connecter',
+  LOG_OUT: 'Se déconnecter',
   MANAGE_CATEGORIES: 'Gérer les catégories',
   PASSWORD: 'Mot de passe:',
   REGISTER: `S'inscrire`,
