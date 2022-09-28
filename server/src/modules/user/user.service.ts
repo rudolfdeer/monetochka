@@ -20,8 +20,15 @@ export class UserService {
     return user;
   }
 
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email });
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+    return user;
+  }
+
   async signIn(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ email });
+
     if (user && comparePasswords(password, user.password)) {
       return user;
     } else {

@@ -32,7 +32,7 @@ const getChartData = (categories: Category[]) => {
   return data;
 };
 
-function CategoriesScreen() {
+function CategoriesScreen(props: CategoriesScreenProps) {
   const { allCategories, currentUserId, changeCategories } = useStore();
 
   const [modalAddVisible, setModalAddVisible] = useState(false);

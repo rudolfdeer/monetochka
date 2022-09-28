@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { io, Socket } from 'socket.io-client';
-import {IP_ADRESS} from '@env';
 import { User } from '../constants/interfaces';
 import { useStore } from '../mobx/store';
-
-const server = `http://${IP_ADRESS}:3000/events`;
+import { socketsBase } from '../constants/server';
+import * as Notifications from 'expo-notifications';
+import { getUser } from './api';
 
 type UserUpdatePayload = {
   userId: string;
@@ -12,20 +12,40 @@ type UserUpdatePayload = {
   sum: number;
 };
 
+type SocketResponseType = {
+  userUpdated: User;
+  userIdShared: string;
+  sum: number;
+};
+
+async function schedulePushNotification(userIdShared: string, sum: number) {
+  const { email } = await getUser(userIdShared);
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: 'One of your friends has shared expenses with you! 📬',
+      body: `Friend: ${email}, amount: ${sum}$`,
+      data: { data: 'goes here' },
+    },
+    trigger: { seconds: 1 },
+  });
+}
+
 let socket: Socket;
 
 export const useSockets = () => {
   const { currentUserId, changeCategories } = useStore();
-    socket = io(server, {
-      query: {
-        userId: currentUserId,
-      },
-    });
-  
+  socket = io(socketsBase, {
+    query: {
+      userId: currentUserId,
+    },
+  });
+
   useEffect(() => {
-    socket.on('user:put', (user: User) => {
-      if (user._id === currentUserId) {
-        changeCategories(user.categories);
+    socket.on('user:put', (response: SocketResponseType) => {
+      const { userUpdated, userIdShared, sum } = response;
+      if (userUpdated._id === currentUserId) {
+        schedulePushNotification(userIdShared, sum);
+        changeCategories(userUpdated.categories);
       }
     });
   }, []);

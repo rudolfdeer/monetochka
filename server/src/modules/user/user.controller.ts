@@ -115,10 +115,8 @@ export class UserController {
     @Body('sum') sum: number,
   ) {
     try {
-      await this.userService.shareExpenses(userId, email, sum);
-      return {
-        success: `Successfully shared ${sum}$ with ${email}`,
-      };
+      const response = await this.userService.shareExpenses(userId, email, sum);
+      return response;
     } catch (err) {
       throw new NotFoundException(err.message);
     }

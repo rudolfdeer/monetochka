@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   Modal,
@@ -16,6 +16,7 @@ import { COLORS } from '../../styles/colors';
 import { shareExpense } from '../../helpers/api';
 import { useStore } from '../../mobx/store';
 import { useSockets } from '../../helpers/useSockets';
+
 
 type ModalShareExpensesProps = {
   modalShareExpensesVisible: boolean;
@@ -38,8 +39,6 @@ export default function ModalShareExpenses({
   modalShareExpensesVisible,
   setModalShareExpensesVisible,
 }: ModalShareExpensesProps) {
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const { currentUserId } = useStore();
   const { actions } = useSockets();
 
@@ -52,16 +51,14 @@ export default function ModalShareExpenses({
     };
 
     try {
+      await shareExpense(currentUserId, values.email, numberSum);
       actions.update(payload);
-      setTimeout(() => {
-        setModalShareExpensesVisible(!modalShareExpensesVisible);
-        setSuccess('');
-        setError('');
-      }, 1000);
+      alert(`Successfully shared ${numberSum}$ with ${values.email}`);
+      setModalShareExpensesVisible(!modalShareExpensesVisible);
 
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message);
+        alert(err.message);
       }
     }
   };
@@ -142,16 +139,6 @@ export default function ModalShareExpenses({
                       </View>
                     </View>
                   </View>
-                  {error ? (
-                    <View style={styles.errorContainer}>
-                      <Text style={styles.errorText}>{error}</Text>
-                    </View>
-                  ) : (
-                    <View style={styles.errorContainer}>
-                      <Text style={styles.successText}>{success}</Text>
-                    </View>
-                  )}
-
                   <Pressable
                     style={styles.buttonFirst}
                     onPress={handleSubmit as (values: FormikValues) => void}

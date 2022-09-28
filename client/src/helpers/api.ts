@@ -1,10 +1,8 @@
-import {IP_ADRESS} from '@env';
 import { Category } from '../constants/interfaces';
-
-const base = `http://${IP_ADRESS}:3000/api/user`;
+import { apiBase } from '../constants/server';
 
 export const getUser = async (id: string) => {
-  const response = await fetch(`${base}/${id}`);
+  const response = await fetch(`${apiBase}/${id}`);
   const result = await response.json();
   if (result.message) {
     throw new Error(result.message);
@@ -15,13 +13,14 @@ export const getUser = async (id: string) => {
 export const signIn = async (email: string, password: string) => {
   const body = { email, password };
 
-  const response = await fetch(`${base}/sign-in`, {
+  const response = await fetch(`${apiBase}/sign-in`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  
   const result = await response.json();
   if (result.message) {
     throw new Error(result.message);
@@ -32,7 +31,7 @@ export const signIn = async (email: string, password: string) => {
 export const changeCategory = async (userId: string, category: Category) => {
   const body = { ...category };
 
-  const response = await fetch(`${base}/${userId}/category/${category.id}`, {
+  const response = await fetch(`${apiBase}/${userId}/category/${category.id}`, {
     method: 'PUT',
     body: JSON.stringify(body),
     headers: {
@@ -51,7 +50,7 @@ export const createCategory = async (userId: string, categoryName: string) => {
     name: categoryName,
   };
 
-  const response = await fetch(`${base}/${userId}/category`, {
+  const response = await fetch(`${apiBase}/${userId}/category`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -68,7 +67,7 @@ export const createCategory = async (userId: string, categoryName: string) => {
 export const signUp = async (email: string, password: string) => {
   const body = { email, password };
 
-  const response = await fetch(`${base}/sign-up`, {
+  const response = await fetch(`${apiBase}/sign-up`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -83,7 +82,7 @@ export const signUp = async (email: string, password: string) => {
 };
 
 export const deleteCategory = async (userId: string, categoryId: string) => {
-  const response = await fetch(`${base}/${userId}/category/${categoryId}`, {
+  const response = await fetch(`${apiBase}/${userId}/category/${categoryId}`, {
     method: 'DELETE',
   });
   const result = await response.json();
@@ -102,7 +101,7 @@ export const shareExpense = async (
     email,
     sum,
   };
-  const response = await fetch(`${base}/${userId}/share`, {
+  const response = await fetch(`${apiBase}/${userId}/share`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -110,8 +109,9 @@ export const shareExpense = async (
     },
   });
   const result = await response.json();
+
   if (result.message) {
     throw new Error(result.message);
   }
-  return result.success;
+  return result;
 };
