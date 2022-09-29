@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
 } from 'react-native';
 import { StackParamList } from '../../../App';
 import { useStore } from '../../mobx/store';
@@ -17,6 +16,7 @@ import FormComponent from './Form';
 import Navbar from '../shared/Navbar';
 import Total from './Total';
 import FormattedMessageComponent from '../shared/FormattedMessage';
+import ModalShareExpenses from './ModalShareExpenses';
 
 type HomeScreenProps = NativeStackScreenProps<StackParamList, 'Home'>;
 
@@ -24,13 +24,22 @@ function HomeScreen(props: HomeScreenProps) {
   const { allCategories } = useStore();
 
   const [currency, setCurrency] = useState('$');
+  const [modalShareExpensesVisible, setModalShareExpensesVisible] =
+    useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar titleId="HOME" messageId="HOME_MSG" />
+        <ModalShareExpenses
+          modalShareExpensesVisible={modalShareExpensesVisible}
+          setModalShareExpensesVisible={setModalShareExpensesVisible}
+        />
+        <Navbar params={props} titleId="HOME" messageId="HOME_MSG" />
         <Total categories={allCategories} currency={currency} />
-        <FormComponent />
+        <FormComponent
+          modalShareExpensesVisible={modalShareExpensesVisible}
+          setModalShareExpensesVisible={setModalShareExpensesVisible}
+        />
         <Categories categories={allCategories} currency={currency} />
         <Pressable
           style={styles.button}

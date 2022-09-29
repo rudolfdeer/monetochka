@@ -18,6 +18,10 @@ import ModalNewCategory from './ModalNewCategory';
 import Navbar from '../shared/Navbar';
 import BarChart from './BarChart';
 import FormattedMessageComponent from '../shared/FormattedMessage';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StackParamList } from '../../../App';
+
+type CategoriesScreenProps = NativeStackScreenProps<StackParamList, 'Categories'>;
 
 const getChartData = (categories: Category[]) => {
   const data = categories.map((category) => ({
@@ -50,7 +54,7 @@ function CategoriesScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Navbar titleId="CATEGORIES" messageId="CATEGORIES_MSG" />
+        <Navbar params={props} titleId="CATEGORIES" messageId="CATEGORIES_MSG" />
         <View style={styles.categoriesContainer}>
           <ModalNewCategory
             modalAddVisible={modalAddVisible}

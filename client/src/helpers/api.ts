@@ -1,6 +1,7 @@
+import {IP_ADRESS} from '@env';
 import { Category } from '../constants/interfaces';
 
-const base = 'http://127.0.0.1:3000/api/user';
+const base = `http://${IP_ADRESS}:3000/api/user`;
 
 export const getUser = async (id: string) => {
   const response = await fetch(`${base}/${id}`);
@@ -90,4 +91,27 @@ export const deleteCategory = async (userId: string, categoryId: string) => {
     throw new Error(result.message);
   }
   return result;
+};
+
+export const shareExpense = async (
+  userId: string,
+  email: string,
+  sum: number
+) => {
+  const body = {
+    email,
+    sum,
+  };
+  const response = await fetch(`${base}/${userId}/share`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  if (result.message) {
+    throw new Error(result.message);
+  }
+  return result.success;
 };

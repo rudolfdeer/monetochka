@@ -4,12 +4,16 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as Yup from 'yup';
 import { COLORS } from '../../styles/colors';
 import { STYLES } from '../../styles/styles';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { changeCategory } from '../../helpers/api';
-import { emptyCategory } from '../../constants/emptyMocks';
 import { useStore } from '../../mobx/store';
 import { observer } from 'mobx-react';
 import FormattedMessageComponent from '../shared/FormattedMessage';
+
+type FormProps = {
+  modalShareExpensesVisible: boolean;
+  setModalShareExpensesVisible: Dispatch<SetStateAction<boolean>>;
+};
 
 const initialValues = {
   sum: '0',
@@ -22,7 +26,7 @@ const ValidationSchema = Yup.object().shape({
     .required('required'),
 });
 
-function FormComponent() {
+function FormComponent({ setModalShareExpensesVisible }: FormProps) {
   const [error, setError] = useState('');
 
   const { allCategories, changeCategories, currentUserId } = useStore();
@@ -57,39 +61,47 @@ function FormComponent() {
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={styles.form}>
-            <TextInput
-              style={styles.inputText}
-              value={values.sum}
-              onChangeText={handleChange('sum')}
-              onBlur={handleBlur('sum')}
-            />
-            <Picker
-              style={styles.inputSelect}
-              itemStyle={styles.selectElement}
-              selectedValue={values.categoryId}
-              onValueChange={handleChange('categoryId')}
-            >
-              <Picker.Item
-                label={emptyCategory.name}
-                value={emptyCategory.id}
-                key={emptyCategory.id}
+            <View style={styles.row}>
+              <TextInput
+                style={styles.inputText}
+                value={values.sum}
+                onChangeText={handleChange('sum')}
+                onBlur={handleBlur('sum')}
               />
-              {allCategories.map((category) => {
-                return (
+              <Picker
+                style={styles.inputSelect}
+                itemStyle={styles.selectElement}
+                selectedValue={values.categoryId}
+                onValueChange={handleChange('categoryId')}
+              >
+                {allCategories.map((category) => (
                   <Picker.Item
                     label={category.name}
                     value={category.id}
                     key={category.id}
                   />
-                );
-              })}
-            </Picker>
-            <Pressable
-              style={styles.button}
-              onPress={handleSubmit as (values: FormikValues) => void}
-            >
-              <FormattedMessageComponent id="ADD" style={styles.buttonText} />
-            </Pressable>
+                ))}
+              </Picker>
+              <Pressable
+                style={styles.button}
+                onPress={handleSubmit as (values: FormikValues) => void}
+              >
+                <FormattedMessageComponent id="ADD" style={styles.buttonText} />
+              </Pressable>
+            </View>
+            <View style={styles.buttonShareContainer}>
+              <Pressable
+                style={styles.buttonShare}
+                onPress={() => {
+                  setModalShareExpensesVisible(true);
+                }}
+              >
+                <FormattedMessageComponent
+                  id="SHARE_EXPENSES"
+                  style={styles.buttonText}
+                />
+              </Pressable>
+            </View>
           </View>
         )}
       </Formik>
@@ -106,10 +118,17 @@ const styles = StyleSheet.create({
   },
   form: {
     ...STYLES.SECTION,
+    marginBottom: 0,
+  },
+  row: {
+    paddingTop: 16,
     flexDirection: 'row',
-    height: 110,
     alignItems: 'center',
-    paddingVertical: 16,
+    borderRadius: 13,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    width: '100%',
   },
   inputText: {
     height: 50,
@@ -139,6 +158,15 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...STYLES.ERROR_TEXT,
+  },
+  buttonShare: {
+    ...STYLES.BUTTON_BIG,
+    width: '100%',
+  },
+  buttonShareContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 16,
   },
 });
 

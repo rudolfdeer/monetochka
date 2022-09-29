@@ -11,7 +11,6 @@ export default function FormattedMessageComponent({
   id,
   style,
 }: FormattedMessageProps) {
-  console.log(id, style);
   return (
     <FormattedMessage id={id} defaultMessage={LOCALES_EN[id]}>
       {(msg) => <Text style={style}>{msg}</Text>}
