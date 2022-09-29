@@ -3,8 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { User } from '../constants/interfaces';
 import { useStore } from '../mobx/store';
 import { socketsBase } from '../constants/server';
-import * as Notifications from 'expo-notifications';
-import { getUser } from './api';
+import { schedulePushNotification } from './schedulePushNotification';
 
 type UserUpdatePayload = {
   userId: string;
@@ -17,18 +16,6 @@ type SocketResponseType = {
   userIdShared: string;
   sum: number;
 };
-
-async function schedulePushNotification(userIdShared: string, sum: number) {
-  const { email } = await getUser(userIdShared);
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: 'One of your friends has shared expenses with you! 📬',
-      body: `Friend: ${email}, amount: ${sum}$`,
-      data: { data: 'goes here' },
-    },
-    trigger: { seconds: 1 },
-  });
-}
 
 let socket: Socket;
 

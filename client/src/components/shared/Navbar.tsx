@@ -33,10 +33,6 @@ export default function Navbar({ titleId, messageId, params }: NavbarProps) {
 
 const styles = StyleSheet.create({
   navbar: {
-    // marginBottom: 24,
-    // marginTop: 10,
-    // paddingHorizontal: 16,
-    // width: '100%',
     alignItems: 'flex-start',
     marginRight: 16,
   },
@@ -51,7 +47,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 24,
     marginTop: 10,
-    //width: '100%',
     paddingHorizontal: 16,
   },
   button: {
