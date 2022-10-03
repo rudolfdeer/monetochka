@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { StackParamList } from '../../../App';
+import * as SecureStore from 'expo-secure-store';
 import { useSockets } from '../../helpers/useSockets';
 import { STYLES } from '../../styles/styles';
 import FormattedMessageComponent from './FormattedMessage';
@@ -13,8 +14,9 @@ type NavbarProps = {
 
 export default function Navbar({ titleId, messageId, params }: NavbarProps) {
   const { actions } = useSockets();
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     actions.logOut();
+    await SecureStore.deleteItemAsync('jwt');
     params.navigation.navigate('Intro');
   };
 

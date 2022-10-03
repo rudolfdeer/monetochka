@@ -1,3 +1,4 @@
+import * as SecureStore from 'expo-secure-store';
 import { Category } from '../constants/interfaces';
 import { apiBase } from '../constants/server';
 
@@ -20,12 +21,14 @@ export const signIn = async (email: string, password: string) => {
       'Content-Type': 'application/json',
     },
   });
-  
+
   const result = await response.json();
   if (result.message) {
     throw new Error(result.message);
   }
-  return result;
+
+  await SecureStore.setItemAsync('jwt', result.access_token);
+  return result.user;
 };
 
 export const changeCategory = async (userId: string, category: Category) => {
@@ -110,6 +113,28 @@ export const shareExpense = async (
   });
   const result = await response.json();
 
+  if (result.message) {
+    throw new Error(result.message);
+  }
+  return result;
+};
+
+export const getLoggedInUser = async () => {
+  const cookie = await SecureStore.getItemAsync('jwt');
+  if (!cookie) return null;
+
+  const body = {
+    jwt: cookie,
+  };
+
+  const response = await fetch(`${apiBase}`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
   if (result.message) {
     throw new Error(result.message);
   }

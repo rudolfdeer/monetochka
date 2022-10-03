@@ -26,7 +26,8 @@ if (Platform.OS === 'android') {
     (Intl as any).__disableRegExpRestore();
   }
 }
-import "intl/locale-data/jsonp/en";
+import 'intl/locale-data/jsonp/en';
+import { getLoggedInUser } from './src/helpers/api';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -44,10 +45,21 @@ const i18nConfig = {
 const Stack = createNativeStackNavigator<StackParamList>();
 
 function App() {
-  const { currentLang } = useStore();
+  const { currentLang, setLoggedInUser } = useStore();
 
   useEffect(() => {
     registerForPushNotifications();
+    const fetchLoggedInUser = async () => {
+      try {
+        const user = await getLoggedInUser();
+        setLoggedInUser(user);
+      } catch (err) {
+        if (err instanceof Error) {
+          console.log(err.message);
+        }
+      }
+    };
+    fetchLoggedInUser();
   }, []);
 
   switch (currentLang) {
@@ -70,7 +82,7 @@ function App() {
     >
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Intro" component={IntroScreen} />
+          <Stack.Screen name="Intro" component={IntroScreen} options={{ headerShown: false }}/>
           <Stack.Screen
             name="Home"
             component={HomeScreen}

@@ -43,7 +43,8 @@
     "uuid": "^8.3.2",
     "yup": "^0.32.11",
     "expo-notifications": "~0.15.4",
-    "expo-device": "~4.2.0"
+    "expo-device": "~4.2.0",
+    "expo-secure-store": "~11.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

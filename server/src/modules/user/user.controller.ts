@@ -9,13 +9,28 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
+import { UserId } from '../../utils/userId.decorator';
 
 @Controller('api/user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post()
+  async getLoggedInUser(@UserId() userId: string) {
+    try {
+      const response = await this.userService.getUser(userId);
+      return response;
+    } catch (err) {
+      throw new NotFoundException(err.message);
+    }
+  }
 
   @Get('/:id')
   async getUser(@Param('id') id: string) {
@@ -40,14 +55,12 @@ export class UserController {
     }
   }
 
+  @UseGuards(AuthGuard('local'))
   @Post('/sign-in')
   @HttpCode(200)
-  async signIn(
-    @Body('email') email: string,
-    @Body('password') password: string,
-  ) {
+  async signIn(@Request() req) {
     try {
-      const response = await this.userService.signIn(email, password);
+      const response = await this.userService.signIn(req.user);
       return response;
     } catch (err) {
       throw new UnauthorizedException(err.message);

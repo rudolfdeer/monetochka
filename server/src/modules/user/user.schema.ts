@@ -8,6 +8,13 @@ interface Category {
   color: string;
 }
 
+export interface IUser {
+  _id: string;
+  email: string;
+  password: number;
+  categories: Category[];
+}
+
 export type UserDocument = User & Document;
 @Schema()
 export class User {
