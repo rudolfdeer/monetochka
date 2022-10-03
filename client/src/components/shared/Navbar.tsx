@@ -9,7 +9,7 @@ import FormattedMessageComponent from './FormattedMessage';
 type NavbarProps = {
   titleId: string;
   messageId: string;
-  params: NativeStackScreenProps<StackParamList, 'Home' | 'Categories'>;
+  params: NativeStackScreenProps<StackParamList, 'Home' | 'Categories' | 'Settings'>;
 };
 
 export default function Navbar({ titleId, messageId, params }: NavbarProps) {
@@ -26,9 +26,15 @@ export default function Navbar({ titleId, messageId, params }: NavbarProps) {
         <FormattedMessageComponent id={messageId} style={styles.textSmall} />
         <FormattedMessageComponent id={titleId} style={styles.textBig} />
       </View>
-      <Pressable style={styles.button} onPress={handleLogOut}>
+      <View style={styles.buttons}>
+        <Pressable style={styles.button} onPress={handleLogOut}>
       <Image style={styles.icon} source={require('./logout.png')} />
       </Pressable>
+      <Pressable style={styles.button} onPress={() => params.navigation.navigate('Settings')}>
+      <Image style={styles.icon} source={require('./settings.png')} />
+      </Pressable>
+      </View>
+      
     </View>
   );
 }
@@ -54,9 +60,13 @@ const styles = StyleSheet.create({
   button: {
     width: 20,
     height: 20,
+    marginRight: 8,
   },
   icon: {
     width: 20,
     height: 20,
   },
+  buttons: {
+    flexDirection: 'row',
+  }
 });

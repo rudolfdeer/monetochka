@@ -26,6 +26,8 @@ export const LOCALES_EN: { [key: string]: string; } = {
   SAVE: 'Save',
   SELECT: 'Select',
   SET_COLOR: 'Set color',
+  SETTINGS: 'Settings',
+  SETTINGS_MSG: 'Edit your preferences',
   SHARE: 'Share',
   SHARE_EXPENSES: 'Share with other user',
   STATISTICS: 'Statistics',

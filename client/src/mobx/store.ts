@@ -9,6 +9,7 @@ class Store {
   @observable categories: Category[] = [];
   @observable userId: string = '';
   @observable lang: string = locale;
+  @observable currency: string = '$';
 
   constructor() {
     makeAutoObservable(this);
@@ -27,6 +28,10 @@ class Store {
     this.lang = lang;
   }
 
+  @action changeCurrency = (currency: string) => {
+    this.currency = currency;
+  }
+
   @computed get allCategories () {
     return this.categories;
   }
@@ -37,6 +42,10 @@ class Store {
 
   @computed get currentLang () {
     return this.lang;
+  }
+
+  @computed get selectedCurrency () {
+    return this.currency;
   }
 }
 

@@ -18,6 +18,7 @@ export type StackParamList = {
   Home: undefined;
   Categories: undefined;
   Intro: undefined;
+  Settings: undefined;
 };
 
 if (Platform.OS === 'android') {
@@ -28,6 +29,7 @@ if (Platform.OS === 'android') {
 }
 import 'intl/locale-data/jsonp/en';
 import { getLoggedInUser } from './src/helpers/api';
+import SettingsScreen from './src/components/SettingsScreen/SettingsScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -89,6 +91,7 @@ function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="Categories" component={CategoriesScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </IntlProvider>
