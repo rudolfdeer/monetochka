@@ -37,8 +37,8 @@ export default function Categories({ categories, currency }: CategoriesProps) {
           </View>
           <PieChart
             data={categories}
-            width={120}
-            height={120}
+            width={150}
+            height={150}
             chartConfig={chartConfig}
             accessor={'expenses'}
             backgroundColor={'transparent'}
@@ -82,5 +82,6 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

@@ -134,4 +134,17 @@ export class UserController {
       throw new NotFoundException(err.message);
     }
   }
+
+  @Put('/:userId/currency')
+  async changeCurrency(
+    @Param('userId') userId: string,
+    @Body('currency') currency: string,
+  ) {
+    try {
+      const response = await this.userService.changeCurrency(userId, currency);
+      return response;
+    } catch (err) {
+      throw new NotFoundException(err.message);
+    }
+  }
 }

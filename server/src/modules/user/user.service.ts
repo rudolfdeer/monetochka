@@ -50,6 +50,7 @@ export class UserService {
     const newUser = new this.userModel({
       email,
       password: hashedPassword,
+      currency: 'USD',
       categories: mock,
     });
     const result = await newUser.save();
@@ -192,5 +193,18 @@ export class UserService {
     }
 
     return null;
+  }
+
+  async changeCurrency(userId: string, currency: string): Promise<any> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+
+    await this.userModel.updateOne(
+      { _id: user._id },
+      { $set: { currency: currency } },
+    );
+
+    const updatedUser = await this.getUser(user._id);
+    return updatedUser;
   }
 }

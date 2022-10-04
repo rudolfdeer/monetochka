@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { StackParamList } from '../../../App';
 import { CURRENCIES } from '../../constants/currencies';
+import { updateCurrency } from '../../helpers/api';
 import { useStore } from '../../mobx/store';
 import { STYLES } from '../../styles/styles';
 import FormattedMessageComponent from '../shared/FormattedMessage';
@@ -19,12 +20,19 @@ import Navbar from '../shared/Navbar';
 type SettingsScreenProps = NativeStackScreenProps<StackParamList, 'Settings'>;
 
 function SettingsScreen(props: SettingsScreenProps) {
-  const { currentCurrency, changeCurrency } = useStore();
+  const { currentCurrency, currentUserId, changeCurrency } = useStore();
   const [currency, setCurrency] = useState(currentCurrency);
 
-  const handleCurrencyChange = () => {
-    changeCurrency(currency);
-    props.navigation.navigate('Home');
+  const handleCurrencyChange = async () => {
+    try {
+      const updatedUser = await updateCurrency(currentUserId, currency);
+      changeCurrency(updatedUser.currency);
+      props.navigation.navigate('Home');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message);
+      }
+    }
   };
 
   return (
@@ -55,7 +63,10 @@ function SettingsScreen(props: SettingsScreenProps) {
                   />
                 ))}
               </Picker>
-              <Pressable onPress={handleCurrencyChange} style={styles.buttonSave}>
+              <Pressable
+                onPress={handleCurrencyChange}
+                style={styles.buttonSave}
+              >
                 <FormattedMessageComponent
                   id="SAVE"
                   style={styles.buttonSmall}

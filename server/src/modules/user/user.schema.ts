@@ -11,7 +11,8 @@ interface Category {
 export interface IUser {
   _id: string;
   email: string;
-  password: number;
+  password: string;
+  currency: string;
   categories: Category[];
 }
 
@@ -23,6 +24,9 @@ export class User {
 
   @Prop()
   password: string;
+
+  @Prop()
+  currency: string;
 
   @Prop()
   categories: Category[];

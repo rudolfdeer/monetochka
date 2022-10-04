@@ -18,6 +18,7 @@ class Store {
   @action setLoggedInUser = (user: User) => {
     this.userId = user._id;
     this.categories = user.categories;
+    this.currency = user.currency || 'USD';
   }
 
   @action changeCategories = (categories: Category[]) => {

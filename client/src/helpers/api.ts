@@ -140,3 +140,20 @@ export const getLoggedInUser = async () => {
   }
   return result;
 };
+
+export const updateCurrency = async (userId: string, currency: string) => {
+  const body = { currency };
+
+  const response = await fetch(`${apiBase}/${userId}/currency`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  if (result.message) {
+    throw new Error(result.message);
+  }
+  return result;
+}
