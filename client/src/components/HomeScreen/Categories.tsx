@@ -30,20 +30,19 @@ export default function Categories({ categories, currency }: CategoriesProps) {
                   <View style={styles.icon}></View>
                 )}
                 <Text style={[styles.category, { color: category.color }]}>
-                  {category.name}: {category.expenses}
-                  {currency}
+                  {category.name}: {category.expenses} {category.expenses !== 0 ? currency : null}
                 </Text>
               </View>
             ))}
           </View>
           <PieChart
             data={categories}
-            width={150}
-            height={150}
+            width={120}
+            height={120}
             chartConfig={chartConfig}
             accessor={'expenses'}
             backgroundColor={'transparent'}
-            paddingLeft={'30'}
+            paddingLeft={'25'}
             center={[0, 0]}
             hasLegend={false}
             absolute

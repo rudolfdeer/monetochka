@@ -38,7 +38,6 @@ function CategoriesScreen(props: CategoriesScreenProps) {
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(emptyCategory);
-  const [error, setError] = useState('');
 
   const handleDeleteCategory = async (category: Category) => {
     try {
@@ -46,7 +45,7 @@ function CategoriesScreen(props: CategoriesScreenProps) {
       changeCategories(user.categories);
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message);
+        alert(err.message);
       }
     }
   };
@@ -65,9 +64,6 @@ function CategoriesScreen(props: CategoriesScreenProps) {
             setModalEditVisible={setModalEditVisible}
             category={selectedCategory}
           />
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{error}</Text>
-          </View>
           <View style={styles.categories}>
             {allCategories.map((category) => (
               <View style={styles.rowContainer} key={category.id}>
@@ -172,12 +168,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...STYLES.BUTTON_BIG_TEXT,
-  },
-  errorContainer: {
-    ...STYLES.ERROR_CONTAINER,
-  },
-  errorText: {
-    ...STYLES.ERROR_TEXT,
   },
   buttonsContainer: {
     flexDirection: 'row',

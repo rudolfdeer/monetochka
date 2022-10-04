@@ -21,9 +21,7 @@ import ModalShareExpenses from './ModalShareExpenses';
 type HomeScreenProps = NativeStackScreenProps<StackParamList, 'Home'>;
 
 function HomeScreen(props: HomeScreenProps) {
-  const { allCategories } = useStore();
-
-  const [currency, setCurrency] = useState('$');
+  const { allCategories, currentCurrency } = useStore();
   const [modalShareExpensesVisible, setModalShareExpensesVisible] =
     useState(false);
 
@@ -35,12 +33,12 @@ function HomeScreen(props: HomeScreenProps) {
           setModalShareExpensesVisible={setModalShareExpensesVisible}
         />
         <Navbar params={props} titleId="HOME" messageId="HOME_MSG" />
-        <Total categories={allCategories} currency={currency} />
+        <Total categories={allCategories} currency={currentCurrency} />
         <FormComponent
           modalShareExpensesVisible={modalShareExpensesVisible}
           setModalShareExpensesVisible={setModalShareExpensesVisible}
         />
-        <Categories categories={allCategories} currency={currency} />
+        <Categories categories={allCategories} currency={currentCurrency} />
         <Pressable
           style={styles.button}
           onPress={() => props.navigation.navigate('Categories')}

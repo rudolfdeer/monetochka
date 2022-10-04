@@ -30,7 +30,7 @@ export default function Navbar({ titleId, messageId, params }: NavbarProps) {
         <Pressable style={styles.button} onPress={handleLogOut}>
       <Image style={styles.icon} source={require('./logout.png')} />
       </Pressable>
-      <Pressable style={styles.button} onPress={() => params.navigation.navigate('Settings')}>
+      <Pressable style={[styles.button, { marginRight: 0 }]} onPress={() => params.navigation.navigate('Settings')}>
       <Image style={styles.icon} source={require('./settings.png')} />
       </Pressable>
       </View>
