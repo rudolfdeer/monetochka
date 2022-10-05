@@ -9,7 +9,7 @@ export const LOCALES_EN: { [key: string]: string; } = {
   CATEGORIES_MSG: 'Manage all your categories',
   CLOSE: 'Close',
   CONFIRM_PASSWORD: 'Confirm your password:',
-  CONVERT: 'Convert all expenses',
+  CONVERT: 'Convert with exchange rate: ',
   CREATE_ACCOUNT: 'Create account',
   CREATE_PASSWORD: 'Create your password:',
   CURRENCY: 'Currency',

@@ -195,13 +195,24 @@ export class UserService {
     return null;
   }
 
-  async changeCurrency(userId: string, currency: string): Promise<any> {
+  async changeCurrency(
+    userId: string,
+    currency: string,
+    exchangeRate: string,
+  ): Promise<any> {
     const user = await this.userModel.findById(userId).exec();
     if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
 
+    const exchangeRateNum = parseFloat(exchangeRate);
+
+    const updatedCategories = user.categories.map((category) => ({
+      ...category,
+      expenses: category.expenses * exchangeRateNum,
+    }));
+
     await this.userModel.updateOne(
       { _id: user._id },
-      { $set: { currency: currency } },
+      { $set: { currency: currency, categories: updatedCategories } },
     );
 
     const updatedUser = await this.getUser(user._id);

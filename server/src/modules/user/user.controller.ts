@@ -139,9 +139,14 @@ export class UserController {
   async changeCurrency(
     @Param('userId') userId: string,
     @Body('currency') currency: string,
+    @Body('exchangeRate') exchangeRate: string,
   ) {
     try {
-      const response = await this.userService.changeCurrency(userId, currency);
+      const response = await this.userService.changeCurrency(
+        userId,
+        currency,
+        exchangeRate,
+      );
       return response;
     } catch (err) {
       throw new NotFoundException(err.message);

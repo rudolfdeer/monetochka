@@ -9,7 +9,7 @@ export const LOCALES_FR: { [key: string]: string; } = {
   CATEGORIES_MSG: 'Gérez vos catégories',
   CLOSE: 'Fermer',
   CONFIRM_PASSWORD: 'Confirmer le MdP:',
-  CONVERT: 'Convertir tous vos dépenses',
+  CONVERT: 'Convertir au taux de change de: ',
   CREATE_ACCOUNT: `S'inscrire`,
   CREATE_PASSWORD: 'Composer le MdP:',
   CURRENCY: 'Devise',
