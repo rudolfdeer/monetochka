@@ -19,6 +19,10 @@ type ModalNewCategoryProps = {
   setModalAddVisible: Dispatch<SetStateAction<boolean>>;
 };
 
+const FORM_VALUES = {
+  NAME: 'name',
+}
+
 const initialValues = {
   name: 'New category',
 };
@@ -66,8 +70,8 @@ function ModalNewCategory({
                   <TextInput
                     style={styles.inputText}
                     value={values.name}
-                    onChangeText={handleChange('name')}
-                    onBlur={handleBlur('name')}
+                    onChangeText={handleChange(FORM_VALUES.NAME)}
+                    onBlur={handleBlur(FORM_VALUES.NAME)}
                   />
                   <View style={styles.errorContainer}>
                     <Text style={styles.errorText}>{error}</Text>

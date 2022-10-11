@@ -72,7 +72,7 @@ export default function BarChart({ data }: BarChartProps) {
         />
         {data.map((item) => (
           <Rect
-            key={'bar' + Math.random()}
+            key={'bar' + item.color + data.indexOf(item)}
             x={x(item.label) - GRAPH_BAR_WIDTH / 2}
             y={y(item.value) * -1}
             rx={2.5}
@@ -83,7 +83,7 @@ export default function BarChart({ data }: BarChartProps) {
         ))}
         {data.map((item) => (
           <Text
-            key={'label' + Math.random()}
+            key={'label' + item.color + data.indexOf(item)}
             fontSize="14"
             x={x(item.label)}
             y="25"

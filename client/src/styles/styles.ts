@@ -117,7 +117,6 @@ export const STYLES = StyleSheet.create({
     paddingHorizontal: 10,
   },
   ERROR_CONTAINER: {
-    // minHeight: 14,
     minHeight: 14,
     marginBottom: 8,
   },

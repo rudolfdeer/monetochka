@@ -30,8 +30,7 @@ export default function Categories({ categories, currency }: CategoriesProps) {
                   <View style={styles.icon}></View>
                 )}
                 <Text style={[styles.category, { color: category.color }]}>
-                  {category.name}: {category.expenses}
-                  {currency}
+                  {category.name}: {category.expenses} {category.expenses !== 0 ? currency : null}
                 </Text>
               </View>
             ))}
@@ -43,7 +42,7 @@ export default function Categories({ categories, currency }: CategoriesProps) {
             chartConfig={chartConfig}
             accessor={'expenses'}
             backgroundColor={'transparent'}
-            paddingLeft={'30'}
+            paddingLeft={'25'}
             center={[0, 0]}
             hasLegend={false}
             absolute
@@ -83,5 +82,6 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

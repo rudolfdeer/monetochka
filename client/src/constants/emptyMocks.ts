@@ -13,5 +13,6 @@ export const emptyUser: User = {
   _id: '',
   email: '',
   password: '',
+  currency: 'USD',
   categories: [],
 };

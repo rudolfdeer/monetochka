@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../../../App';
 import { observer } from 'mobx-react';
@@ -12,11 +12,17 @@ import FormattedMessageComponent from '../shared/FormattedMessage';
 type IntroScreenProps = NativeStackScreenProps<StackParamList, 'Intro'>;
 
 function IntroScreen(props: IntroScreenProps) {
-  const { changeLang } = useStore();
+  const { changeLang, currentUserId } = useStore();
 
   const [modalLogInVisible, setModalLogInVisible] = useState(false);
   const [modalRegistrationVisible, setModalRegistrationVisible] =
     useState(false);
+
+    useEffect(() => {
+      if (currentUserId) {
+        props.navigation.navigate('Home');
+      }
+    }, [currentUserId]);
 
   const onChangeLanguage = (lang: string) => {
     changeLang(lang);

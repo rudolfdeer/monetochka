@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { io, Socket } from 'socket.io-client';
-import {IP_ADRESS} from '@env';
 import { User } from '../constants/interfaces';
 import { useStore } from '../mobx/store';
-
-const server = `http://${IP_ADRESS}:3000/events`;
+import { socketsBase } from '../constants/server';
+import { schedulePushNotification } from './schedulePushNotification';
 
 type UserUpdatePayload = {
   userId: string;
@@ -12,20 +11,28 @@ type UserUpdatePayload = {
   sum: number;
 };
 
+type SocketResponseType = {
+  userUpdated: User;
+  userIdShared: string;
+  sum: number;
+};
+
 let socket: Socket;
 
 export const useSockets = () => {
   const { currentUserId, changeCategories } = useStore();
-    socket = io(server, {
-      query: {
-        userId: currentUserId,
-      },
-    });
-  
+  socket = io(socketsBase, {
+    query: {
+      userId: currentUserId,
+    },
+  });
+
   useEffect(() => {
-    socket.on('user:put', (user: User) => {
-      if (user._id === currentUserId) {
-        changeCategories(user.categories);
+    socket.on('user:put', (response: SocketResponseType) => {
+      const { userUpdated, userIdShared, sum } = response;
+      if (userUpdated._id === currentUserId) {
+        schedulePushNotification(userIdShared, sum);
+        changeCategories(userUpdated.categories);
       }
     });
   }, []);

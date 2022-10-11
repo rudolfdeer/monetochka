@@ -10,5 +10,6 @@ export interface User {
   _id: string;
   email: string;
   password: string;
+  currency: string;
   categories: Category[];
 }

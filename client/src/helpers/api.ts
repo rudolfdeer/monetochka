@@ -1,10 +1,9 @@
-import {IP_ADRESS} from '@env';
+import * as SecureStore from 'expo-secure-store';
 import { Category } from '../constants/interfaces';
-
-const base = `http://${IP_ADRESS}:3000/api/user`;
+import { apiBase } from '../constants/server';
 
 export const getUser = async (id: string) => {
-  const response = await fetch(`${base}/${id}`);
+  const response = await fetch(`${apiBase}/${id}`);
   const result = await response.json();
   if (result.message) {
     throw new Error(result.message);
@@ -15,24 +14,27 @@ export const getUser = async (id: string) => {
 export const signIn = async (email: string, password: string) => {
   const body = { email, password };
 
-  const response = await fetch(`${base}/sign-in`, {
+  const response = await fetch(`${apiBase}/sign-in`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },
   });
+
   const result = await response.json();
   if (result.message) {
     throw new Error(result.message);
   }
-  return result;
+
+  await SecureStore.setItemAsync('jwt', result.access_token);
+  return result.user;
 };
 
 export const changeCategory = async (userId: string, category: Category) => {
   const body = { ...category };
 
-  const response = await fetch(`${base}/${userId}/category/${category.id}`, {
+  const response = await fetch(`${apiBase}/${userId}/category/${category.id}`, {
     method: 'PUT',
     body: JSON.stringify(body),
     headers: {
@@ -51,7 +53,7 @@ export const createCategory = async (userId: string, categoryName: string) => {
     name: categoryName,
   };
 
-  const response = await fetch(`${base}/${userId}/category`, {
+  const response = await fetch(`${apiBase}/${userId}/category`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -68,7 +70,7 @@ export const createCategory = async (userId: string, categoryName: string) => {
 export const signUp = async (email: string, password: string) => {
   const body = { email, password };
 
-  const response = await fetch(`${base}/sign-up`, {
+  const response = await fetch(`${apiBase}/sign-up`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -83,7 +85,7 @@ export const signUp = async (email: string, password: string) => {
 };
 
 export const deleteCategory = async (userId: string, categoryId: string) => {
-  const response = await fetch(`${base}/${userId}/category/${categoryId}`, {
+  const response = await fetch(`${apiBase}/${userId}/category/${categoryId}`, {
     method: 'DELETE',
   });
   const result = await response.json();
@@ -102,7 +104,30 @@ export const shareExpense = async (
     email,
     sum,
   };
-  const response = await fetch(`${base}/${userId}/share`, {
+  const response = await fetch(`${apiBase}/${userId}/share`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+
+  if (result.message) {
+    throw new Error(result.message);
+  }
+  return result;
+};
+
+export const getLoggedInUser = async () => {
+  const cookie = await SecureStore.getItemAsync('jwt');
+  if (!cookie) return null;
+
+  const body = {
+    jwt: cookie,
+  };
+
+  const response = await fetch(`${apiBase}`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -113,5 +138,22 @@ export const shareExpense = async (
   if (result.message) {
     throw new Error(result.message);
   }
-  return result.success;
+  return result;
 };
+
+export const updateCurrency = async (userId: string, currency: string, exchangeRate: string) => {
+  const body = { currency, exchangeRate };
+
+  const response = await fetch(`${apiBase}/${userId}/currency`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const result = await response.json();
+  if (result.message) {
+    throw new Error(result.message);
+  }
+  return result;
+}

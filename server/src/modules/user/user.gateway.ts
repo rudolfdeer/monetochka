@@ -55,7 +55,12 @@ export class EventsGateway
     payload: ShareExpensesPayload,
   ): Promise<void> {
     const { userId, email, sum } = payload;
-    const user = await this.userService.shareExpenses(userId, email, sum);
-    this.server.emit('user:put', user);
+    const user = await this.userService.getUserByEmail(email);
+    const response = {
+      userUpdated: user,
+      userIdShared: userId,
+      sum: sum,
+    };
+    this.server.emit('user:put', response);
   }
 }

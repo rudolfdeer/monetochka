@@ -5,13 +5,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { comparePasswords } from '../../utils/auth/comparePassword.util';
 import { encryptPassword } from '../../utils/auth/encryptPassword.util';
 import { COLORS, mock } from '../../constants/categoriesDefault';
-import { User, UserDocument } from './user.schema';
+import { IUser, User, UserDocument } from './user.schema';
 import { HTTP_MESSAGES } from '../../constants/httpMessages';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private jwtService: JwtService,
   ) {}
 
   async getUser(id: string): Promise<User> {
@@ -20,13 +22,20 @@ export class UserService {
     return user;
   }
 
-  async signIn(email: string, password: string): Promise<any> {
+  async getUserByEmail(email: string): Promise<User> {
     const user = await this.userModel.findOne({ email });
-    if (user && comparePasswords(password, user.password)) {
-      return user;
-    } else {
-      throw new Error(HTTP_MESSAGES.INCORRECT_CREDENTIALS);
-    }
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+    return user;
+  }
+
+  async signIn(user: IUser): Promise<any> {
+    const payload = { email: user.email, sub: user._id };
+    const token = this.jwtService.sign(payload);
+
+    return {
+      user: user,
+      access_token: token,
+    };
   }
 
   async createUser(email: string, password: string) {
@@ -41,6 +50,7 @@ export class UserService {
     const newUser = new this.userModel({
       email,
       password: hashedPassword,
+      currency: 'USD',
       categories: mock,
     });
     const result = await newUser.save();
@@ -172,6 +182,39 @@ export class UserService {
         { $set: { categories: updatedCategories } },
       );
     }
+    const updatedUser = await this.getUser(user._id);
+    return updatedUser;
+  }
+
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.userModel.findOne({ email });
+    if (user && comparePasswords(password, user.password)) {
+      return user;
+    }
+
+    return null;
+  }
+
+  async changeCurrency(
+    userId: string,
+    currency: string,
+    exchangeRate: string,
+  ): Promise<any> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+
+    const exchangeRateNum = parseFloat(exchangeRate);
+
+    const updatedCategories = user.categories.map((category) => ({
+      ...category,
+      expenses: category.expenses * exchangeRateNum,
+    }));
+
+    await this.userModel.updateOne(
+      { _id: user._id },
+      { $set: { currency: currency, categories: updatedCategories } },
+    );
+
     const updatedUser = await this.getUser(user._id);
     return updatedUser;
   }

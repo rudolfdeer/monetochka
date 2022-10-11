@@ -15,6 +15,11 @@ type FormProps = {
   setModalShareExpensesVisible: Dispatch<SetStateAction<boolean>>;
 };
 
+const FORM_VALUES = {
+  SUM: 'sum',
+  CATEGORY_ID: 'categoryId'
+}
+
 const initialValues = {
   sum: '0',
   categoryId: '',
@@ -65,14 +70,14 @@ function FormComponent({ setModalShareExpensesVisible }: FormProps) {
               <TextInput
                 style={styles.inputText}
                 value={values.sum}
-                onChangeText={handleChange('sum')}
-                onBlur={handleBlur('sum')}
+                onChangeText={handleChange(FORM_VALUES.SUM)}
+                onBlur={handleBlur(FORM_VALUES.SUM)}
               />
               <Picker
                 style={styles.inputSelect}
                 itemStyle={styles.selectElement}
                 selectedValue={values.categoryId}
-                onValueChange={handleChange('categoryId')}
+                onValueChange={handleChange(FORM_VALUES.CATEGORY_ID)}
               >
                 {allCategories.map((category) => (
                   <Picker.Item
