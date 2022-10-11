@@ -46,7 +46,7 @@ function CurrencySection({ props }: CurrencyProps) {
       }
     }
   };
-  
+
   return (
     <View style={styles.sectionContainer}>
       <View style={styles.section}>
@@ -75,7 +75,7 @@ function CurrencySection({ props }: CurrencyProps) {
                     <Picker.Item
                       label={currency.value}
                       value={currency.value}
-                      key={currency.value}
+                      key={currency.id}
                     />
                   ))}
                 </Picker>
