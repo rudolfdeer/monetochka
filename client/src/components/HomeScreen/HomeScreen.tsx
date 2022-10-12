@@ -34,11 +34,11 @@ function HomeScreen(props: HomeScreenProps) {
         />
         <Navbar params={props} titleId="HOME" messageId="HOME_MSG" />
         <Total categories={allCategories} currency={currentCurrency} />
+        <Categories categories={allCategories} currency={currentCurrency} />
         <FormComponent
           modalShareExpensesVisible={modalShareExpensesVisible}
           setModalShareExpensesVisible={setModalShareExpensesVisible}
         />
-        <Categories categories={allCategories} currency={currentCurrency} />
         <Pressable
           style={styles.button}
           onPress={() => props.navigation.navigate('Categories')}

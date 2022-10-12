@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   form: {
     ...STYLES.SECTION,
     marginBottom: 0,
+    paddingHorizontal: 0,
   },
   row: {
     paddingTop: 16,
@@ -167,11 +168,13 @@ const styles = StyleSheet.create({
   buttonShare: {
     ...STYLES.BUTTON_BIG,
     width: '100%',
+
   },
   buttonShareContainer: {
     width: '100%',
     alignItems: 'center',
     marginBottom: 16,
+    paddingHorizontal: 16,
   },
 });
 

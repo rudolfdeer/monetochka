@@ -203,7 +203,7 @@ export class UserService {
     const user = await this.userModel.findById(userId).exec();
     if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
 
-    const exchangeRateNum = parseFloat(exchangeRate);
+    const exchangeRateNum = Number(parseFloat(exchangeRate).toFixed(3));
 
     const updatedCategories = user.categories.map((category) => ({
       ...category,
