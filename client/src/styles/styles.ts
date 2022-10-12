@@ -24,7 +24,7 @@ export const STYLES = StyleSheet.create({
   ICON: {
     width: 24,
     height: 24,
-    backgroundColor: COLORS.GREY_ICON,
+    backgroundColor: COLORS.GREY_BACKGROUND,
     marginRight: 8,
   },
   ICON_EMOJI: {
