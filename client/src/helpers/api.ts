@@ -98,11 +98,13 @@ export const deleteCategory = async (userId: string, categoryId: string) => {
 export const shareExpense = async (
   userId: string,
   email: string,
-  sum: number
+  sum: number,
+  currency: string,
 ) => {
   const body = {
     email,
     sum,
+    currency,
   };
   const response = await fetch(`${apiBase}/${userId}/share`, {
     method: 'POST',

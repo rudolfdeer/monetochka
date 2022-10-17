@@ -11,17 +11,18 @@ import {
 import { StackParamList } from '../../../App';
 import { useStore } from '../../mobx/store';
 import { STYLES } from '../../styles/styles';
-import Categories from './Categories';
+import CategoriesSection from './CategoriesSection';
 import FormComponent from './Form';
 import Navbar from '../shared/Navbar';
-import Total from './Total';
+import TotalSection from './TotalSection';
 import FormattedMessageComponent from '../shared/FormattedMessage';
 import ModalShareExpenses from './ModalShareExpenses';
+import SharedSection from './SharedSection';
 
 type HomeScreenProps = NativeStackScreenProps<StackParamList, 'Home'>;
 
 function HomeScreen(props: HomeScreenProps) {
-  const { allCategories, currentCurrency } = useStore();
+  const { allCategories, currentCurrency, sharedExpenses } = useStore();
   const [modalShareExpensesVisible, setModalShareExpensesVisible] =
     useState(false);
 
@@ -33,8 +34,9 @@ function HomeScreen(props: HomeScreenProps) {
           setModalShareExpensesVisible={setModalShareExpensesVisible}
         />
         <Navbar params={props} titleId="HOME" messageId="HOME_MSG" />
-        <Total categories={allCategories} currency={currentCurrency} />
-        <Categories categories={allCategories} currency={currentCurrency} />
+        <TotalSection categories={allCategories} currency={currentCurrency} sharedExpenses={sharedExpenses}/>
+        <CategoriesSection categories={allCategories} currency={currentCurrency} />
+        <SharedSection sharedExpenses = {sharedExpenses} currency={currentCurrency}/>
         <FormComponent
           modalShareExpensesVisible={modalShareExpensesVisible}
           setModalShareExpensesVisible={setModalShareExpensesVisible}

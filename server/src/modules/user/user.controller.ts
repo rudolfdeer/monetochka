@@ -126,9 +126,15 @@ export class UserController {
     @Param('userId') userId: string,
     @Body('email') email: string,
     @Body('sum') sum: number,
+    @Body('currency') currency: string,
   ) {
     try {
-      const response = await this.userService.shareExpenses(userId, email, sum);
+      const response = await this.userService.shareExpenses(
+        userId,
+        email,
+        sum,
+        currency,
+      );
       return response;
     } catch (err) {
       throw new NotFoundException(err.message);

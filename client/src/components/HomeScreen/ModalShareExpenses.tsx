@@ -39,7 +39,7 @@ export default function ModalShareExpenses({
   modalShareExpensesVisible,
   setModalShareExpensesVisible,
 }: ModalShareExpensesProps) {
-  const { currentUserId } = useStore();
+  const { currentUserId, currentCurrency } = useStore();
   const { actions } = useSockets();
 
   const handleFormSubmit = async (values: FormikValues) => {
@@ -47,13 +47,14 @@ export default function ModalShareExpenses({
     const payload = {
       userId: currentUserId,
       email: values.email,
-      sum: numberSum
+      sum: numberSum, 
+      currency: currentCurrency
     };
 
     try {
-      await shareExpense(currentUserId, values.email, numberSum);
+      await shareExpense(currentUserId, values.email, numberSum, currentCurrency);
       actions.update(payload);
-      alert(`Successfully shared ${numberSum}$ with ${values.email}`);
+      alert(`Successfully shared ${numberSum} ${currentCurrency} with ${values.email}`);
       setModalShareExpensesVisible(!modalShareExpensesVisible);
 
     } catch (err: unknown) {

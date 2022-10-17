@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { emptyCategory } from '../../constants/emptyMocks';
-import { Category } from '../../constants/interfaces';
+import { Category, SharedExpense } from '../../constants/interfaces';
 import { STYLES } from '../../styles/styles';
 import FormattedMessageComponent from '../shared/FormattedMessage';
 
 type TotalProps = {
   categories: Category[];
   currency: string;
+  sharedExpenses: SharedExpense[];
 };
 
-export default function Total({ categories, currency }: TotalProps) {
+export default function TotalSection({ categories, currency, sharedExpenses }: TotalProps) {
   const [value, setValue] = useState(0);
 
   const calculateTotal = () => {
@@ -18,8 +18,7 @@ export default function Total({ categories, currency }: TotalProps) {
       return Number((accumulator + object.expenses).toFixed(3));
     }, 0);
 
-    const emptyCategorySum = emptyCategory.expenses;
-    const sum = categoriesSum + emptyCategorySum;
+    const sum = categoriesSum;
     return sum;
   };
 

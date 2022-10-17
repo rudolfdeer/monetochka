@@ -141,47 +141,87 @@ export class UserService {
     return updatedUser;
   }
 
-  async shareExpenses(userId: string, email: string, sum: number) {
+  async shareExpenses(
+    userId: string,
+    email: string,
+    sum: number,
+    currency: string,
+  ) {
     const user = await this.userModel.findOne({ email });
     if (!user) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
 
-    const category = user.categories.find(
-      (category) => category.name === 'unsorted',
-    );
-    if (!category) {
-      const newCategory = {
-        id: uuidv4(),
-        name: 'unsorted',
-        expenses: sum,
-        icon: '',
-        color: COLORS.BLACK,
-      };
-      user.categories.unshift(newCategory);
-      const updatedCategories = [...user.categories];
+    const sender = await this.userModel.findById(userId).exec();
+    if (!sender) throw new Error(HTTP_MESSAGES.USER_NOT_FOUND);
+    // const category = user.categories.find(
+    //   (category) => category.name === 'unsorted',
+    // );
+    // if (!category) {
+    //   const newCategory = {
+    //     id: uuidv4(),
+    //     name: 'unsorted',
+    //     expenses: sum,
+    //     icon: '',
+    //     color: COLORS.BLACK,
+    //   };
+    //   user.categories.unshift(newCategory);
+    //   const updatedCategories = [...user.categories];
 
+    //   await this.userModel.updateOne(
+    //     { _id: user._id },
+    //     { $set: { categories: updatedCategories } },
+    //   );
+    // } else {
+    //   const updatedCategory = {
+    //     ...category,
+    //   };
+
+    //   updatedCategory.expenses = category.expenses + sum;
+
+    //   const index = user.categories.indexOf(category);
+    //   const updatedCategories = [
+    //     ...user.categories.slice(0, index),
+    //     updatedCategory,
+    //     ...user.categories.slice(index + 1),
+    //   ];
+
+    //   await this.userModel.updateOne(
+    //     { _id: user._id },
+    //     { $set: { categories: updatedCategories } },
+    //   );
+    // }
+
+    const sharedByThisUser = user.shared.find(
+      (el) => el.senderEmail === sender.email,
+    );
+    if (!sharedByThisUser || sharedByThisUser.currency !== currency) {
+      const sharedExpense = {
+        id: uuidv4(),
+        senderEmail: sender.email,
+        amount: sum,
+        currency,
+      };
+      user.shared.unshift(sharedExpense);
+      const updatedShared = [...user.shared];
       await this.userModel.updateOne(
         { _id: user._id },
-        { $set: { categories: updatedCategories } },
+        { $set: { shared: updatedShared } },
       );
     } else {
-      const updatedCategory = {
-        ...category,
-      };
+      sharedByThisUser.amount += sum;
 
-      updatedCategory.expenses = category.expenses + sum;
-
-      const index = user.categories.indexOf(category);
-      const updatedCategories = [
-        ...user.categories.slice(0, index),
-        updatedCategory,
-        ...user.categories.slice(index + 1),
+      const index = user.shared.indexOf(sharedByThisUser);
+      const updatedShared = [
+        ...user.shared.slice(0, index),
+        sharedByThisUser,
+        ...user.shared.slice(index + 1),
       ];
 
       await this.userModel.updateOne(
         { _id: user._id },
-        { $set: { categories: updatedCategories } },
+        { $set: { shared: updatedShared } },
       );
     }
+
     const updatedUser = await this.getUser(user._id);
     return updatedUser;
   }

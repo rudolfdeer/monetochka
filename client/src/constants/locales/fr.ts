@@ -33,6 +33,8 @@ export const LOCALES_FR: { [key: string]: string; } = {
   SETTINGS_MSG: 'Changer vos préférences',
   SHARE: 'Partager',
   SHARE_EXPENSES: 'Partager avec un autre utilisateur',
+  SHARED: 'Partagé avec vous',
+  SHARED_MSG: 'Ici vous trouverez vos dépenses partagées',
   STATISTICS: 'Statistiques',
   TOTAL_EXPENSES: 'Dépenses totales',
 };

@@ -33,6 +33,8 @@ export const LOCALES_EN: { [key: string]: string; } = {
   SETTINGS_MSG: 'Edit your preferences',
   SHARE: 'Share',
   SHARE_EXPENSES: 'Share with other user',
+  SHARED: 'Shared with you',
+  SHARED_MSG: 'Here will appear your shared expenses',
   STATISTICS: 'Statistics',
   TOTAL_EXPENSES: 'Total expenses',
 };

@@ -13,7 +13,7 @@ const chartConfig = {
   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
 };
 
-export default function Categories({ categories, currency }: CategoriesProps) {
+export default function CategoriesSection({ categories, currency }: CategoriesProps) {
   return (
     <View style={styles.categoriesContainer}>
       <View style={styles.categories}>

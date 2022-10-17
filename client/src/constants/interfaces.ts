@@ -12,4 +12,11 @@ export interface User {
   password: string;
   currency: string;
   categories: Category[];
+  shared: SharedExpense[];
+}
+export interface SharedExpense {
+  id: string;
+  senderEmail: string;
+  amount: number;
+  currency: string;
 }
